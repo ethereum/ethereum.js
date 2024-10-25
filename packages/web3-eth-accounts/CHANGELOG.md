@@ -184,3 +184,7 @@ Documentation:
 -   Revert `TransactionFactory.registerTransactionType` if there is a version mistatch between `web3-eth` and `web3-eth-accounts` and fix nextjs problem. (#7216)
 
 ## [Unreleased]
+
+### Added
+
+-   `hashMessage` now has a new optional param `skipPrefix` with a default value of `false`. A new function `signRaw` was added to sign a message without prefix. (#7346)
