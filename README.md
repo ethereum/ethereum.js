@@ -33,7 +33,7 @@ yarn add web3
 
 ## Getting Started
 
--   :writing_hand: If you have questions [submit an issue](https://github.com/ChainSafe/web3.js/issues/new/choose) or join us on [Discord](https://discord.gg/yjyvFRP)
+-   :writing_hand: If you have questions [submit an issue](https://github.com/ChainSafe/web3.js/issues/new/choose) or join us on [Discord](https://discord.com/invite/yjyvFRP)
     ![Discord](https://img.shields.io/discord/593655374469660673.svg?label=Discord&logo=discord)
 
 ## Prerequisites
@@ -44,7 +44,7 @@ yarn add web3
 ## Migration Guide
 
 -   [Migration Guide from Web3.js 1.x to 4.x](https://docs.web3js.org/guides/web3_upgrade_guide/index)
-    Breaking changes are listed in migration guide and its first step for migrating from Web3.js 1.x to 4.x. If there is any question or discussion feel free to ask in [Discord](https://discord.gg/yjyvFRP), and in case of any bug or new feature request [open issue](https://github.com/web3/web3.js/issues/new) or create a pull request for [contributions](https://github.com/web3/web3.js/blob/4.x/.github/CONTRIBUTING.md).
+    Breaking changes are listed in migration guide and its first step for migrating from Web3.js 1.x to 4.x. If there is any question or discussion feel free to ask in [Discord](https://discord.com/invite/yjyvFRP), and in case of any bug or new feature request [open issue](https://github.com/web3/web3.js/issues/new) or create a pull request for [contributions](https://github.com/web3/web3.js/blob/4.x/.github/CONTRIBUTING.md).
 
 ## Useful links
 
