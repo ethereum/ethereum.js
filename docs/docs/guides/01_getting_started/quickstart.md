@@ -66,7 +66,7 @@ After instantiating the `Web3` instance with a provider, the [`web3-eth`](/libdo
 
 ```ts
 // get the balance of an address
-await web3.eth.getBalance('0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045');
+await web3.eth.getBalance('0x97293ceab815896883e8200aef5a4581a70504b2');
 // ↳ 114438180989009447638n
 
 // get last block number
@@ -78,7 +78,7 @@ await web3.eth.getChainId();
 // ↳ 1n
 
 // get the nonce of an address
-await web3.eth.getTransactionCount('0x37826D8B5F4B175517A0f42c886f8Fca38C55Fe7');
+await web3.eth.getTransactionCount('0x97293ceab815896883e8200aef5a4581a70504b2');
 // ↳ 7n
 
 // get the current gas price
@@ -221,7 +221,7 @@ Writing data to a smart contract consumes gas and requires the use of an account
 
 ```ts
 // address to send the token
-const to = '0xcf185f2F3Fe19D82bFdcee59E3330FD7ba5f27ce';
+const to = '0x97293ceab815896883e8200aef5a4581a70504b2';
 
 // value to transfer (1 with 18 decimals)
 const value = web3.utils.toWei('1', 'ether');
