@@ -36,7 +36,6 @@ export class AlchemyProvider extends Web3ExternalProvider {
 	public static readonly networkStringMap: { [key: string]: string } = {
 		[Network.ETH_MAINNET]: 'eth-mainnet.g.alchemy.com',
 		[Network.ETH_SEPOLIA]: 'eth-sepolia.g.alchemy.com',
-		[Network.ETH_GOERLI]: 'eth-goerli.g.alchemy.com',
 		[Network.ETH_HOLESKY]: 'eth-holesky.g.alchemy.com',
 		[Network.ARBITRUM_MAINNET]: 'arb-mainnet.g.alchemy.com',
 		[Network.ARBITRUM_SEPOLIA]: 'arb-sepolia.g.alchemy.com',
