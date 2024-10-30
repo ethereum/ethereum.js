@@ -278,6 +278,8 @@ export interface Filter {
 	readonly filter?: FilterOption;
 }
 
+export type FilterParams = Omit<Filter, 'blockHash' | 'filter'>;
+
 export interface AccessListEntry {
 	readonly address?: Address;
 	readonly storageKeys?: HexString32Bytes[];
