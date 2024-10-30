@@ -25,17 +25,20 @@ export enum Transport {
 
 export enum Network {
 	ETH_MAINNET = 'eth_mainnet',
-	ETH_GOERLI = 'eth_goerli',
 	ETH_SEPOLIA = 'eth_sepolia',
 	ETH_HOLESKY = 'eth_holesky',
 
 	POLYGON_MAINNET = 'polygon_mainnet',
 	POLYGON_MUMBAI = 'polygon_mumbai',
 	POLYGON_AMONY = 'polygon_amony',
-	POLYGON_AMOY = 'polygon_amoy',
 	POLYGON_POS_MAINNET = 'polygon_pos_mainnet',
 	POLYGON_ZKEVM_MAINNET = 'polygon_zkevm_mainnet',
 	POLYGON_ZKEVM_CARDONA = 'polygon_zkevm_cardona',
+
+	POLYGON_AMOY = 'polygon_amoy',
+	AVALANCHE_C_MAINNET = 'avalanche_c_mainnet',
+	AVALANCHE_P_MAINNET = 'avalanche_p_mainnet',
+	AVALANCHE_X_MAINNET = 'avalanche_x_mainnet',
 
 	ARBITRUM_MAINNET = 'arbitrum_mainnet',
 	ARBITRUM_SEPOLIA = 'arbitrum_sepolia',
@@ -46,6 +49,12 @@ export enum Network {
 
 	OPTIMISM_MAINNET = 'optimism_mainnet',
 	OPTIMISM_SEPOLIA = 'optimism_sepolia',
+
+	FANTOM_MAINNET = 'fantom_mainnet',
+	FANTOM_TESTNET = 'fantom_testnet',
+
+	DYMENSION_MAINNET = 'dymension_mainnet',
+	DYMENSION_TESTNET = 'dymension_testnet',
 
 	BNB_MAINNET = 'bnb_mainnet',
 	BNB_TESTNET = 'bnb_testnet',
@@ -68,15 +77,9 @@ export enum Network {
 	FANTOM_OPERA_MAINNET = 'fantom_opera_mainnet',
 	FANTOM_OPERA_TESTNET = 'fantom_opera_testnet',
 
-	MANTLE_MAINNET = 'mantle_mainnet',
-
 	BERACHAIN_ARTIO = 'berachain_artio',
 
-	BLAST_MAINNET = 'blast_mainnet',
 	BLAST_SEPOLIA = 'blast_sepolia',
-
-	LINEA_MAINNET = 'linea_mainnet',
-	LINEA_SEPOLIA = 'linea_sepolia',
 
 	ZORA_MAINNET = 'zora_mainnet',
 	ZORA_SEPOLIA = 'zora_sepolia',
@@ -84,17 +87,11 @@ export enum Network {
 	POLYNOMIAL_MAINNET = 'polynomial_mainnet',
 	POLYNOMIAL_SEPOLIA = 'polynomial_sepolia',
 
-	SCROLL_MAINNET = 'scroll_mainnet',
-	SCROLL_SEPOLIA = 'scroll_sepolia',
-
 	FRAX_MAINNET = 'frax_mainnet',
 	FRAX_SEPOLIA = 'frax_sepolia',
 
 	SOLANA_MAINNET = 'solana_mainnet',
 	SOLANA_DEVNET = 'solana_devnet',
-
-	OPBNB_MAINNET = 'opbnb_mainnet',
-	OPBNB_TESTNET = 'opbnb_testnet',
 
 	CROSSFI_TESTNET = 'crossfi_testnet',
 
@@ -111,7 +108,42 @@ export enum Network {
 
 	UNICHAIN_SEPOLIA = 'unichain_sepolia',
 
+	BSC_MAINNET = 'bsc_mainnet',
+	BSC_TESTNET = 'bsc_testnet',
+
+	ARBITRUM_ONE = 'arbitrum_one',
+	ARBITRUM_NOVA = 'arbitrum_nova',
+	AVALANCHE_FUJI_C = 'avalanche_fuji_c',
+	AVALANCHE_FUJI_P = 'avalanche_fuji_p',
+	AVALANCHE_FUJI_X = 'avalanche_fuji_x',
+	BLAST_MAINNET = 'blast_mainnet',
+	OPBNB_MAINNET = 'opbnb_mainnet',
+	OPBNB_TESTNET = 'opbnb_testnet',
 	GNOSIS_MAINNET = 'gnosis_mainnet',
+	GNOSIS_CHIADO = 'gnosis_chiado',
+	PULSECHAIN_MAINNET = 'pulsechain_mainnet',
+	PULSECHAIN_TESTNET = 'pulsechain_testnet',
+	KAVA_MAINNET = 'kava_mainnet',
+	CRONOS_MAINNET = 'cronos_mainnet',
+	MANTLE_MAINNET = 'mantle_mainnet',
+	CHILIZ_MAINNET = 'chiliz_mainnet',
+	CHILIZ_SPICY = 'chiliz_spicy',
+	MOONBEAM_MAINNET = 'moonbeam_mainnet',
+	TAIKO_MAINNET = 'taiko_mainnet',
+	TAIKO_HEKLA = 'taiko_hekla',
+	LINEA_MAINNET = 'linea_mainnet',
+	LINEA_SEPOLIA = 'linea_sepolia',
+	BAHAMUT_MAINNET = 'bahamut_mainnet',
+	SCROLL_MAINNET = 'scroll_mainnet',
+	SCROLL_SEPOLIA = 'scroll_sepolia',
+	TRON_MAINNET = 'tron_mainnet',
+	SYSCOIN_MAINNET = 'syscoin_mainnet',
+	SYSCOIN_TANENBAUM = 'syscoin_tanenbaum',
+	MOONRIVER_MAINNET = 'moonriver_mainnet',
+	HAQQ_MAINNET = 'haqq_mainnet',
+	EVMOS_MAINNET = 'evmos_mainnet',
+	EVMOS_TESTNET = 'evmos_testnet',
+	BERACHAIN_TESTNET = 'berachain_testnet',
 }
 
 // Combining the ws types
