@@ -25,7 +25,7 @@ Here is a high-level overview of the steps in this tutorial:
 6. Create a form to transfer ether
 
 :::tip
-If you encounter any issues while following this guide or have any questions, don't hesitate to seek assistance. Our friendly community is ready to help you out! Join our [Discord](https://discord.gg/F4NUfaCC) server and head to the **#web3js-general** channel to connect with other developers and get the support you need.
+If you encounter any issues while following this guide or have any questions, don't hesitate to seek assistance. Our friendly community is ready to help you out! Join our [Discord](https://discord.gg/pb3U4zE8ca) server and head to the **#web3js-general** channel to connect with other developers and get the support you need.
 :::
 
 ## Step 1: Prerequisites
