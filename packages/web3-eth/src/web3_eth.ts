@@ -41,6 +41,7 @@ import {
 	Eip712TypedData,
 	FMT_BYTES,
 	FMT_NUMBER,
+	FilterParams,
 } from 'web3-types';
 import { isSupportedProvider, Web3Context, Web3ContextInitOptions } from 'web3-core';
 import { TransactionNotFound } from 'web3-errors';
@@ -48,6 +49,7 @@ import { toChecksumAddress, isNullish, ethUnitMap } from 'web3-utils';
 import { ethRpcMethods } from 'web3-rpc-methods';
 
 import * as rpcMethodsWrappers from './rpc_method_wrappers.js';
+import * as filteringRpcMethodsWrappers from './filtering_rpc_method_wrappers.js';
 import { SendTransactionOptions, TransactionMiddleware } from './types.js';
 import {
 	LogsSubscription,
@@ -1912,6 +1914,125 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	public async createNewPendingTransactionFilter<
 		ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT,
 	>(returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat) {
-		return rpcMethodsWrappers.createNewPendingTransactionFilter(this, returnFormat);
+		return filteringRpcMethodsWrappers.createNewPendingTransactionFilter(this, returnFormat);
+	}
+
+	/**
+	 * Creates a filter object, based on filter options, to notify when the state changes (logs)
+	 *
+	 * @param filter A {@link FilterParams} object containing the filter properties.
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) Specifies how the return data should be formatted.
+	 * @returns A filter id.
+	 *
+	 * ```ts
+	 * web3.eth.createNewFilter(filterParams).then(console.log);
+	 * > 1n
+	 *
+	 * web3.eth.createNewFilter(filterParams, { number: FMT_NUMBER.HEX , bytes: FMT_BYTES.HEX }).then(console.log);
+	 * > "0x1"
+	 * ```
+	 */
+	public async createNewFilter<ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT>(
+		filter: FilterParams,
+		returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat,
+	) {
+		return filteringRpcMethodsWrappers.createNewFilter(this, filter, returnFormat);
+	}
+
+	/**
+	 * Creates a filter in the node, to notify when a new block arrives.
+	 *
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) Specifies how the return data should be formatted.
+	 * @returns A filter id.
+	 *
+	 * ```ts
+	 * web3.eth.createNewBlockFilter().then(console.log);
+	 * > 1n
+	 *
+	 * web3.eth.createNewBlockFilter({ number: FMT_NUMBER.HEX , bytes: FMT_BYTES.HEX }).then(console.log);
+	 * > "0x1"
+	 * ```
+	 */
+	public async createNewBlockFilter<
+		ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT,
+	>(returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat) {
+		return filteringRpcMethodsWrappers.createNewBlockFilter(this, returnFormat);
+	}
+
+	/**
+	 * Uninstalls a filter with given id. Should always be called when watch is no longer needed.
+	 *
+	 * @param filterIdentifier ({@link Numbers} filter id
+	 * @returns true if the filter was successfully uninstalled, otherwise false.
+	 *
+	 * ```ts
+	 * web3.eth.uninstallFilter(123).then(console.log);
+	 * > true
+	 *
+	 * web3.eth.uninstallFilter('0x123').then(console.log);
+	 * > true
+	 *
+	 * web3.eth.uninstallFilter(12n).then(console.log);
+	 * > true
+	 * ```
+	 */
+	public async uninstallFilter(filterIdentifier: Numbers) {
+		return filteringRpcMethodsWrappers.uninstallFilter(this, filterIdentifier);
+	}
+
+	/**
+	 *  Polling method for a filter, which returns an array of logs which occurred since last poll.
+	 *
+	 * @param filterIdentifier ({@link Numbers} filter id
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) - Specifies how the return data from the call should be formatted.
+	 * @returns {@link FilterResultsAPI}, an array of {@link Log} objects.
+	 *
+	 * ```ts
+	 * web3.eth.getFilterChanges(123).then(console.log);
+	 * > [{
+	 *       data: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       topics: ['0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7', '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385']
+	 *       logIndex: 0n,
+	 *       transactionIndex: 0n,
+	 *       transactionHash: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       blockHash: '0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7',
+	 *       blockNumber: 1234n,
+	 *       address: '0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe'
+	 *   },
+	 *   {...}]
+	 */
+	public async getFilterChanges<ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT>(
+		filterIdentifier: Numbers,
+		returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat,
+	) {
+		return filteringRpcMethodsWrappers.getFilterChanges(this, filterIdentifier, returnFormat);
+	}
+
+	/**
+	 *  Returns an array of all logs matching filter with given id.
+	 *
+	 * @param filterIdentifier ({@link Numbers} filter id
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) - Specifies how the return data from the call should be formatted.
+	 * @returns {@link FilterResultsAPI}, an array of {@link Log} objects.
+	 *
+	 * ```ts
+	 * web3.eth.getFilterLogs(123).then(console.log);
+	 * > [{
+	 *       data: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       topics: ['0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7', '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385']
+	 *       logIndex: 0n,
+	 *       transactionIndex: 0n,
+	 *       transactionHash: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       blockHash: '0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7',
+	 *       blockNumber: 1234n,
+	 *       address: '0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe'
+	 *   },
+	 *   {...}]
+	 */
+	public async getFilterLogs<ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT>(
+		filterIdentifier: Numbers,
+		returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat,
+	) {
+		return filteringRpcMethodsWrappers.getFilterLogs(this, filterIdentifier, returnFormat);
 	}
 }
