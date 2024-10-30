@@ -2744,3 +2744,9 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 #### web3
 
 -   Exported EIP-6963 types are no longer under the `providers` namespace. (#7270)
+
+### Fixed
+
+#### web3-utils
+
+- when fromWei returns 0, it does not add trailing decimal

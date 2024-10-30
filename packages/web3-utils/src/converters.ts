@@ -491,17 +491,25 @@ export const toBigInt = (value: unknown): bigint => {
 
 /**
  * Takes a number of wei and converts it to any other ether unit.
+ * Removes unnecessary trailing decimal points when the result is a whole number.
+ * 
  * @param number - The value in wei
- * @param unit - The unit to convert to
- * @returns - Returns the converted value in the given unit
+ * @param unit - The unit to convert to (either a string representing a known Ether unit or a number for a custom power of 10)
+ * @returns - Returns the converted value in the given unit, without trailing decimals for whole numbers
  *
  * @example
  * ```ts
- * console.log(web3.utils.fromWei("1", "ether"));
- * > 0.000000000000000001
+ * console.log(fromWei("1", "ether"));
+ * // > 0.000000000000000001
  *
- * console.log(web3.utils.fromWei("1", "shannon"));
- * > 0.000000001
+ * console.log(fromWei("1", "shannon"));
+ * // > 0.000000001
+ *
+ * console.log(fromWei("0", "ether"));
+ * // > 0
+ *
+ * console.log(fromWei("1000000000000000000", "ether"));
+ * // > 1
  * ```
  */
 export const fromWei = (number: Numbers, unit: EtherUnits | number): string => {
@@ -546,15 +554,9 @@ export const fromWei = (number: Numbers, unit: EtherUnits | number): string => {
 	const fraction = zeroPaddedValue.slice(-numberOfZerosInDenomination).replace(/\.?0+$/, '');
 
 	if (integer === '') {
-		return `0.${fraction}`;
+		return fraction ? `0.${fraction}` : "0";
 	}
-
-	if (fraction === '') {
-		return integer;
-	}
-	const updatedValue = `${integer}.${fraction}`;
-
-	return updatedValue.slice(0, integer.length + numberOfZerosInDenomination + 1);
+	return fraction ? `${integer}.${fraction}` : integer;
 };
 
 /**
