@@ -16,7 +16,7 @@
 	},
 	"dependencies": {
 		"@cookbookdev/docsbot": "^4.21.23",
-		"@docusaurus/core": "^3.0.1",
+		"@docusaurus/core": "^3.5.2",
 		"@docusaurus/preset-classic": "^3.0.1",
 		"@docusaurus/theme-live-codeblock": "^3.0.1",
 		"@mdx-js/react": "^3.0.0",
