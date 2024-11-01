@@ -184,7 +184,7 @@ await web3.eth.getBlockNumber();
 
 #### Configuring IPC Providers
 
-The [`IpcProvider` constructor](/api/web3-providers-ipc/class/IpcProvider#constructor) accepts two optional parameters that can be used to configure the behavior of the `IpcProvider`: the first parameter must be of type [`SocketConstructorOpts`](https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules__types_node_net_d_._net_.socketconstructoropts.html) and the second parameter must be of type [`ReconnectOptions`](/api/web3/namespace/utils#ReconnectOptions).
+The [`IpcProvider` constructor](/api/web3-providers-ipc/class/IpcProvider#constructor) accepts two optional parameters that can be used to configure the behavior of the `IpcProvider`: the first parameter must be of type [`SocketConstructorOpts`](https://docs.deno.com/api/node/net/~/SocketConstructorOpts) and the second parameter must be of type [`ReconnectOptions`](/api/web3/namespace/utils#ReconnectOptions).
 
 ```ts title='Configuring an IPC Provider'
 // include both optional parameters
