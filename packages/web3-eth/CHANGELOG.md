@@ -290,3 +290,7 @@ Documentation:
 -   `populateGasPrice` function now checks `Web3Context.config.ignoreGasPricing`. If `ignoreGasPricing` is true, gasPrice will not be estimated (#7320)
 
 ## [Unreleased]
+
+### Added
+
+-   `createNewPendingTransactionFilter` , `createNewFilter` , `createNewBlockFilter` , `uninstallFilter` , `getFilterChanges` and `getFilterLogs` are exported from `Web3Eth` and `filtering_rpc_method_wrappers` (#7353)
