@@ -8,7 +8,7 @@ sidebar_label: Introduction
 
 Web3.js is a robust and flexible collection of **TypeScript and JavaScript** libraries that allows developers to interact with local or remote [Ethereum](https://ethereum.org/en/) nodes (or **any EVM-compatible blockchain**) over **HTTP, IPC or WebSocket** connections. It is a powerful and efficient toolkit for crafting applications within the Ethereum ecosystem and beyond.
 
-This documentation is the entrypoint to Web3.js for developers. It covers [basic](/guides/getting_started/quickstart) and [advanced](/guides/smart_contracts/mastering_smart_contracts) usage with examples, and includes comprehensive [API documentation](/api) as well as guides for common tasks, like [upgrading](/guides/web3_upgrade_guide) from older versions.
+This documentation is the entrypoint to Web3.js for developers. It covers [basic](/guides/getting_started/quickstart) and [advanced](/guides/dapps/lightweight-dapp) usage with examples, and includes comprehensive [API documentation](/api) as well as guides for common tasks, like [upgrading](/guides/web3_upgrade_guide) from older versions.
 
 ## Features of Web3.js v4
 
@@ -35,7 +35,7 @@ New Web3.js developers should proceed to the [Quickstart](/guides/getting_starte
 
 ### For Intermediate & Advanced Web3.js Developers
 
-If you're already familiar with Ethereum and Web3.js development, you may want to review the Web3.js [package structure](#packages--plugins) and proceed directly to the [package-level documentation](/libdocs/ABI) and [API documentation](/api). Application developers may wish to review the [Web3.js configuration guide](/guides/web3_config) or learn how to use Web3.js with tools like the [MetaMask](/guides/dapps/metamask-react) wallet or the [WalletConnect](/guides/dapps/web3_modal_guide) wallet selection modal. Don't forget to review the [list of available plugins](https://web3js.org/plugins) or even [learn how to build your own Web3.js plugin](/guides/web3_plugin_guide/plugin_authors)!
+If you're already familiar with Ethereum and Web3.js development, you may want to review the Web3.js [package structure](#packages--plugins) and proceed directly to the [package-level documentation](/libdocs/ABI) and [API documentation](/api). Application developers may wish to review the [Web3.js configuration guide](/guides/web3_config) or learn how to use Web3.js with tools like [EIP-6963 wallets](/guides/dapps/intermediate-dapp) or the [WalletConnect](/guides/dapps/web3_modal_guide) wallet selection modal. Don't forget to review the [list of available plugins](https://web3js.org/plugins) or even [learn how to build your own Web3.js plugin](/guides/web3_plugin_guide/plugin_authors)!
 
 ## Packages & Plugins
 
