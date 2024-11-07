@@ -17,7 +17,8 @@ along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 
 import * as eth from 'web3-eth';
 import * as ethAccounts from 'web3-eth-accounts';
-import { SignTransactionResult, Web3Account } from 'web3-eth-accounts';
+import { Web3Account } from 'web3-eth-accounts';
+import type { SignTransactionResult } from 'web3-types';
 import { Web3EthInterface } from '../../src/types';
 import { Web3 } from '../../src';
 
