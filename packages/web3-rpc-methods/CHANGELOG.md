@@ -145,3 +145,9 @@ Documentation:
 -   Change `estimateGas` method to add possibility pass Transaction type (#7000)
 
 ## [Unreleased]
+
+### Added
+
+#### web3-rpc-providers
+
+-   DRPCProvider was added (#7252)

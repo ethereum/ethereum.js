@@ -2702,3 +2702,9 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 -   The callback function provided to the static `Web3.onNewProviderDiscovered` function expects a parameter of type `EIP6963ProvidersMapUpdateEvent` as opposed to `EIP6963AnnounceProviderEvent`. (#7242)
 
 ## [Unreleased]
+
+### Added
+
+#### web3-rpc-providers
+
+-   DRPCProvider was added (#7252)
