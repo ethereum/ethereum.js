@@ -15,8 +15,16 @@ You should have received a copy of the GNU Lesser General Public License
 along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Web3BaseWalletAccount, HexString } from 'web3-types';
+import {
+	HexString,
+	SignatureObject,
+	SignResult,
+	SignTransactionResult,
+	Web3BaseWalletAccount,
+} from 'web3-types';
 import { AccessListEIP2930Transaction, FeeMarketEIP1559Transaction, Transaction } from './tx';
+
+export { SignatureObject, SignResult, SignTransactionResult };
 
 export interface Web3Account extends Web3BaseWalletAccount {
 	address: HexString;

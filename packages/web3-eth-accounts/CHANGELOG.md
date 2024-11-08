@@ -190,3 +190,7 @@ Documentation:
 -   `hashMessage` now has a new optional param `skipPrefix` with a default value of `false`. A new function `signRaw` was added to sign a message without prefix. (#7346)
 
 ## [Unreleased]
+
+### Removed
+
+-   Move signature related types to web3-types. Re-export them for backwards compatibility. (#7374)

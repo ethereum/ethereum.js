@@ -364,4 +364,3 @@ export * as validator from 'web3-validator';
  */
 export * from 'web3-errors';
 export * from 'web3-types';
-export type { Web3Account, Wallet } from 'web3-eth-accounts';
