@@ -100,7 +100,7 @@
 		"compile:contracts": "node ./scripts/compile_contracts.js && yarn format && yarn lint:fix",
 		"publish:canary": "lerna publish --canary --dist-tag dev --preid dev.$(git rev-parse --short HEAD) --exact --graph-type all --force-publish \"*\" --no-verify-access --yes",
 		"prepare": "husky install",
-		"check-changelog": "bash ./scripts/check_changelog.sh"
+		"check-changelog": "node ./scripts/check_changelog.js"
 	},
 	"devDependencies": {
 		"@cypress/webpack-preprocessor": "^5.12.0",
