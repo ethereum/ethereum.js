@@ -251,9 +251,9 @@ export const createNewAccount = async (config?: {
 			const url = getSystemTestProviderUrl();
 			const web3 = new Web3(url);
 			web3.registerPlugin(new HardhatPlugin());
-			// eslint-disable-next-line
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 			await web3.hardhat.impersonateAccount(acc.address);
-			// eslint-disable-next-line
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 			await web3.hardhat.setBalance(acc.address, web3.utils.toHex('100000000'));
 			await closeOpenConnection(web3);
 		} else {
@@ -277,7 +277,7 @@ export const createNewAccount = async (config?: {
 			const url = getSystemTestProviderUrl();
 			const web3 = new Web3(url);
 			web3.registerPlugin(new HardhatPlugin());
-			// eslint-disable-next-line
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 			await web3.hardhat.setBalance(acc.address, web3.utils.toHex('100000000'));
 			await closeOpenConnection(web3);
 		} else {
