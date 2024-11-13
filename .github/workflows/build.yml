@@ -96,6 +96,17 @@ jobs:
                   key: ${{ runner.os }}-eslintcache-${{ github.ref_name }}
 
             - run: yarn lint
+            - name: Check and delete cache if it exists
+              run: |
+                  if gh cache list | grep -q "${{ runner.os }}-eslintcache-${{ github.ref_name }}"; then
+                    echo "Cache found. Deleting..."
+                    gh cache delete "${{ runner.os }}-eslintcache-${{ github.ref_name }}"
+                  else
+                    echo "No matching cache found. Skipping delete."
+                  fi
+              if: github.event_name == 'push' && github.ref == 'refs/heads/4.x'
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Save eslint caches
               if: github.event_name == 'push' && github.ref == 'refs/heads/4.x'
@@ -329,6 +340,17 @@ jobs:
                   # Enable alert commit comment
                   alert-threshold: '200%'
                   comment-always: false
+            - name: Check and delete cache if it exists
+              run: |
+                  if gh cache list | grep -q "${{ runner.os }}-web3-benchmark-main"; then
+                    echo "Cache found. Deleting..."
+                    gh cache delete "${{ runner.os }}-web3-benchmark-main"
+                  else
+                    echo "No matching cache found. Skipping delete."
+                  fi
+              if: github.event_name == 'push' && github.ref == 'refs/heads/4.x'
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Save main branch benchmark data
               uses: actions/cache/save@v4
               if: github.event_name == 'push' && github.ref == 'refs/heads/4.x'
