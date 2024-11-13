@@ -72,8 +72,7 @@ jobs:
                   path: ./
                   key: web3-18-${{ github.sha }}
             - run: npx ts-node scripts/init.ts
-            - name: Restore eslint caches
-              uses: actions/cache/restore@v4
+            - uses: actions/cache@v4
               with:
                   path: |
                       packages/web3/.eslintcache
@@ -94,43 +93,7 @@ jobs:
                       packages/web3-validator/.eslintcache
                       tools/web3-plugin-example/.eslintcache
                   key: ${{ runner.os }}-eslintcache-${{ github.ref_name }}
-
             - run: yarn lint
-            - name: Check and delete cache if it exists
-              run: |
-                  if gh cache list | grep -q "${{ runner.os }}-eslintcache-${{ github.ref_name }}"; then
-                    echo "Cache found. Deleting..."
-                    gh cache delete "${{ runner.os }}-eslintcache-${{ github.ref_name }}"
-                  else
-                    echo "No matching cache found. Skipping delete."
-                  fi
-              if: github.event_name == 'push' && github.ref == 'refs/heads/4.x'
-              env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Save eslint caches
-              if: github.event_name == 'push' && github.ref == 'refs/heads/4.x'
-              uses: actions/cache/save@v4
-              with:
-                  path: |
-                      packages/web3/.eslintcache
-                      packages/web3-core/.eslintcache
-                      packages/web3-eth/.eslintcache
-                      packages/web3-eth-abi/.eslintcache
-                      packages/web3-eth-accounts/.eslintcache
-                      packages/web3-eth-contract/.eslintcache
-                      packages/web3-eth-ens/.eslintcache
-                      packages/web3-eth-iban/.eslintcache
-                      packages/web3-eth-personal/.eslintcache
-                      packages/web3-net/.eslintcache
-                      packages/web3-providers-http/.eslintcache
-                      packages/web3-providers-ws/.eslintcache
-                      packages/web3-rpc-methods/.eslintcache
-                      packages/web3-types/.eslintcache
-                      packages/web3-utils/.eslintcache
-                      packages/web3-validator/.eslintcache
-                      tools/web3-plugin-example/.eslintcache
-                  key: ${{ runner.os }}-eslintcache-${{ github.ref_name }}
 
     build-web:
         name: Build Web
