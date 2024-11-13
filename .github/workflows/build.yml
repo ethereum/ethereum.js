@@ -149,7 +149,7 @@ jobs:
             - run: yarn test:unit
               continue-on-error: ${{ matrix.node == '20.17.0' }}
             - name: Upload coverage to Codecov
-              uses: codecov/codecov-action@v3
+              uses: codecov/codecov-action@v4
               with:
                   flags: UnitTests
                   token: ${{ secrets.CODECOV_TOKEN }}
@@ -162,7 +162,7 @@ jobs:
         strategy:
             fail-fast: false
         steps:
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   node-version: 18
             - uses: actions/cache/restore@v4
@@ -204,7 +204,7 @@ jobs:
             matrix:
                 browser: ['electron', 'chrome', 'firefox']
         steps:
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   node-version: 18
             - uses: browser-actions/setup-firefox@latest
