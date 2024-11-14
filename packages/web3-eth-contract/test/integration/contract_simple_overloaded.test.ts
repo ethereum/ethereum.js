@@ -16,7 +16,11 @@ along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 import Contract from '../../src';
 import { SimpleOverloadedAbi, SimpleOverloadedBytecode } from '../fixtures/SimpleOverloaded';
-import { createTempAccount, getSystemTestProvider } from '../fixtures/system_test_utils';
+import {
+	closeOpenConnection,
+	createTempAccount,
+	getSystemTestProvider,
+} from '../fixtures/system_test_utils';
 
 describe('SimpleOverloaded', () => {
 	let contract: Contract<typeof SimpleOverloadedAbi>;
@@ -32,7 +36,11 @@ describe('SimpleOverloaded', () => {
 			.deploy({
 				data: SimpleOverloadedBytecode,
 			})
-			.send({ from: mainAcc.address, gas: '10000000' });
+			.send({ from: mainAcc.address });
+	});
+
+	afterAll(async () => {
+		await closeOpenConnection(contract);
 	});
 
 	it('should call getSecret with no args', async () => {

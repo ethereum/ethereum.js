@@ -15,38 +15,16 @@ You should have received a copy of the GNU Lesser General Public License
 along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import { Web3BaseWalletAccount, HexString } from 'web3-types';
-import { FeeMarketEIP1559TxData, AccessListEIP2930TxData, TxData } from './tx/types.js';
+import {
+	HexString,
+	SignatureObject,
+	SignResult,
+	SignTransactionResult,
+	Web3BaseWalletAccount,
+} from 'web3-types';
 import { AccessListEIP2930Transaction, FeeMarketEIP1559Transaction, Transaction } from './tx';
 
-export type SignatureObject = {
-	messageHash: string;
-	r: string;
-	s: string;
-	v: string;
-};
-
-export type SignTransactionResult = SignatureObject & {
-	rawTransaction: string;
-	transactionHash: string;
-};
-
-export type SignTransactionFunction = (
-	transaction:
-		| TxData
-		| AccessListEIP2930TxData
-		| FeeMarketEIP1559TxData
-		| Record<string, unknown>,
-) => SignTransactionResult;
-
-export type SignResult = SignatureObject & {
-	message?: string;
-	signature: string;
-};
-
-export type SignFunction = (data: string, privateKey: string) => SignResult;
-
-// https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
+export { SignatureObject, SignResult, SignTransactionResult };
 
 export interface Web3Account extends Web3BaseWalletAccount {
 	address: HexString;
