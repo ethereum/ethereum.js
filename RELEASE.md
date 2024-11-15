@@ -10,7 +10,7 @@ The `major` version has to be increased as soon as a breaking change is introduc
 
 ### Minor
 
-The `minor` is increased as soon as new smaller features do get introduced. A `minor` release will not affect any depending project. Such a release only introduces smaller enhancements and features a project could use.
+The `minor` is increased as soon as new smaller features get introduced. A `minor` release will not affect any depending project. Such a release only introduces smaller enhancements and features a project could use.
 
 ### Patch
 
@@ -36,7 +36,7 @@ Further details about versioning can be found in the [semver 2.0.0 specification
     - `bumped-version` of release branch should be of main web3 package.
 3. `yarn`: Verify all dependencies have been installed
 4. Bump packages version numbers using `lerna version --no-push --no-private --no-git-tag-version` . This will update package versions and also run lifecycle scripts.
-    - It will prompt for new version , modify package metadata and run life cycle scripts (in our case `version`), for bootstrapping lerna will use underlying yarn.
+    - It will prompt for new version , modify package metadata and run lifecycle scripts (in our case `version`), for bootstrapping lerna will use underlying yarn.
 5. Update each package's and also root `CHANGELOG.md`: 
 
     5.A. If there are any changes in package during release PR e.g. dependency updated that effects package, add entry in changelog under `## [Unreleased]` of that package's changelog.
