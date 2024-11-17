@@ -5106,10 +5106,10 @@ dns-packet@^5.2.2:
   dependencies:
     "@leichtgewicht/ip-codec" "^2.0.1"
 
-docusaurus-lunr-search@^3.3.1:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/docusaurus-lunr-search/-/docusaurus-lunr-search-3.4.0.tgz#cefb0f8628f629e780451ae042d3cc35f078826f"
-  integrity sha512-GfllnNXCLgTSPH9TAKWmbn8VMfwpdOAZ1xl3T2GgX8Pm26qSDLfrrdVwjguaLfMJfzciFL97RKrAJlgrFM48yw==
+docusaurus-lunr-search@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/docusaurus-lunr-search/-/docusaurus-lunr-search-3.5.0.tgz#52832d7bdd858ed093e98a743ee7bd4df596cfbf"
+  integrity sha512-k3zN4jYMi/prWInJILGKOxE+BVcgYinwj9+gcECsYm52tS+4ZKzXQzbPnVJAEXmvKOfFMcDFvS3MSmm6cEaxIQ==
   dependencies:
     autocomplete.js "^0.37.0"
     clsx "^1.2.1"
