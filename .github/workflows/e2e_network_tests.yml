@@ -1,10 +1,10 @@
 name: 'E2E Network Tests'
 on:
     push:
-      branches:
-        - release/**
-      tags:
-        - v4.*
+        branches:
+            - release/**
+        tags:
+            - v4.*
 
 #    For test purpose only:
 #    pull_request:
@@ -12,44 +12,44 @@ on:
 #            - '4.x'
 #        types: [ opened, reopened, synchronize ]
 jobs:
-  build:
-    name: Build Packages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: yarn
-      - run: yarn
-      - uses: actions/cache/save@v4
-        with:
-          path: ./
-          key: web3-e2e-18-${{github.sha}}
-  e2e:
-      name: E2E Network Tests
-      needs: build
-      runs-on: ubuntu-latest
-      env:
-        INFURA_SEPOLIA_HTTP: ${{ secrets.CS_ETH_SEPOLIA }}
-        INFURA_MAINNET_HTTP: ${{ secrets.CS_ETH_MAINNET }}
-        MODE: ${{ matrix.mode }}
-        TEST_ACCOUNT_ADDRESS: ${{ fromJSON('{"sepolia":"0xa127C5E6a7E3600Ac34A9a9928E52521677e7211","mainnet":"0x98AF911164f9d4E0f5983ed114949c3Bfe3ADc9d"}')[matrix.network] }}
-        ALLOWED_SEND_TRANSACTION: ${{ secrets.E2E_TESTS_ALLOWED_SEND_TRANSACTION }}
-        TEST_ACCOUNT_PRIVATE_KEY: ${{ secrets.TEST_ACCOUNT_PRIVATE_KEY }}
-      strategy:
-        fail-fast: false
-        matrix:
-          mode: ['http']
-          network: ['sepolia', 'mainnet']
-      steps:
-        - uses: actions/setup-node@v3
-          with:
-            node-version: 18
-        - uses: actions/cache/restore@v4
-          with:
-            path: ./
-            key: web3-e2e-18-${{github.sha}}
-        - run: |
-            yarn test:e2e:${{ matrix.network }}:${{ matrix.mode }}
-          shell: bash
+    build:
+        name: Build Packages
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+                  cache: yarn
+            - run: yarn
+            - uses: actions/cache/save@v4
+              with:
+                  path: ./
+                  key: web3-e2e-18-${{github.sha}}
+    e2e:
+        name: E2E Network Tests
+        needs: build
+        runs-on: ubuntu-latest
+        env:
+            INFURA_SEPOLIA_HTTP: ${{ secrets.CS_ETH_SEPOLIA }}
+            INFURA_MAINNET_HTTP: ${{ secrets.CS_ETH_MAINNET }}
+            MODE: ${{ matrix.mode }}
+            TEST_ACCOUNT_ADDRESS: ${{ fromJSON('{"sepolia":"0xa127C5E6a7E3600Ac34A9a9928E52521677e7211","mainnet":"0x98AF911164f9d4E0f5983ed114949c3Bfe3ADc9d"}')[matrix.network] }}
+            ALLOWED_SEND_TRANSACTION: ${{ secrets.E2E_TESTS_ALLOWED_SEND_TRANSACTION }}
+            TEST_ACCOUNT_PRIVATE_KEY: ${{ secrets.TEST_ACCOUNT_PRIVATE_KEY }}
+        strategy:
+            fail-fast: false
+            matrix:
+                mode: ['http']
+                network: ['sepolia', 'mainnet']
+        steps:
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+            - uses: actions/cache/restore@v4
+              with:
+                  path: ./
+                  key: web3-e2e-18-${{github.sha}}
+            - run: |
+                  yarn test:e2e:${{ matrix.network }}:${{ matrix.mode }}
+              shell: bash
