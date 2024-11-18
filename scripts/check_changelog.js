@@ -74,7 +74,7 @@ try {
 	if (hasError) {
 		console.log(
 			colors.red(
-				'\nCommit rejected: Please update packages/web3-xxx/CHANGELOG.md for all modified packages',
+				'\nCommit rejected: Please update the CHANGELOG.md in the corresponding package folder for each of the aforementioned packages.',
 			),
 		);
 		process.exit(1);
