@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-sidebar_label: 'Mastering Events Subcriptions'
+sidebar_label: 'Mastering Events Subscriptions'
 ---
 
 # Events Subscription
@@ -46,25 +46,25 @@ If you are the developer who provides custom subscriptions to users. We encourag
 -   `on("data")` - Fires on each incoming log with the log object as argument.
 
 ```ts
-subcription.on('data', data => console.log(data));
+subscription.on('data', data => console.log(data));
 ```
 
 -   `on("changed")` - Fires on each log which was removed from the blockchain. The log will have the additional property "removed: true".
 
 ```ts
-subcription.on('changed', changed => console.log(changed));
+subscription.on('changed', changed => console.log(changed));
 ```
 
 -   `on("error")` - Fires when an error in the subscription occurs.
 
 ```ts
-subcription.on('error', error => console.log(error));
+subscription.on('error', error => console.log(error));
 ```
 
 -   `on("connected")` - Fires once after the subscription successfully connected. Returns the subscription id.
 
 ```ts
-subcription.on('connected', connected => console.log(connected));
+subscription.on('connected', connected => console.log(connected));
 ```
 
 ### Logs
@@ -77,11 +77,11 @@ import { Web3 } from 'web3';
 const web3 = new Web3('wss://ethereum-rpc.publicnode.com');
 
 async function subscribe() {
-	//create subcription
-	const subcription = await web3.eth.subscribe('logs');
+	//create subscription
+	const subscription = await web3.eth.subscribe('logs');
 
 	//print logs of the latest mined block
-	subcription.on('data', data => console.log(data));
+	subscription.on('data', data => console.log(data));
 }
 
 // function to unsubscribe from a subscription
@@ -104,11 +104,11 @@ import { Web3 } from 'web3';
 const web3 = new Web3('wss://ethereum-rpc.publicnode.com');
 
 async function subscribe() {
-	//create subcription
-	const subcription = await web3.eth.subscribe('pendingTransactions'); //or ("newPendingTransactions")
+	//create subscription
+	const subscription = await web3.eth.subscribe('pendingTransactions'); //or ("newPendingTransactions")
 
 	//print tx hashs of pending transactions
-	subcription.on('data', data => console.log(data));
+	subscription.on('data', data => console.log(data));
 }
 
 // function to unsubscribe from a subscription
@@ -131,11 +131,11 @@ import { Web3 } from 'web3';
 const web3 = new Web3('wss://ethereum-rpc.publicnode.com');
 
 async function subscribe() {
-	//create subcription
-	const subcription = await web3.eth.subscribe('newBlockHeaders'); //or ("newHeads")
+	//create subscription
+	const subscription = await web3.eth.subscribe('newBlockHeaders'); //or ("newHeads")
 
 	//print block header everytime a block is mined
-	subcription.on('data', data => console.log(data));
+	subscription.on('data', data => console.log(data));
 }
 
 // function to unsubscribe from a subscription
@@ -157,12 +157,12 @@ import { Web3 } from 'web3';
 const web3 = new Web3('wss://ethereum-rpc.publicnode.com');
 
 async function subscribe() {
-	//create subcription
-	const subcription = await web3.eth.subscribe('syncing');
+	//create subscription
+	const subscription = await web3.eth.subscribe('syncing');
 
 	//this will return `true` when the node is syncing
 	//when it’s finished syncing will return `false`, for the `changed` event.
-	subcription.on('data', data => console.log(data));
+	subscription.on('data', data => console.log(data));
 }
 
 // function to unsubscribe from a subscription

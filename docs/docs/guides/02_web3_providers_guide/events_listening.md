@@ -5,7 +5,7 @@ sidebar_label: 'Providers Events Listening'
 
 # Providers Events Listening
 
-Some providers are, by design, always connected. Therefor, they can communicate changes with the user through events. Actually, among the 3 providers, `HttpProvider` is the only one that does not support event. And the other 2:
+Some providers are, by design, always connected. Therefore, they can communicate changes with the user through events. Actually, among the 3 providers, `HttpProvider` is the only one that does not support event. And the other 2:
 [WebSocketProvider](/api/web3-providers-ws/class/WebSocketProvider) and [IpcProvider](/api/web3-providers-ipc/class/IpcProvider) enable the user to listen to emitted events.
 
 Actually, the events can be categorized as follows ([according to EIP 1193](https://eips.ethereum.org/EIPS/eip-1193#rationale)):
