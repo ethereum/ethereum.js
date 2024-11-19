@@ -1,19 +1,10 @@
 name: 'Black Box Tests'
 on:
-    # push:
-    #     branches:
-    #         - release/**
-    #     tags:
-    #         - v4.*
     push:
         branches:
-            - '4.x'
+            - release/**
         tags:
-            - v4*
-    pull_request:
-        branches:
-            - '4.x'
-        types: [opened, reopened, synchronize]
+            - v4.*
 
 jobs:
     build:
