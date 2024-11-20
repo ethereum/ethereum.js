@@ -64,7 +64,8 @@ export const getTransactionFromOrToAttr = (
 	privateKey?: HexString | Uint8Array,
 ): Address | undefined => {
 	if (transaction !== undefined && attr in transaction && transaction[attr] !== undefined) {
-		if (typeof transaction[attr] === 'string' && isAddress(transaction[attr] as string)) {
+		if (typeof transaction[attr] === 'string' && isAddress(transaction[attr])) {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 			return transaction[attr] as Address;
 		}
 		if (!isHexStrict(transaction[attr] as string) && isNumber(transaction[attr] as Numbers)) {

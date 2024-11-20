@@ -247,7 +247,7 @@ describe('[Common]: Merge/POS specific logic', () => {
 	it('should throw if encounters a double ttd hardfork specification', () => {
 		const c = new Common({ chain: Chain.Sepolia });
 		// Add the ttd to mergeForkIdTransition which occurs post merge in sepolia
-		c.hardforks().filter(hf => hf.name === 'mergeForkIdTransition')[0]!['ttd'] =
+		c.hardforks().filter(hf => hf.name === 'mergeForkIdTransition')[0]['ttd'] =
 			'17000000000000000';
 		expect(() => {
 			c.setHardforkByBlockNumber(1735371);

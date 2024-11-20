@@ -311,8 +311,7 @@ export const createTempAccount = async (
 	if (
 		config.unlock === false ||
 		config.refill === false ||
-		config.privateKey ||
-		config.password
+		(config.privateKey ?? config.password)
 	) {
 		return createNewAccount({
 			unlock: config.unlock ?? true,

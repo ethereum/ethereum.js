@@ -87,7 +87,7 @@ export const verifyAccessList = (accessList: AccessListUint8Array) => {
 		const address = accessListItem[0];
 		const storageSlots = accessListItem[1];
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/consistent-type-assertions
-		if ((<any>accessListItem)[2] !== undefined) {
+		if ((<Array<unknown>>accessListItem)[2] !== undefined) {
 			throw new Error(
 				'Access list item cannot have 3 elements. It can only have an address, and an array of storage slots.',
 			);
@@ -115,13 +115,12 @@ export const getAccessListJSON = (
 	const accessListJSON: { address: HexString; storageKeys: HexString[] }[] = [];
 	// eslint-disable-next-line @typescript-eslint/prefer-for-of
 	for (let index = 0; index < accessList.length; index += 1) {
-		const item: any = accessList[index];
+		const item = accessList[index];
 		const JSONItem: { address: HexString; storageKeys: HexString[] } = {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/consistent-type-assertions
-			address: bytesToHex(setLengthLeft(<Uint8Array>item[0], 20)),
+			address: bytesToHex(setLengthLeft(item[0], 20)),
 			storageKeys: [],
 		};
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/prefer-optional-chain
+		// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
 		const storageSlots: Uint8Array[] = item && item[1];
 		// eslint-disable-next-line @typescript-eslint/prefer-for-of
 		for (let slot = 0; slot < storageSlots.length; slot += 1) {

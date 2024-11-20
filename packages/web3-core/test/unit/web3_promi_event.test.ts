@@ -134,7 +134,7 @@ describe('Web3PromiEvent', () => {
 		});
 
 		const f = jest.fn();
-		p.finally(f);
+		await p.finally(f);
 		await p;
 		expect(f).toHaveBeenCalled();
 	});

@@ -21,6 +21,7 @@ import {
 	Web3PromiEvent,
 	Web3ConfigEvent,
 	Web3SubscriptionManager,
+	Web3SubscriptionConstructor,
 } from 'web3-core';
 import {
 	ContractExecutionError,
@@ -128,9 +129,11 @@ type ContractBoundMethod<
 	Method extends ContractMethod<Abi> = ContractMethod<Abi>,
 > = (
 	...args: Abi extends undefined
-		? any[]
+		? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		  any[]
 		: Method['Inputs'] extends never
-		? any[]
+		? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		  any[]
 		: Method['Inputs']
 ) => Method['Abi']['stateMutability'] extends 'payable' | 'pure'
 	? PayableMethodObject<Method['Inputs'], Method['Outputs']>
@@ -737,7 +740,7 @@ export class Contract<Abi extends ContractAbi>
 	 * ```
 	 */
 	public clone() {
-		let newContract: Contract<any>;
+		let newContract: Contract<Abi>;
 		if (this.options.address) {
 			newContract = new Contract<Abi>(
 				[...this._jsonInterface, ...this._errorsInterface] as unknown as Abi,
@@ -1438,10 +1441,11 @@ export class Contract<Abi extends ContractAbi>
 					jsonInterface: this._jsonInterface,
 				},
 				{
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 					subscriptionManager: this.subscriptionManager as Web3SubscriptionManager<
 						unknown,
-						any
+						{
+							[key: string]: Web3SubscriptionConstructor<unknown>;
+						}
 					>,
 					returnFormat,
 				},

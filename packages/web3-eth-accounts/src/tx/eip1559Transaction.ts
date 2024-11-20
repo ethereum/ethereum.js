@@ -104,7 +104,10 @@ export class FeeMarketEIP1559Transaction extends BaseTransaction<FeeMarketEIP155
 			throw new Error('Invalid serialized tx input: must be array');
 		}
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		return FeeMarketEIP1559Transaction.fromValuesArray(values as any, opts);
+		return FeeMarketEIP1559Transaction.fromValuesArray(
+			values as FeeMarketEIP1559ValuesArray,
+			opts,
+		);
 	}
 
 	/**
@@ -379,7 +382,7 @@ export class FeeMarketEIP1559Transaction extends BaseTransaction<FeeMarketEIP155
 				bigIntToUnpaddedUint8Array(r!),
 				bigIntToUnpaddedUint8Array(s!),
 			);
-		} catch (e: any) {
+		} catch (e) {
 			const msg = this._errorMsg('Invalid Signature');
 			throw new Error(msg);
 		}

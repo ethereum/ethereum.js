@@ -48,10 +48,7 @@ export const mergeDeep = (
 				if (!result[key]) {
 					result[key] = {};
 				}
-				result[key] = mergeDeep(
-					result[key] as Record<string, unknown>,
-					src[key] as Record<string, unknown>,
-				);
+				result[key] = mergeDeep(result[key] as Record<string, unknown>, src[key]);
 			} else if (!isNullish(src[key]) && Object.hasOwnProperty.call(src, key)) {
 				if (Array.isArray(src[key]) || src[key] instanceof TypedArray) {
 					result[key] = (src[key] as unknown[]).slice(0);

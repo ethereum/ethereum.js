@@ -322,7 +322,7 @@ export class Transaction extends BaseTransaction<Transaction> {
 					? this.common.chainId()
 					: undefined,
 			);
-		} catch (e: any) {
+		} catch (e) {
 			const msg = this._errorMsg('Invalid Signature');
 			throw new Error(msg);
 		}
