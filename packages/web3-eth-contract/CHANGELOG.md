@@ -404,4 +404,10 @@ Documentation:
 -   The returnred properties of `contract.deploy(...)` are structured with a newly created class named `DeployerMethodClass`. (#7197)
 -   Add a missed accepted type for the `abi` parameter, at `dataInputEncodeMethodHelper` and `getSendTxParams`. (#7197)
 
+## [4.7.1]
+
+### Fixed
+
+-   Fix Contract methods input param type any[] (#7340)
+
 ## [Unreleased]

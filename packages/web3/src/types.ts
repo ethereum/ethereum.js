@@ -42,6 +42,8 @@ import { Net } from 'web3-net';
 import { Iban } from 'web3-eth-iban';
 import { Personal } from 'web3-eth-personal';
 
+export type { Web3Account, Wallet } from 'web3-eth-accounts';
+
 /**
  * The Ethereum interface for main web3 object. It provides extra methods in addition to `web3-eth` interface.
  *

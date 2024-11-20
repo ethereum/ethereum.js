@@ -83,5 +83,17 @@ describe('web3_eth_methods_no_parameters', () => {
 				web3Eth.requestManager,
 			);
 		});
+
+		it('createNewPendingTransactionFilter', async () => {
+			await web3Eth.createNewPendingTransactionFilter();
+			expect(ethRpcMethods.newPendingTransactionFilter).toHaveBeenCalledWith(
+				web3Eth.requestManager,
+			);
+		});
+
+		it('createNewBlockFilter', async () => {
+			await web3Eth.createNewBlockFilter();
+			expect(ethRpcMethods.newBlockFilter).toHaveBeenCalledWith(web3Eth.requestManager);
+		});
 	});
 });

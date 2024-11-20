@@ -328,6 +328,9 @@ export const fromWeiValidData: [[Numbers, EtherUnits | number], Numbers][] = [
 	[['1123', 'kwei'], '1.123'],
 	[['1234100', 'kwei'], '1234.1'],
 	[['3308685546611893', 'ether'], '0.003308685546611893'],
+	[['0', 'wei'], '0'],
+	[['0', 'kwei'], '0'],
+	[['0', 'ether'], '0'],
 ];
 
 export const toWeiValidData: [[Numbers, EtherUnits | number], Numbers][] = [

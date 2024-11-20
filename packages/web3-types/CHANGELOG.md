@@ -214,4 +214,14 @@ Documentation:
 
 -   update the type for `baseFeePerGas` at `web3.eth.getFeeHistory` to be a number. (#7291)
 
+## [1.9.0]
+
+### Added
+
+-   `FilterParams` type added (#7353)
+
 ## [Unreleased]
+
+#### Added
+
+-   Add signature related types. (#7374)

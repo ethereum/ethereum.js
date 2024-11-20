@@ -36,8 +36,8 @@ Further details about versioning can be found in the [semver 2.0.0 specification
     - `bumped-version` of release branch should be of main web3 package.
 3. `yarn`: Verify all dependencies have been installed
 4. Bump packages version numbers using `lerna version --no-push --no-private --no-git-tag-version` . This will update package versions and also run lifecycle scripts.
-    - It will prompt for new version , modify package metadata and run life cycle scripts (in our case `version`), for bootstrapping lerna will use underlying yarn.
-5. Update each package's and also root `CHANGELOG.md`: 
+    - It will prompt for new version , modify package metadata and run lifecycle scripts (in our case `version`), for bootstrapping lerna will use underlying yarn.
+5. Update each package's and also root `CHANGELOG.md`:
 
     5.A. If there are any changes in package during release PR e.g. dependency updated that effects package, add entry in changelog under `## [Unreleased]` of that package's changelog.
 
@@ -61,19 +61,20 @@ Further details about versioning can be found in the [semver 2.0.0 specification
     - In the release description, copy all entries in `CHANGELOG.md` for the version being released
 
     - Click `Save draft`
-    
+
 12. Open pull request to merge branch created in `Step 2` (`release/bumped-version`) into `4.x`
 13. Wait for all tests to pass in github CI/CD , If there are any unusual warnings or errors in logs, discuss with team
 14. When sufficient approvals have been met, publish draft release created in `Step 11`
 15. Publish on NPM.
+
     - login in NPM and verify you are logged in with right user and in right dir
-    
+
     - If you want to publish `latest` tag release, run `npx lerna publish from-package --ignore-scripts` in the root directory to publish packages to NPM.
-    
-    - If you want to publish any other tag, run `npx lerna publish from-package --ignore-scripts --dist-tag <<TAG>>` in the root directory e.g. `rc` 
-    
+
+    - If you want to publish any other tag, run `npx lerna publish from-package --ignore-scripts --dist-tag <<TAG>>` in the root directory e.g. `rc`
+
     IMPORTANT: Replace `<<TAG>>` with required tag in above command, e.g. if publishing `RC`, use following command:
-      `npx lerna publish from-package --ignore-scripts --dist-tag rc`
+    `npx lerna publish from-package --ignore-scripts --dist-tag rc`
 
     - lerna will not invoke life cycle scripts before publishing and this will publish all packages to NPM public registry.
 

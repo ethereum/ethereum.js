@@ -30,6 +30,8 @@ import {
 	Uint256,
 	TransactionWithSenderAPI,
 	TransactionReceipt,
+	Numbers,
+	FilterParams,
 } from 'web3-types';
 import { transactionWithSender } from './rpc_methods_wrappers';
 
@@ -2302,3 +2304,49 @@ export const txReceipt: TransactionReceipt = {
 	type: BigInt(0),
 	root: '',
 };
+
+export const getFilterLogsDataWithformater: [Numbers, DataFormat][] = [
+	[123, { ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT }], // Number
+	['0x7b', { ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT }], // Hex string
+	[BigInt(123), { ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT }], // BigInt
+];
+
+export const getFilterLogsData: [Numbers][] = [
+	[456], // Number without return format
+	['0x1c8'], // Hex string without return format
+	[BigInt(456)], // BigInt without return format
+];
+
+// Export the test data
+export const uninstallFilterData: [Numbers][] = [
+	[123], // Number
+	['0x7b'], // Hex string equivalent of 123
+	[BigInt(123)], // BigInt
+	[456], // Another number
+	['0x1c8'], // Another hex string equivalent of 456
+	[BigInt(456)], // Another BigInt
+];
+
+export type CreateNewFilterTestData = [FilterParams, DataFormat];
+
+// Export the test data
+export const createNewFilterData: CreateNewFilterTestData[] = [
+	[
+		{ fromBlock: 123, toBlock: 456 },
+		{ ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT },
+	], // Number to hex conversion
+	[
+		{ fromBlock: BigInt(123), toBlock: BigInt(456) },
+		{ ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT },
+	], // BigInt to hex conversion
+	[
+		{ address: '0x1234567890abcdef1234567890abcdef12345678' },
+		{ ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT },
+	], // Address only
+	// eslint-disable-next-line no-null/no-null
+	[{ topics: [null, '0xabcdef'] }, { ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT }], // Topics with null
+	[
+		{ fromBlock: BlockTags.LATEST, toBlock: BlockTags.PENDING },
+		{ ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT },
+	], // Non-numeric blocks
+];
