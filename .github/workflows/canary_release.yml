@@ -2,7 +2,7 @@ name: 'Release Canary'
 on:
     push:
         branches:
-            - '7144-fix-typescript-version-issue'
+            - '4.x'
 
 jobs:
     release:
