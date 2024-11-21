@@ -36,10 +36,8 @@ const extraTxTypes: Map<Numbers, typeof BaseTransaction<unknown>> = new Map();
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class TransactionFactory {
 	// It is not possible to instantiate a TransactionFactory object.
-	// eslint-disable-next-line no-useless-constructor
-	private constructor() {
-		// not possible to instantiate
-	}
+	// eslint-disable-next-line no-useless-constructor, no-empty-function
+	private constructor() {}
 
 	public static typeToInt(txType: Numbers) {
 		return Number(uint8ArrayToBigInt(toUint8Array(txType)));

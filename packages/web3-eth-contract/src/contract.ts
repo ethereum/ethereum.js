@@ -933,7 +933,7 @@ export class Contract<Abi extends ContractAbi>
 		param2?: Omit<Filter, 'address'> | ReturnFormat,
 		param3?: ReturnFormat,
 	): Promise<(string | EventLog)[]> {
-		const eventName = typeof param1 === 'string' ? param1 : ALL_EVENTS;
+		const eventName: string = typeof param1 === 'string' ? param1 : ALL_EVENTS;
 
 		const options =
 			// eslint-disable-next-line no-nested-ternary
