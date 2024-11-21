@@ -1271,10 +1271,10 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@cookbookdev/docsbot@^4.21.23":
-  version "4.24.0"
-  resolved "https://registry.yarnpkg.com/@cookbookdev/docsbot/-/docsbot-4.24.0.tgz#3537bd6e6c5e48152b6f15fa956fb2cb7caab4ec"
-  integrity sha512-8v62HNLzAKPVu1NjSI/o0bkR67GCz5WSlNXCOvBs4jJktny4s+XvrfXgG9wo/m8UyKuPky63skAWaKTE3I+M6g==
+"@cookbookdev/docsbot@^4.24.4":
+  version "4.24.7"
+  resolved "https://registry.yarnpkg.com/@cookbookdev/docsbot/-/docsbot-4.24.7.tgz#98288b5018e068b1b41a3913fc09c2e48447418c"
+  integrity sha512-XqEaIBX3iFRQoM5dNm06UVYnBZ19BiV2mw3DWj4RcHtViGuOtRw943/Ab6IJc9cN+tJqE5OV9vb6OQUSttVmiw==
   dependencies:
     "@cookbookdev/sonner" "1.5.1"
     "@headlessui/react" "^1.7.18"
