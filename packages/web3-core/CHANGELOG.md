@@ -123,7 +123,7 @@ Documentation:
 
 ### Added
 
--   Web3Subscription constructor accept a Subscription Manager (as an alternative to accepting Request Manager that is now marked marked as deprecated) (#6210)
+-   Web3Subscription constructor accept a Subscription Manager (as an alternative to accepting Request Manager that is now marked as deprecated) (#6210)
 
 ### Changed
 
@@ -185,7 +185,7 @@ Documentation:
 
 -   defaultTransactionType is now type 0x2 instead of 0x0 (#6282)
 -   Allows formatter to parse large base fee (#6456)
--   The package now uses `EventEmitter` from `web3-utils` that works in node envrioment as well as in the browser. (#6398)
+-   The package now uses `EventEmitter` from `web3-utils` that works in node environment as well as in the browser. (#6398)
 
 ### Fixed
 
@@ -205,7 +205,7 @@ Documentation:
 
 ### Changed
 
--   Web3config `contractDataInputFill` has been defaulted to `data`, istead of `input`. (#6622)
+-   Web3config `contractDataInputFill` has been defaulted to `data`, instead of `input`. (#6622)
 
 ## [4.4.0]
 
@@ -225,7 +225,7 @@ Documentation:
 
 ### Added
 
--   Now when existing packages are added in web3, will be avalible for plugins via context. (#7088)
+-   Now when existing packages are added in web3, will be available for plugins via context. (#7088)
 
 ## [4.5.1]
 
