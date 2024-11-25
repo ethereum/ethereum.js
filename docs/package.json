@@ -15,14 +15,14 @@
 		"typecheck": "tsc"
 	},
 	"dependencies": {
-		"@cookbookdev/docsbot": "^4.21.23",
+		"@cookbookdev/docsbot": "^4.24.4",
 		"@docusaurus/core": "^3.5.2",
 		"@docusaurus/preset-classic": "^3.5.2",
 		"@docusaurus/theme-live-codeblock": "^3.5.2",
-		"@mdx-js/react": "^3.0.0",
+		"@mdx-js/react": "^3.1.0",
 		"classnames": "^2.3.2",
 		"clsx": "^2.0.0",
-		"docusaurus-lunr-search": "^3.3.1",
+		"docusaurus-lunr-search": "^3.5.0",
 		"prism-react-renderer": "^2.4.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
