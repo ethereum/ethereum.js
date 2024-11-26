@@ -26,8 +26,8 @@ try {
 
 		const packageName = packageMatch[1];
 
-		// Check if it's a code file
-		const isCodeFile = /\.(js|jsx|ts|tsx|css|json)$/.test(file);
+		// Check if it's a code file (excluding test files)
+		const isCodeFile = /\.(ts|json)$/.test(file) && !file.includes('/test/');
 		// Check if it's a changelog file
 		const isChangelog = file.endsWith('CHANGELOG.md');
 
