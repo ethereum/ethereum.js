@@ -163,6 +163,7 @@ export class Web3SubscriptionManager<
 		const subscription = new Klass(args ?? undefined, {
 			subscriptionManager: this as Web3SubscriptionManager<API, RegisteredSubs>,
 			returnFormat,
+			// eslint.disable-next-line @typescript-eslint/no-unsafe-any
 		} as any) as InstanceType<RegisteredSubs[T]>;
 
 		await this.addSubscription(subscription);

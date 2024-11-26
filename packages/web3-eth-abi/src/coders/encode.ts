@@ -44,7 +44,7 @@ function inferParamsAbi(params: unknown[]): ReadonlyArray<AbiParameter> {
 			} as AbiParameter);
 		} else {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			abi.push({ type: toHex(param as any, true) } as AbiParameter);
+			abi.push({ type: toHex(param as object, true) } as AbiParameter);
 		}
 	});
 	return abi;

@@ -34,6 +34,7 @@ tmp
 lib/
 dist/
 tsconfig.tsbuildinfo
+tsconfig.types.tsbuildinfo
 
 # Unsupported lock files
 package-lock.json

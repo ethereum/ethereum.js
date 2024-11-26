@@ -263,7 +263,7 @@ describe('[Common]: Hardfork logic', () => {
 		c = new Common({ chain: Chain.Mainnet, hardfork: Hardfork.Shanghai });
 		// unschedule shanghai on it to test
 		c.hardforks()
-			.filter(hf => hf.name === Hardfork.Shanghai)
+			.filter(hf => (hf.name as Hardfork) === Hardfork.Shanghai)
 			// eslint-disable-next-line array-callback-return
 			.map(hf => {
 				// eslint-disable-next-line no-null/no-null, no-param-reassign

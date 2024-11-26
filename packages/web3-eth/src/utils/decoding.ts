@@ -83,9 +83,9 @@ export const decodeEventABI = (
 		returnValues: decodeLog([...(modifiedEvent.inputs ?? [])], data.data, argTopics),
 		event: modifiedEvent.name,
 		signature:
-			modifiedEvent.anonymous || !data.topics || data.topics.length === 0 || !data.topics[0]
-				? undefined
-				: data.topics[0],
+			!modifiedEvent.anonymous && data.topics?.length > 0 && data.topics[0]
+				? data.topics[0]
+				: undefined,
 
 		raw: {
 			data: data.data,

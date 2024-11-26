@@ -400,7 +400,7 @@ export class SomeNewTxTypeTransaction extends BaseTransaction<SomeNewTxTypeTrans
 				bigIntToUnpaddedUint8Array(r!),
 				bigIntToUnpaddedUint8Array(s!),
 			);
-		} catch (e: any) {
+		} catch (e) {
 			const msg = this._errorMsg('Invalid Signature');
 			throw new Error(msg);
 		}

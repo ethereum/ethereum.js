@@ -57,7 +57,7 @@ describe(`${getSystemTestBackend()} tests - getBlock`, () => {
 				| 'blockHash'
 				| 'blockNumber';
 			hydrated: boolean;
-			format: string;
+			format: FMT_NUMBER;
 		}>({
 			block: ['earliest', 'latest', 'safe', 'finalized', 'blockHash', 'blockNumber'],
 			hydrated: [true, false],
@@ -66,7 +66,7 @@ describe(`${getSystemTestBackend()} tests - getBlock`, () => {
 	)('getBlock', async ({ hydrated, block, format }) => {
 		const result = {
 			...(await web3.eth.getBlock(blockData[block], hydrated, {
-				number: format as FMT_NUMBER,
+				number: format,
 				bytes: FMT_BYTES.HEX,
 			})),
 		};

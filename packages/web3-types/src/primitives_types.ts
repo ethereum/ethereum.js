@@ -15,6 +15,7 @@ You should have received a copy of the GNU Lesser General Public License
 along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+// TODO: consider using `0x${string}` instead of `string` for HexString
 export type HexString = string;
 export type Bytes = Uint8Array | HexString;
 export type Numbers = number | bigint | string | HexString;

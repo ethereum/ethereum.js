@@ -104,14 +104,17 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	private transactionMiddleware?: TransactionMiddleware;
 
 	public constructor(
+		// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 		providerOrContext?: SupportedProviders<any> | Web3ContextInitOptions | string,
 	) {
 		if (
 			typeof providerOrContext === 'string' ||
+			// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 			isSupportedProvider(providerOrContext as SupportedProviders<any>)
 		) {
 			// @ts-expect-error disable the error: "A 'super' call must be a root-level statement within a constructor of a derived class that contains initialized properties, parameter properties, or private identifiers."
 			super({
+				// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 				provider: providerOrContext as SupportedProviders<any>,
 				registeredSubscriptions,
 			});
@@ -1921,8 +1924,8 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 			subscription instanceof LogsSubscription &&
 			name === 'logs' &&
 			typeof args === 'object' &&
-			!isNullish(args.fromBlock) &&
-			Number.isFinite(Number(args.fromBlock))
+			!isNullish((args as { fromBlock?: BlockNumberOrTag }).fromBlock) &&
+			Number.isFinite(Number((args as { fromBlock?: BlockNumberOrTag }).fromBlock))
 		) {
 			setImmediate(() => {
 				this.getPastLogs(args)

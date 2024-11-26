@@ -71,6 +71,7 @@ const intToHex = function (i: number) {
  * before merge like in kiln genesis
  * @returns genesis parameters in a `CommonOpts` compliant object
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function parseGethParams(json: any, mergeForkIdPostMerge = true) {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const {
@@ -83,6 +84,7 @@ function parseGethParams(json: any, mergeForkIdPostMerge = true) {
 		baseFeePerGas,
 	}: {
 		name: string;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		config: any;
 		difficulty: string;
 		mixHash: string;
@@ -194,7 +196,7 @@ function parseGethParams(json: any, mergeForkIdPostMerge = true) {
 	}, {});
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 	const configHardforkNames = Object.keys(config).filter(
-		// eslint-disable-next-line no-null/no-null, @typescript-eslint/no-unsafe-member-access
+		// eslint-disable-next-line no-null/no-null, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-optional-chain
 		key => forkMapRev[key] !== undefined && config[key] !== undefined && config[key] !== null,
 	);
 
@@ -250,7 +252,7 @@ function parseGethParams(json: any, mergeForkIdPostMerge = true) {
 		// Merge hardfork has to be placed before first hardfork that is dependent on merge
 		const postMergeIndex = params.hardforks.findIndex(
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-			(hf: any) => forkMap[hf.name]?.postMerge === true,
+			hf => forkMap[hf.name]?.postMerge === true,
 		);
 		if (postMergeIndex !== -1) {
 			params.hardforks.splice(postMergeIndex, 0, mergeConfig as unknown as ConfigHardfork);
@@ -272,6 +274,7 @@ function parseGethParams(json: any, mergeForkIdPostMerge = true) {
  * @param name optional chain name
  * @returns parsed params
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parseGethGenesis(json: any, name?: string, mergeForkIdPostMerge?: boolean) {
 	try {
 		if (['config', 'difficulty', 'gasLimit', 'alloc'].some(field => !(field in json))) {
@@ -282,9 +285,9 @@ export function parseGethGenesis(json: any, name?: string, mergeForkIdPostMerge?
 			json.name = name;
 		}
 		return parseGethParams(json, mergeForkIdPostMerge);
-	} catch (e: any) {
+	} catch (e) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
-		throw new Error(`Error parsing parameters file: ${e.message}`);
+		throw new Error(`Error parsing parameters file: ${(e as { message: string }).message}`);
 	}
 }
 

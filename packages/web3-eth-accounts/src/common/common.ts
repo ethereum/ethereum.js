@@ -190,6 +190,7 @@ export class Common extends EventEmitter {
 	 * @returns Common
 	 */
 	public static fromGethGenesis(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		genesisJson: any,
 		{ chain, eips, genesisHash, hardfork, mergeForkIdPostMerge }: GethConfigOpts,
 	): Common {
@@ -811,9 +812,9 @@ export class Common extends EventEmitter {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	public nextHardforkBlockOrTimestamp(_hardfork?: string | Hardfork): bigint | null {
-		const hardfork = _hardfork ?? this._hardfork;
+		const hardfork = (_hardfork as Hardfork) ?? this._hardfork;
 		const hfs = this.hardforks();
-		let hfIndex = hfs.findIndex(hf => hf.name === hardfork);
+		let hfIndex = hfs.findIndex(hf => (hf.name as Hardfork) === hardfork);
 		// If the current hardfork is merge, go one behind as merge hf is not part of these
 		// calcs even if the merge hf block is set
 		if (hardfork === Hardfork.Merge) {
@@ -842,7 +843,7 @@ export class Common extends EventEmitter {
 					: // eslint-disable-next-line no-null/no-null
 					  null;
 			return (
-				hf.name !== Hardfork.Merge &&
+				(hf.name as Hardfork) !== Hardfork.Merge &&
 				// eslint-disable-next-line no-null/no-null
 				hfTimeOrBlock !== null &&
 				hfTimeOrBlock !== undefined &&
@@ -873,7 +874,7 @@ export class Common extends EventEmitter {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	public nextHardforkBlock(_hardfork?: string | Hardfork): bigint | null {
-		const hardfork = _hardfork ?? this._hardfork;
+		const hardfork = (_hardfork as Hardfork) ?? this._hardfork;
 		let hfBlock = this.hardforkBlock(hardfork);
 		// If this is a merge hardfork with block not set, then we fallback to previous hardfork
 		// to find the nextHardforkBlock
@@ -905,7 +906,7 @@ export class Common extends EventEmitter {
 			);
 			// TypeScript can't seem to follow that the hfBlock is not null at this point
 			// eslint-disable-next-line no-null/no-null
-			return block > hfBlock! && acc === null ? block : acc;
+			return block > hfBlock && acc === null ? block : acc;
 			// eslint-disable-next-line no-null/no-null
 		}, null);
 		return nextHfBlock;
@@ -951,7 +952,7 @@ export class Common extends EventEmitter {
 				typeof blockOrTime === 'number' &&
 				blockOrTime !== 0 &&
 				blockOrTime !== prevBlockOrTime &&
-				name !== Hardfork.Merge
+				(name as Hardfork) !== Hardfork.Merge
 			) {
 				const hfBlockUint8Array = hexToBytes(blockOrTime.toString(16).padStart(16, '0'));
 				hfUint8Array = uint8ArrayConcat(hfUint8Array, hfBlockUint8Array);

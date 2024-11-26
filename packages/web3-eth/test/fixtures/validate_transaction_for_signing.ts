@@ -35,6 +35,7 @@ import {
 export const invalidTransactionObject: any[] = ['42', false, '0x0', BigInt(42), () => {}];
 
 export const validateCustomChainInfoData: [
+	// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	FormatType<Transaction, { number: FMT_NUMBER.HEX; bytes: FMT_BYTES.HEX }> | any,
 	undefined | MissingCustomChainError | MissingCustomChainIdError | ChainIdMismatchError,
 ][] = [
@@ -178,6 +179,7 @@ export const validateCustomChainInfoData: [
 ];
 
 export const validateChainInfoData: [
+	// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	FormatType<Transaction, { number: FMT_NUMBER.HEX; bytes: FMT_BYTES.HEX }> | any,
 	undefined | CommonOrChainAndHardforkError | MissingChainOrHardforkError,
 ][] = [
@@ -304,6 +306,7 @@ export const validateChainInfoData: [
 ];
 
 export const validateGasData: [
+	// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	FormatType<Transaction, { number: FMT_NUMBER.HEX; bytes: FMT_BYTES.HEX }> | any,
 	(
 		| undefined
@@ -727,6 +730,7 @@ export const validateGasData: [
 ];
 
 export const invalidNonceOrChainIdData: [
+	// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	FormatType<Transaction, { number: FMT_NUMBER.HEX; bytes: FMT_BYTES.HEX }> | any,
 	undefined | InvalidNonceOrChainIdError,
 ][] = [

@@ -206,7 +206,7 @@ export interface FeeMarketEIP1559TxData extends AccessListEIP2930TxData {
 	 * The transaction's gas price, inherited from {@link Transaction}.  This property is not used for EIP1559
 	 * transactions and should always be undefined for this specific transaction type.
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
+	// eslint-disable-next-line @typescript-eslint/ban-types, @typescript-eslint/no-redundant-type-constituents
 	gasPrice?: never | null;
 	/**
 	 * The maximum inclusion fee per gas (this fee is given to the miner)

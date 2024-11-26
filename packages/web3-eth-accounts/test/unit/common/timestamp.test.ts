@@ -60,7 +60,7 @@ describe('[Common]: Timestamp Hardfork logic', () => {
 	it('forkHash', () => {
 		const mainnet = new Common({ chain: Chain.Mainnet });
 		const hfs = mainnet.hardforks();
-		const mergeIndex = hfs.findIndex(hf => hf.name === Hardfork.Merge);
+		const mergeIndex = hfs.findIndex(hf => (hf.name as Hardfork) === Hardfork.Merge);
 		const hardforks = hfs.slice(0, mergeIndex + 1).concat([
 			// Add these hardforks as specified here:
 			//   https://github.com/ethereum/EIPs/pull/6122/files
@@ -100,7 +100,7 @@ describe('[Common]: Timestamp Hardfork logic', () => {
 	it('setForkHashes', () => {
 		const mainnet = new Common({ chain: Chain.Mainnet });
 		const hfs = mainnet.hardforks();
-		const mergeIndex = hfs.findIndex(hf => hf.name === Hardfork.Merge);
+		const mergeIndex = hfs.findIndex(hf => (hf.name as Hardfork) === Hardfork.Merge);
 		const hardforks = hfs.slice(0, mergeIndex + 1).concat([
 			// Add these hardforks as specified here:
 			//   https://github.com/ethereum/EIPs/pull/6122/files
