@@ -6,7 +6,7 @@ title: 'Web3.js Config Guide'
 
 ## Configuration parameters
 
-There is list of configuration params that can be set for modifying behavior of different functions in web3.js packages. Following is list of configuration options with details:
+There is a list of configuration parameters that can be set to modify the behavior of different functions in web3.js packages.. Following is list of configuration options with details:
 
 -   [handleRevert](/guides/web3_config/#handlerevert)
 -   [defaultAccount](/guides/web3_config/#defaultaccount)
@@ -33,7 +33,7 @@ There is list of configuration params that can be set for modifying behavior of 
 
 ## Global level Config
 
-There is option of modifying any of above-mentioned configuration parameter at global level when instantiating Web3, and it will be available to all packages.
+There is at option of modifying any of the above-mentioned configuration parameter at global level when instantiating Web3, and it will be available to all packages.
 
 ```ts
 import { Web3 } from 'web3';
