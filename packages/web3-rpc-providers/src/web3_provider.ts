@@ -141,9 +141,15 @@ export abstract class Web3ExternalProvider<
 		listener: Web3Eip1193ProviderEventCallback<string[]>,
 	): void;
 	public once(_type: string, _listener: unknown): void {
-		if (this.provider?.once)
+		if (this.provider?.once) {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			this.provider.once(_type, _listener as any);
+			this.provider.once(
+				_type,
+				_listener as
+					| Web3Eip1193ProviderEventCallback<ProviderMessage>
+					| Web3ProviderEventCallback,
+			);
+		}
 	}
 	public removeAllListeners?(_type: string): void {
 		if (this.provider?.removeAllListeners) this.provider.removeAllListeners(_type);
@@ -183,7 +189,12 @@ export abstract class Web3ExternalProvider<
 	public on(_type: unknown, _listener: unknown): void {
 		if (this.provider)
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			this.provider.on(_type as any, _listener as any);
+			this.provider.on(
+				_type as string,
+				_listener as
+					| Web3Eip1193ProviderEventCallback<ProviderMessage>
+					| Web3ProviderMessageEventCallback,
+			);
 	}
 	public removeListener(
 		type: 'disconnect',
@@ -207,7 +218,11 @@ export abstract class Web3ExternalProvider<
 	): void;
 	public removeListener(_type: unknown, _listener: unknown): void {
 		if (this.provider)
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			this.provider.removeListener(_type as any, _listener as any);
+			this.provider.removeListener(
+				_type as string,
+				_listener as
+					| Web3Eip1193ProviderEventCallback<ProviderMessage>
+					| Web3ProviderEventCallback,
+			);
 	}
 }

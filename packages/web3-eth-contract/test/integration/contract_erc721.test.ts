@@ -27,8 +27,9 @@ import {
 	signAndSendContractMethodEIP2930,
 	createNewAccount,
 	refillAccount,
+	closeOpenConnection,
 } from '../fixtures/system_test_utils';
-import { processAsync, toUpperCaseHex } from '../shared_fixtures/utils';
+import { toUpperCaseHex } from '../shared_fixtures/utils';
 
 describe('contract', () => {
 	describe('erc721', () => {
@@ -51,21 +52,25 @@ describe('contract', () => {
 			sendOptions = { from: acc.address, gas: '10000000' };
 		});
 
+		afterAll(async () => {
+			await closeOpenConnection(contract);
+		});
+
 		it('should deploy the contract', async () => {
 			await expect(contract.deploy(deployOptions).send(sendOptions)).resolves.toBeDefined();
 		});
 
 		describe('contract instance', () => {
 			let acc: { address: string; privateKey: string };
-			let acc2: { address: string; privateKey: string };
 			let pkAccount: { address: string; privateKey: string };
+
 			beforeAll(async () => {
 				acc = await createTempAccount();
 				pkAccount = await createNewAccount();
 				await refillAccount(acc.address, pkAccount.address, '20000000000000000');
 			});
+
 			beforeEach(async () => {
-				acc2 = await createTempAccount();
 				sendOptions = { from: acc.address, gas: '10000000' };
 				contractDeployed = await contract.deploy(deployOptions).send(sendOptions);
 			});
@@ -293,42 +298,47 @@ describe('contract', () => {
 
 			describeIf(isWs)('events', () => {
 				it('should emit transfer event', async () => {
-					await expect(
-						processAsync(async resolve => {
-							const event = contractDeployed.events.Transfer();
-							event.on('data', data => {
-								resolve({
-									from: toUpperCaseHex(data.returnValues.from as string),
-									to: toUpperCaseHex(data.returnValues.to as string),
-									tokenId: data.returnValues.tokenId,
-								});
+					const acc2 = await createTempAccount();
+					const event = contractDeployed.events.Transfer();
+
+					const eventPromise = new Promise((resolve, reject) => {
+						event.on('data', data => {
+							resolve({
+								from: toUpperCaseHex(data.returnValues.from as string),
+								to: toUpperCaseHex(data.returnValues.to as string),
+								tokenId: data.returnValues.tokenId,
 							});
+						});
+						event.on('error', reject);
+					});
 
-							const receipt = await contractDeployed.methods
-								.awardItem(acc2.address, 'http://my-nft-uri')
-								.send(sendOptions);
+					const receipt = await contractDeployed.methods
+						.awardItem(acc2.address, 'http://my-nft-uri')
+						.send(sendOptions);
 
-							expect(receipt.events).toBeDefined();
-							expect(receipt.events?.Transfer).toBeDefined();
-							expect(receipt.events?.Transfer.event).toBe('Transfer');
-							expect(
-								String(receipt.events?.Transfer.returnValues.from).toLowerCase(),
-							).toBe('0x0000000000000000000000000000000000000000');
-							expect(
-								String(receipt.events?.Transfer.returnValues[0]).toLowerCase(),
-							).toBe('0x0000000000000000000000000000000000000000');
-							expect(
-								String(receipt.events?.Transfer.returnValues.to).toLowerCase(),
-							).toBe(acc2.address.toLowerCase());
-							expect(
-								String(receipt.events?.Transfer.returnValues[1]).toLowerCase(),
-							).toBe(acc2.address.toLowerCase());
-						}),
-					).resolves.toEqual({
+					expect(receipt.events).toBeDefined();
+					expect(receipt.events?.Transfer).toBeDefined();
+					expect(receipt.events?.Transfer.event).toBe('Transfer');
+					expect(String(receipt.events?.Transfer.returnValues.from).toLowerCase()).toBe(
+						'0x0000000000000000000000000000000000000000',
+					);
+					expect(String(receipt.events?.Transfer.returnValues[0]).toLowerCase()).toBe(
+						'0x0000000000000000000000000000000000000000',
+					);
+					expect(String(receipt.events?.Transfer.returnValues.to).toLowerCase()).toBe(
+						acc2.address.toLowerCase(),
+					);
+					expect(String(receipt.events?.Transfer.returnValues[1]).toLowerCase()).toBe(
+						acc2.address.toLowerCase(),
+					);
+
+					await expect(eventPromise).resolves.toEqual({
 						from: '0x0000000000000000000000000000000000000000',
 						to: toUpperCaseHex(acc2.address),
 						tokenId: BigInt(0),
 					});
+
+					event.removeAllListeners();
 				});
 			});
 		});

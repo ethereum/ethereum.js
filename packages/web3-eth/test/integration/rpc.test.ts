@@ -380,10 +380,10 @@ describe('rpc', () => {
 				times: 1,
 			});
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const res: TransactionReceipt = (await web3Eth.getTransactionReceipt(
+			const res: TransactionReceipt = await web3Eth.getTransactionReceipt(
 				// TODO: add more scenarios in future release with block number
 				receipt.transactionHash as string,
-			))!;
+			);
 			validateReceipt(res);
 			expect(res?.transactionHash).toBe(receipt.transactionHash);
 		});

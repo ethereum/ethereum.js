@@ -41,6 +41,7 @@ import {
 	Eip712TypedData,
 	FMT_BYTES,
 	FMT_NUMBER,
+	FilterParams,
 } from 'web3-types';
 import { isSupportedProvider, Web3Context, Web3ContextInitOptions } from 'web3-core';
 import { TransactionNotFound } from 'web3-errors';
@@ -48,6 +49,7 @@ import { toChecksumAddress, isNullish, ethUnitMap } from 'web3-utils';
 import { ethRpcMethods } from 'web3-rpc-methods';
 
 import * as rpcMethodsWrappers from './rpc_method_wrappers.js';
+import * as filteringRpcMethodsWrappers from './filtering_rpc_method_wrappers.js';
 import { SendTransactionOptions, TransactionMiddleware } from './types.js';
 import {
 	LogsSubscription,
@@ -102,14 +104,17 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	private transactionMiddleware?: TransactionMiddleware;
 
 	public constructor(
+		// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 		providerOrContext?: SupportedProviders<any> | Web3ContextInitOptions | string,
 	) {
 		if (
 			typeof providerOrContext === 'string' ||
+			// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 			isSupportedProvider(providerOrContext as SupportedProviders<any>)
 		) {
 			// @ts-expect-error disable the error: "A 'super' call must be a root-level statement within a constructor of a derived class that contains initialized properties, parameter properties, or private identifiers."
 			super({
+				// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 				provider: providerOrContext as SupportedProviders<any>,
 				registeredSubscriptions,
 			});
@@ -272,54 +277,54 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	}
 
 	/**
- * Calculates the current Fee Data.
- * If the node supports EIP-1559, then `baseFeePerGas` and `maxPriorityFeePerGas` will be returned along with the calculated `maxFeePerGas` value.
- * `maxFeePerGas` is calculated as `baseFeePerGas` * `baseFeePerGasFactor` + `maxPriorityFeePerGas`.
- * If the node does not support EIP-1559, then the `gasPrice` will be returned and the other values will be undefined.
- *
- * @param baseFeePerGasFactor (optional) The factor to multiply the `baseFeePerGas` with when calculating `maxFeePerGas`, if the node supports EIP-1559. This can be a `bigint` for precise calculation or a `number` to support decimals. The default value is 2 (BigInt).
- * If a `number` is provided, it will be converted to `bigint` with three decimal precision.
- * @param alternativeMaxPriorityFeePerGas (optional) The alternative `maxPriorityFeePerGas` to use when calculating `maxFeePerGas`, if the node supports EIP-1559 but does not support the method `eth_maxPriorityFeePerGas`. The default value is 1 gwei.
- * @returns The current fee data.
- *
- * @example
- * web3.eth.calculateFeeData().then(console.log);
- * > {
- *     gasPrice: 20000000000n,
- *     maxFeePerGas: 60000000000n,
- *     maxPriorityFeePerGas: 20000000000n,
- *     baseFeePerGas: 20000000000n
- * }
- *
- * @example
- * // Using a `bigint` for baseFeePerGasFactor
- * web3.eth.calculateFeeData(1n).then(console.log);
- * > {
- *     gasPrice: 20000000000n,
- *     maxFeePerGas: 40000000000n,
- *     maxPriorityFeePerGas: 20000000000n,
- *     baseFeePerGas: 20000000000n
- * }
- *
- * @example
- * // Using a `number` for baseFeePerGasFactor (with decimals)
- * web3.eth.calculateFeeData(1.5).then(console.log);
- * > {
- *     gasPrice: 20000000000n,
- *     maxFeePerGas: 50000000000n,  // baseFeePerGasFactor is converted to BigInt(1.500)
- *     maxPriorityFeePerGas: 20000000000n,
- *     baseFeePerGas: 20000000000n
- * }
- *
- * @example
- * web3.eth.calculateFeeData(3n).then(console.log);
- * > {
- *     gasPrice: 20000000000n,
- *     maxFeePerGas: 80000000000n,
- *     maxPriorityFeePerGas: 20000000000n,
- *     baseFeePerGas: 20000000000n
- * }
- */
+	 * Calculates the current Fee Data.
+	 * If the node supports EIP-1559, then `baseFeePerGas` and `maxPriorityFeePerGas` will be returned along with the calculated `maxFeePerGas` value.
+	 * `maxFeePerGas` is calculated as `baseFeePerGas` * `baseFeePerGasFactor` + `maxPriorityFeePerGas`.
+	 * If the node does not support EIP-1559, then the `gasPrice` will be returned and the other values will be undefined.
+	 *
+	 * @param baseFeePerGasFactor (optional) The factor to multiply the `baseFeePerGas` with when calculating `maxFeePerGas`, if the node supports EIP-1559. This can be a `bigint` for precise calculation or a `number` to support decimals. The default value is 2 (BigInt).
+	 * If a `number` is provided, it will be converted to `bigint` with three decimal precision.
+	 * @param alternativeMaxPriorityFeePerGas (optional) The alternative `maxPriorityFeePerGas` to use when calculating `maxFeePerGas`, if the node supports EIP-1559 but does not support the method `eth_maxPriorityFeePerGas`. The default value is 1 gwei.
+	 * @returns The current fee data.
+	 *
+	 * @example
+	 * web3.eth.calculateFeeData().then(console.log);
+	 * > {
+	 *     gasPrice: 20000000000n,
+	 *     maxFeePerGas: 60000000000n,
+	 *     maxPriorityFeePerGas: 20000000000n,
+	 *     baseFeePerGas: 20000000000n
+	 * }
+	 *
+	 * @example
+	 * // Using a `bigint` for baseFeePerGasFactor
+	 * web3.eth.calculateFeeData(1n).then(console.log);
+	 * > {
+	 *     gasPrice: 20000000000n,
+	 *     maxFeePerGas: 40000000000n,
+	 *     maxPriorityFeePerGas: 20000000000n,
+	 *     baseFeePerGas: 20000000000n
+	 * }
+	 *
+	 * @example
+	 * // Using a `number` for baseFeePerGasFactor (with decimals)
+	 * web3.eth.calculateFeeData(1.5).then(console.log);
+	 * > {
+	 *     gasPrice: 20000000000n,
+	 *     maxFeePerGas: 50000000000n,  // baseFeePerGasFactor is converted to BigInt(1.500)
+	 *     maxPriorityFeePerGas: 20000000000n,
+	 *     baseFeePerGas: 20000000000n
+	 * }
+	 *
+	 * @example
+	 * web3.eth.calculateFeeData(3n).then(console.log);
+	 * > {
+	 *     gasPrice: 20000000000n,
+	 *     maxFeePerGas: 80000000000n,
+	 *     maxPriorityFeePerGas: 20000000000n,
+	 *     baseFeePerGas: 20000000000n
+	 * }
+	 */
 
 	public async calculateFeeData(
 		baseFeePerGasFactor: bigint | number = BigInt(2),
@@ -1019,19 +1024,61 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	 *   value: '0x1'
 	 * }
 	 *
-	 * const transactionHash = await web3.eth.sendTransaction(transaction);
-	 * console.log(transactionHash);
-	 * > 0xdf7756865c2056ce34c4eabe4eff42ad251a9f920a1c620c00b4ea0988731d3f
+	 * const transactionReceipt = await web3.eth.sendTransaction(transaction);
+	 * console.log(transactionReceipt);
+	 * > {
+	 *      blockHash: '0x39cee0da843293ae3136cee0de4c0803745868b6e72b7cd05fba395bffa0ee85',
+	 *      blockNumber: 6659547n,
+	 *      cumulativeGasUsed: 1029036n,
+	 *      effectiveGasPrice: 6765796845n,
+	 *      from: '0x6E599DA0bfF7A6598AC1224E4985430Bf16458a4',
+	 *      gasUsed: 21000n,
+	 *      logs: [],
+	 *      logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+	 *      status: 1n,
+	 *      to: '0x6f1df96865d09d21e8f3f9a7fba3b17a11c7c53c',
+	 *      transactionHash: '0x619de868dd73c07bd0c096adcd405c93c1e924fdf741e684a127a52324c28bb9',
+	 *      transactionIndex: 16n,
+	 *      type: 2n
+	 *}
 	 *
 	 * web3.eth.sendTransaction(transaction).then(console.log);
-	 * > 0xdf7756865c2056ce34c4eabe4eff42ad251a9f920a1c620c00b4ea0988731d3f
+	 * > {
+	 *      blockHash: '0x39cee0da843293ae3136cee0de4c0803745868b6e72b7cd05fba395bffa0ee85',
+	 *      blockNumber: 6659547n,
+	 *      cumulativeGasUsed: 1029036n,
+	 *      effectiveGasPrice: 6765796845n,
+	 *      from: '0x6E599DA0bfF7A6598AC1224E4985430Bf16458a4',
+	 *      gasUsed: 21000n,
+	 *      logs: [],
+	 *      logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+	 *      status: 1n,
+	 *      to: '0x6f1df96865d09d21e8f3f9a7fba3b17a11c7c53c',
+	 *      transactionHash: '0x619de868dd73c07bd0c096adcd405c93c1e924fdf741e684a127a52324c28bb9',
+	 *      transactionIndex: 16n,
+	 *      type: 2n
+	 *}
 	 *
 	 * web3.eth.sendTransaction(transaction).catch(console.log);
 	 * > <Some TransactionError>
 	 *
 	 * // Example using options.ignoreGasPricing = true
 	 * web3.eth.sendTransaction(transaction, undefined, { ignoreGasPricing: true }).then(console.log);
-	 * > 0xdf7756865c2056ce34c4eabe4eff42ad251a9f920a1c620c00b4ea0988731d3f
+	 * > {
+	 *      blockHash: '0x39cee0da843293ae3136cee0de4c0803745868b6e72b7cd05fba395bffa0ee85',
+	 *      blockNumber: 6659547n,
+	 *      cumulativeGasUsed: 1029036n,
+	 *      effectiveGasPrice: 6765796845n,
+	 *      from: '0x6E599DA0bfF7A6598AC1224E4985430Bf16458a4',
+	 *      gasUsed: 21000n,
+	 *      logs: [],
+	 *      logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+	 *      status: 1n,
+	 *      to: '0x6f1df96865d09d21e8f3f9a7fba3b17a11c7c53c',
+	 *      transactionHash: '0x619de868dd73c07bd0c096adcd405c93c1e924fdf741e684a127a52324c28bb9',
+	 *      transactionIndex: 16n,
+	 *      type: 2n
+	 *}
 	 * ```
 	 *
 	 *
@@ -1040,24 +1087,24 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	 * ```ts
 	 * web3.eth.sendTransaction(transaction).on('sending', transactionToBeSent => console.log(transactionToBeSent));
 	 * > {
-	 *    from: '0x6E599DA0bfF7A6598AC1224E4985430Bf16458a4',
-	 *    to: '0x6f1DF96865D09d21e8f3f9a7fbA3b17A11c7C53C',
-	 *    value: '0x1',
-	 *    gasPrice: '0x77359400',
-	 *    maxPriorityFeePerGas: undefined,
-	 *    maxFeePerGas: undefined
+	 *      from: '0x6E599DA0bfF7A6598AC1224E4985430Bf16458a4',
+	 *      to: '0x6f1DF96865D09d21e8f3f9a7fbA3b17A11c7C53C',
+	 *      value: '0x1',
+	 *      gasPrice: '0x77359400',
+	 *      maxPriorityFeePerGas: undefined,
+	 *      maxFeePerGas: undefined
 	 * }
 	 * ```
 	 * - `sent`
 	 * ```ts
 	 * web3.eth.sendTransaction(transaction).on('sent', sentTransaction => console.log(sentTransaction));
 	 * > {
-	 *    from: '0x6E599DA0bfF7A6598AC1224E4985430Bf16458a4',
-	 *    to: '0x6f1DF96865D09d21e8f3f9a7fbA3b17A11c7C53C',
-	 *    value: '0x1',
-	 *    gasPrice: '0x77359400',
-	 *    maxPriorityFeePerGas: undefined,
-	 *    maxFeePerGas: undefined
+	 *      from: '0x6E599DA0bfF7A6598AC1224E4985430Bf16458a4',
+	 *      to: '0x6f1DF96865D09d21e8f3f9a7fbA3b17A11c7C53C',
+	 *      value: '0x1',
+	 *      gasPrice: '0x77359400',
+	 *      maxPriorityFeePerGas: undefined,
+	 *      maxFeePerGas: undefined
 	 * }
 	 * ```
 	 * - `transactionHash`
@@ -1088,8 +1135,8 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	 * ```ts
 	 * web3.eth.sendTransaction(transaction).on('confirmation', confirmation => console.log(confirmation));
 	 * > {
-	 *     confirmations: 1n,
-	 *     receipt: {
+	 *      confirmations: 1n,
+	 *      receipt: {
 	 *         transactionHash: '0xb4a3a35ae0f3e77ef0ff7be42010d948d011b21a4e341072ee18717b67e99ab8',
 	 *         transactionIndex: 0n,
 	 *         blockNumber: 5n,
@@ -1103,8 +1150,8 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 	 *         status: 1n,
 	 *         effectiveGasPrice: 2000000000n,
 	 *         type: 0n
-	 *     },
-	 *     latestBlockHash: '0xb57fbe6f145cefd86a305a9a024a4351d15d4d39607d7af53d69a319bc3b5548'
+	 *      },
+	 *      latestBlockHash: '0xb57fbe6f145cefd86a305a9a024a4351d15d4d39607d7af53d69a319bc3b5548'
 	 * }
 	 * ```
 	 * - `error`
@@ -1877,8 +1924,8 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 			subscription instanceof LogsSubscription &&
 			name === 'logs' &&
 			typeof args === 'object' &&
-			!isNullish(args.fromBlock) &&
-			Number.isFinite(Number(args.fromBlock))
+			!isNullish((args as { fromBlock?: BlockNumberOrTag }).fromBlock) &&
+			Number.isFinite(Number((args as { fromBlock?: BlockNumberOrTag }).fromBlock))
 		) {
 			setImmediate(() => {
 				this.getPastLogs(args)
@@ -1915,5 +1962,144 @@ export class Web3Eth extends Web3Context<Web3EthExecutionAPI, RegisteredSubscrip
 			// eslint-disable-next-line
 			notClearSyncing ? Web3Eth.shouldClearSubscription : undefined,
 		);
+	}
+
+	/**
+	 * Creates a filter in the node, to notify when new pending transactions arrive. To check if the state has changed.
+	 *
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) Specifies how the return data should be formatted.
+	 * @returns A filter id.
+	 *
+	 * ```ts
+	 * web3.eth.createNewPendingTransactionFilter().then(console.log);
+	 * > 1n
+	 *
+	 * web3.eth.createNewPendingTransactionFilter({ number: FMT_NUMBER.HEX , bytes: FMT_BYTES.HEX }).then(console.log);
+	 * > "0x1"
+	 * ```
+	 */
+	public async createNewPendingTransactionFilter<
+		ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT,
+	>(returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat) {
+		return filteringRpcMethodsWrappers.createNewPendingTransactionFilter(this, returnFormat);
+	}
+
+	/**
+	 * Creates a filter object, based on filter options, to notify when the state changes (logs)
+	 *
+	 * @param filter A {@link FilterParams} object containing the filter properties.
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) Specifies how the return data should be formatted.
+	 * @returns A filter id.
+	 *
+	 * ```ts
+	 * web3.eth.createNewFilter(filterParams).then(console.log);
+	 * > 1n
+	 *
+	 * web3.eth.createNewFilter(filterParams, { number: FMT_NUMBER.HEX , bytes: FMT_BYTES.HEX }).then(console.log);
+	 * > "0x1"
+	 * ```
+	 */
+	public async createNewFilter<ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT>(
+		filter: FilterParams,
+		returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat,
+	) {
+		return filteringRpcMethodsWrappers.createNewFilter(this, filter, returnFormat);
+	}
+
+	/**
+	 * Creates a filter in the node, to notify when a new block arrives.
+	 *
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) Specifies how the return data should be formatted.
+	 * @returns A filter id.
+	 *
+	 * ```ts
+	 * web3.eth.createNewBlockFilter().then(console.log);
+	 * > 1n
+	 *
+	 * web3.eth.createNewBlockFilter({ number: FMT_NUMBER.HEX , bytes: FMT_BYTES.HEX }).then(console.log);
+	 * > "0x1"
+	 * ```
+	 */
+	public async createNewBlockFilter<
+		ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT,
+	>(returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat) {
+		return filteringRpcMethodsWrappers.createNewBlockFilter(this, returnFormat);
+	}
+
+	/**
+	 * Uninstalls a filter with given id. Should always be called when watch is no longer needed.
+	 *
+	 * @param filterIdentifier ({@link Numbers} filter id
+	 * @returns true if the filter was successfully uninstalled, otherwise false.
+	 *
+	 * ```ts
+	 * web3.eth.uninstallFilter(123).then(console.log);
+	 * > true
+	 *
+	 * web3.eth.uninstallFilter('0x123').then(console.log);
+	 * > true
+	 *
+	 * web3.eth.uninstallFilter(12n).then(console.log);
+	 * > true
+	 * ```
+	 */
+	public async uninstallFilter(filterIdentifier: Numbers) {
+		return filteringRpcMethodsWrappers.uninstallFilter(this, filterIdentifier);
+	}
+
+	/**
+	 *  Polling method for a filter, which returns an array of logs which occurred since last poll.
+	 *
+	 * @param filterIdentifier ({@link Numbers} filter id
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) - Specifies how the return data from the call should be formatted.
+	 * @returns {@link FilterResultsAPI}, an array of {@link Log} objects.
+	 *
+	 * ```ts
+	 * web3.eth.getFilterChanges(123).then(console.log);
+	 * > [{
+	 *       data: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       topics: ['0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7', '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385']
+	 *       logIndex: 0n,
+	 *       transactionIndex: 0n,
+	 *       transactionHash: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       blockHash: '0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7',
+	 *       blockNumber: 1234n,
+	 *       address: '0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe'
+	 *   },
+	 *   {...}]
+	 */
+	public async getFilterChanges<ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT>(
+		filterIdentifier: Numbers,
+		returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat,
+	) {
+		return filteringRpcMethodsWrappers.getFilterChanges(this, filterIdentifier, returnFormat);
+	}
+
+	/**
+	 *  Returns an array of all logs matching filter with given id.
+	 *
+	 * @param filterIdentifier ({@link Numbers} filter id
+	 * @param returnFormat ({@link DataFormat} defaults to {@link DEFAULT_RETURN_FORMAT}) - Specifies how the return data from the call should be formatted.
+	 * @returns {@link FilterResultsAPI}, an array of {@link Log} objects.
+	 *
+	 * ```ts
+	 * web3.eth.getFilterLogs(123).then(console.log);
+	 * > [{
+	 *       data: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       topics: ['0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7', '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385']
+	 *       logIndex: 0n,
+	 *       transactionIndex: 0n,
+	 *       transactionHash: '0x7f9fade1c0d57a7af66ab4ead79fade1c0d57a7af66ab4ead7c2c2eb7b11a91385',
+	 *       blockHash: '0xfd43ade1c09fade1c0d57a7af66ab4ead7c2c2eb7b11a91ffdd57a7af66ab4ead7',
+	 *       blockNumber: 1234n,
+	 *       address: '0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe'
+	 *   },
+	 *   {...}]
+	 */
+	public async getFilterLogs<ReturnFormat extends DataFormat = typeof DEFAULT_RETURN_FORMAT>(
+		filterIdentifier: Numbers,
+		returnFormat: ReturnFormat = this.defaultReturnFormat as ReturnFormat,
+	) {
+		return filteringRpcMethodsWrappers.getFilterLogs(this, filterIdentifier, returnFormat);
 	}
 }

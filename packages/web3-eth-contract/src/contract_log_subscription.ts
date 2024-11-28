@@ -145,8 +145,10 @@ export class ContractLogsSubscription extends Web3Subscription<
 			returnFormat?: DataFormat;
 		},
 	) {
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		super(args, options as any);
+		super(
+			args,
+			options as { subscriptionManager: Web3SubscriptionManager; returnFormat?: DataFormat },
+		);
 
 		this.address = args.address;
 		this.topics = args.topics;

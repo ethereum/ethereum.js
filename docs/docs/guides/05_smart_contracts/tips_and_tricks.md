@@ -39,7 +39,7 @@ The Solidity code:
 
 pragma solidity >=0.8.20 <0.9.0;
 
-contract TestOverlading {
+contract TestOverloading {
 	function funcWithParamsOverloading(uint256 userId) public pure returns (string memory) {
 		return "called for the parameter with the type 'uint256'";
 	}
@@ -138,6 +138,6 @@ Multiple methods found that are compatible with the given inputs. Found 2 compat
 
 Future releases of web3.js, specifically version 5.x, will replace the warning with an error whenever multiple methods match a call without explicit overloading. This aims to foster greater precision in method invocation.
 
-### Key Takeaway for function overlading: Method Specification
+### Key Takeaway for function overloading: Method Specification
 
 When working with overloaded smart contract methods, it's imperative to specify the intended method by appending its parameter types within parentheses, such as `funcWithParamsOverloading(address)` versus `funcWithParamsOverloading(uint256)`. This ensures the accuracy of method invocation, leading to more efficient and clearer contract interactions.

@@ -21,6 +21,7 @@ import {
 	Web3PromiEvent,
 	Web3ConfigEvent,
 	Web3SubscriptionManager,
+	Web3SubscriptionConstructor,
 } from 'web3-core';
 import {
 	ContractExecutionError,
@@ -128,9 +129,11 @@ type ContractBoundMethod<
 	Method extends ContractMethod<Abi> = ContractMethod<Abi>,
 > = (
 	...args: Abi extends undefined
-		? any[]
+		? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		  any[]
 		: Method['Inputs'] extends never
-		? any[]
+		? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		  any[]
 		: Method['Inputs']
 ) => Method['Abi']['stateMutability'] extends 'payable' | 'pure'
 	? PayableMethodObject<Method['Inputs'], Method['Outputs']>
@@ -737,7 +740,7 @@ export class Contract<Abi extends ContractAbi>
 	 * ```
 	 */
 	public clone() {
-		let newContract: Contract<any>;
+		let newContract: Contract<Abi>;
 		if (this.options.address) {
 			newContract = new Contract<Abi>(
 				[...this._jsonInterface, ...this._errorsInterface] as unknown as Abi,
@@ -930,12 +933,12 @@ export class Contract<Abi extends ContractAbi>
 		param2?: Omit<Filter, 'address'> | ReturnFormat,
 		param3?: ReturnFormat,
 	): Promise<(string | EventLog)[]> {
-		const eventName = typeof param1 === 'string' ? param1 : ALL_EVENTS;
+		const eventName: string = typeof param1 === 'string' ? param1 : ALL_EVENTS;
 
 		const options =
 			// eslint-disable-next-line no-nested-ternary
 			typeof param1 !== 'string' && !isDataFormat(param1)
-				? param1
+				? (param1 as Omit<Filter, 'address'>)
 				: !isDataFormat(param2)
 				? param2
 				: {};
@@ -955,7 +958,7 @@ export class Contract<Abi extends ContractAbi>
 				  ) as AbiEventFragment & { signature: string });
 
 		if (!abi) {
-			throw new Web3ContractError(`Event ${eventName} not found.`);
+			throw new Web3ContractError(`Event ${String(eventName)} not found.`);
 		}
 
 		const { fromBlock, toBlock, topics, address } = encodeEventABI(
@@ -1059,11 +1062,11 @@ export class Contract<Abi extends ContractAbi>
 
 				// make constant and payable backwards compatible
 				abi.constant =
-					abi.stateMutability === 'view' ??
-					abi.stateMutability === 'pure' ??
+					abi.stateMutability === 'view' ||
+					abi.stateMutability === 'pure' ||
 					abi.constant;
 
-				abi.payable = abi.stateMutability === 'payable' ?? abi.payable;
+				abi.payable = abi.stateMutability === 'payable' || abi.payable;
 				this._overloadedMethodAbis.set(abi.name, [
 					...(this._overloadedMethodAbis.get(abi.name) ?? []),
 					abi,
@@ -1438,10 +1441,11 @@ export class Contract<Abi extends ContractAbi>
 					jsonInterface: this._jsonInterface,
 				},
 				{
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 					subscriptionManager: this.subscriptionManager as Web3SubscriptionManager<
 						unknown,
-						any
+						{
+							[key: string]: Web3SubscriptionConstructor<unknown>;
+						}
 					>,
 					returnFormat,
 				},

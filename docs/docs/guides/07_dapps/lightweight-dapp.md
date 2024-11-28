@@ -1,0 +1,276 @@
+---
+sidebar_position: 4
+sidebar_label: 'Tutorial: Lightweight dApp Development'
+---
+
+# Lightweight dApp Development
+
+In web development, the term "bundle size" refers to the aggregate size of all the files that are delivered to a user when they visit a web page. Large bundle sizes result in long loading times, poor performance, and overall bad user experience. A web application with a relatively small bundle size can be described as "lightweight".
+
+The [modular design](/#packages--plugins) of Web3.js promotes lightweight dApp development by allowing developers to include only the capabilities that are required for their dApp. Furthermore, Web3.js makes use of modern [JavaScript module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) syntax to facilitate [tree shaking](https://developer.mozilla.org/en-US/docs/Glossary/Tree_shaking), which is a powerful mechanism for removing unused code that would otherwise be included in a web application.
+
+This guide will apply lightweight dApp development techniques to the minimal React template provided by the [`create-web3js-dapp` command-line utility](https://github.com/web3/create-web3js-dapp). [Webpack Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) will be used to analyze the impact of these techniques.
+
+## Overview
+
+Here is a high-level overview of the steps in this tutorial:
+
+1. Review prerequisites
+2. Initialize a new Web3.js dApp and add dependencies
+3. Configure and analyze a development build
+4. Analyze the built-in React production build
+5. Use only necessary packages and analyze the result
+
+:::tip
+If you encounter any issues while following this guide or have any questions, don't hesitate to seek assistance. Our friendly community is ready to help you out! Join our [Discord](https://discord.gg/pb3U4zE8ca) server and head to the **#web3js-general** channel to connect with other developers and get the support you need.
+:::
+
+## Step 1: Prerequisites
+
+This tutorial assumes basic familiarity with the command line as well as familiarity with React and [Node.js](https://nodejs.org/). Before starting this tutorial, ensure that Node.js and its package manager, npm, are installed.
+
+```console
+$: node -v
+# your version may be different, but it's best to use the current stable version
+v20.14.0
+$: npm -v
+10.8.2
+```
+
+## Step 2: Initialize a New Web3.js dApp and Add Dependencies
+
+Use `create-web3js-dapp` to initialize a new Web3.js dApp and navigate into the new project directory:
+
+```console
+npm install -g create-web3js-dapp
+npx create-web3js-dapp --framework react --template minimal
+cd web3js-react-dapp-min
+```
+
+Add the dependencies that will be used to generate the development bundle and analyze the bundle size:
+
+```console
+npm i -D @babel/core @babel/preset-env \
+         @babel/preset-react @babel/preset-typescript \
+         babel-loader html-webpack-plugin webpack \
+         webpack-bundle-analyzer webpack-cli
+```
+
+## Step 3: Configure and Analyze a Development Build
+
+For the purposes of this guide, a baseline development build will be configured to allow comparison with React's built-in production build. This initial development build will not make use of the modular design of Web3.js nor will it make use of tree shaking.
+
+The first step to configuring the development build is to create a template HTML file. Create a new file in the project's root directory called `index.html` and populate it with the following text:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Web3.js Lightweight dApp Development</title>
+	</head>
+	<body>
+		<div id="root"></div>
+	</body>
+</html>
+```
+
+Next, create a file called `webpack.config.js` and add the following code:
+
+```js
+const path = require('path');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+module.exports = {
+	mode: 'development',
+	entry: path.join(__dirname, 'src', 'index.tsx'),
+	module: {
+		rules: [
+			{
+				exclude: /node_modules/,
+				test: /\.(ts|tsx)$/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: [
+							'@babel/preset-env',
+							['@babel/preset-react', { runtime: 'automatic' }],
+							'@babel/preset-typescript',
+						],
+					},
+				},
+			},
+		],
+	},
+	output: {
+		path: path.join(__dirname, 'dist'),
+		filename: 'index_bundle.js',
+	},
+	resolve: {
+		extensions: ['.ts', '.tsx'],
+	},
+	plugins: [new HtmlWebpackPlugin({ template: 'index.html' }), new BundleAnalyzerPlugin()],
+};
+```
+
+To generate the development build and display the output of Webpack Bundle Analyzer, execute the following command:
+
+```console
+npx webpack
+```
+
+This will open a new browser tab that displays the output of Webpack Bundle Analyzer. Although the exact bundle size will vary, at the time of writing this guide, the size of the bundle generated by the development build is about **3.3 megabytes**. After reviewing the output of Webpack Bundle Analyzer, close the browser tab and use `Ctrl + C` to cancel the Webpack process.
+
+## Step 4: Analyze the Built-In React Production Build
+
+Next, write a script to analyze React's built-in production build. Create a file called `analyze.js` and add the following code:
+
+```js
+const webpack = require('webpack');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+process.env.NODE_ENV = 'production';
+
+const config = require('react-scripts/config/webpack.config')('production');
+config.plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 8089 }));
+
+webpack(config, (err, stats) => {
+	if (err || stats.hasErrors()) {
+		console.error(err);
+	}
+});
+```
+
+To generate the built-in production build and display the output of Webpack Bundle Analyzer, execute the following command:
+
+```console
+node analyze.js
+```
+
+At the time of writing this guide, the size of the bundle generated by the built-in production build is about **593 kilobytes**, which is about 2% the size of the initial development build. The reduction in bundle size is due to techniques such as tree shaking. After reviewing the output of Webpack Bundle Analyzer, close the browser tab and use `Ctrl + C` to cancel the Webpack process.
+
+## Step 5: Use Only Necessary Packages and Analyze the Result
+
+The minimal template dApp that was created by `create-web3js-dapp` uses the umbrella `web3` package, which is useful for development purposes but results in a relatively large bundle size. In fact, the capabilities of the minimal React template only require the `web3-eth` and `web3-types` packages. To replace the umbrella `web3` package with `web3-eth` and `web3-types`, execute the following commands:
+
+```console
+npm uninstall web3
+npm i web3-eth web3-types
+```
+
+Next, update the template dApp to remove references to the umbrella `web3` package and make use of the `web3-eth` and `web3-types` packages. Replace the contents of `src/react-app-env.d.ts` with the following:
+
+```ts
+/// <reference types="react-scripts" />
+
+import type { EIP1193Provider, Web3APISpec } from 'web3-types';
+
+declare global {
+	interface Window {
+		ethereum?: EIP1193Provider<Web3APISpec>;
+	}
+}
+```
+
+Replace the contents of `src/web3/web3-service.ts` with:
+
+```ts
+import { Web3Eth } from 'web3-eth';
+import type { EIP1193Provider, Web3APISpec } from 'web3-types';
+
+const provider: EIP1193Provider<Web3APISpec> | undefined = window.ethereum;
+if (provider !== undefined) {
+	provider.on('chainChanged', () => window.location.reload());
+}
+
+const web3: Web3Eth = provider === undefined ? new Web3Eth() : new Web3Eth(provider);
+const Web3Service = { provider, web3 };
+
+export default Web3Service;
+```
+
+Finally, replace the contents of `src/App.tsx` with the following (only the highlighted line has changed):
+
+```ts
+import { useState } from 'react';
+
+import Web3Service from './web3/web3-service';
+
+function App() {
+	const hasProvider = Web3Service.provider !== undefined;
+	const [chainId, setChainId] = useState<bigint>(0n);
+	if (hasProvider) {
+		// highlight-next-line
+		Web3Service.web3.getChainId().then(setChainId);
+	}
+
+	return (
+		<main>
+			<h1>Web3.js + React Minimal dApp Template</h1>
+			<div>
+				This is a sample project that demonstrates using{' '}
+				<a href="https://web3js.org/">Web3.js</a> with the{' '}
+				<a href="https://react.dev/">React</a> front-end framework.
+				<ul>
+					<li>
+						<a href="https://docs.web3js.org/">Web3.js Docs</a>
+					</li>
+					<li>
+						<a href="https://react.dev/learn">React Docs</a>
+					</li>
+				</ul>
+				Learn more about this project and its design by referring to the{' '}
+				<a href="https://github.com/web3/create-web3js-dapp/blob/main/templates/min/web3js-react-dapp-min/README.md">
+					GitHub README
+				</a>
+				.
+			</div>
+			{!hasProvider ? (
+				<>
+					<h2>Install a Wallet</h2>
+					<div>Install a wallet browser extension:</div>
+					<ul>
+						<li>
+							<a href="https://www.enkrypt.com/download.html">Enkrypt</a>
+						</li>
+						<li>
+							<a href="https://www.exodus.com/download/">Exodus</a>
+						</li>
+						<li>
+							<a href="https://metamask.io/download/">MetaMask</a>
+						</li>
+						<li>
+							<a href="https://trustwallet.com/download">Trust Wallet</a>
+						</li>
+					</ul>
+				</>
+			) : (
+				<>
+					<h2>Network Details</h2>
+					<div>Chain ID: {chainId.toString()}</div>
+				</>
+			)}
+			<br />
+			<i>
+				This project was bootstrapped with{' '}
+				<a href="https://github.com/facebook/create-react-app">Create React App</a>.
+			</i>
+		</main>
+	);
+}
+
+export default App;
+```
+
+Finally, use the `analyze.js` script to analyze the size of the bundle generated by the updated production build by running the following command:
+
+```console
+node analyze.js
+```
+
+At the time of writing this guide, the size of the final bundle is **467 kilobytes**, or about 75% the size of the bundle before using only the necessary packages.
+
+## Conclusion
+
+Managing bundle size is one of the most important considerations for web developers. Web3.js is designed to give developers control over bundle size. The modular design of Web3.js facilitates the selective use of only required dependencies. The use of JavaScript modules allows build tools like Webpack to remove unnecessary code through tree shaking. Understanding and deploying these techniques allows Web3.js developers to create dApps that are feature-rich while still being lightweight and performance-preserving.

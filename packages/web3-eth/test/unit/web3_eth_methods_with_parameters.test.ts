@@ -16,9 +16,10 @@ along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
 import { ethRpcMethods } from 'web3-rpc-methods';
 
-import { TransactionInfoAPI } from 'web3-types';
+import { DEFAULT_RETURN_FORMAT, FMT_NUMBER, TransactionInfoAPI } from 'web3-types';
 import Web3Eth, { TransactionMiddleware } from '../../src/index';
 import * as rpcMethodWrappers from '../../src/rpc_method_wrappers';
+import * as filteringRpcMethodWrappers from '../../src/filtering_rpc_method_wrappers';
 import {
 	getBlockNumberValidData,
 	getChainIdValidData,
@@ -26,6 +27,7 @@ import {
 	getHashRateValidData,
 } from '../fixtures/rpc_methods_wrappers';
 import {
+	createNewFilterData,
 	estimateGasValidData,
 	getBalanceValidData,
 	getBlockTransactionCountValidData,
@@ -33,6 +35,8 @@ import {
 	getBlockValidData,
 	getCodeValidData,
 	getFeeHistoryValidData,
+	getFilterLogsData,
+	getFilterLogsDataWithformater,
 	getPastLogsValidData,
 	getProofValidData,
 	getStorageAtValidData,
@@ -46,12 +50,14 @@ import {
 	submitWorkValidData,
 	tx,
 	txReceipt,
+	uninstallFilterData,
 } from '../fixtures/web3_eth_methods_with_parameters';
-
 import { testData as createAccessListTestData } from './rpc_method_wrappers/fixtures/createAccessList';
+import { mockRpcResponse } from './rpc_method_wrappers/fixtures/get_logs';
 
 jest.mock('web3-rpc-methods');
 jest.mock('../../src/rpc_method_wrappers');
+jest.mock('../../src/filtering_rpc_method_wrappers');
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 jest.spyOn(rpcMethodWrappers, 'getTransaction').mockResolvedValue(tx as TransactionInfoAPI);
 jest.spyOn(rpcMethodWrappers, 'getTransactionReceipt').mockResolvedValue(txReceipt);
@@ -389,6 +395,153 @@ describe('web3_eth_methods_with_parameters', () => {
 							...input,
 						);
 					});
+				});
+			});
+
+			describe('getFilterLogs', () => {
+				it.each(getFilterLogsDataWithformater)(
+					'should call getFilterLogs with correct parameters for filterIdentifier %s',
+					async (filterIdentifier, returnFormat) => {
+						(filteringRpcMethodWrappers.getFilterLogs as jest.Mock).mockResolvedValue(
+							mockRpcResponse,
+						);
+
+						const result = await web3Eth.getFilterLogs(filterIdentifier, returnFormat);
+
+						expect(filteringRpcMethodWrappers.getFilterLogs).toHaveBeenCalledWith(
+							web3Eth,
+							filterIdentifier,
+							returnFormat,
+						);
+
+						expect(result).toEqual(mockRpcResponse);
+					},
+				);
+
+				it.each(getFilterLogsData)(
+					'should use default return format if none is provided for filterIdentifier %s',
+					async filterIdentifier => {
+						(filteringRpcMethodWrappers.getFilterLogs as jest.Mock).mockResolvedValue(
+							mockRpcResponse,
+						);
+
+						const result = await web3Eth.getFilterLogs(filterIdentifier);
+
+						expect(filteringRpcMethodWrappers.getFilterLogs).toHaveBeenCalledWith(
+							web3Eth,
+							filterIdentifier,
+							{ ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT },
+						);
+
+						expect(result).toEqual(mockRpcResponse);
+					},
+				);
+			});
+
+			describe('getFilterChanges', () => {
+				it.each(getFilterLogsDataWithformater)(
+					'should call getFilterChanges with correct parameters for filterIdentifier %s',
+					async (filterIdentifier, returnFormat) => {
+						(
+							filteringRpcMethodWrappers.getFilterChanges as jest.Mock
+						).mockResolvedValue(mockRpcResponse);
+
+						const result = await web3Eth.getFilterChanges(
+							filterIdentifier,
+							returnFormat,
+						);
+
+						expect(filteringRpcMethodWrappers.getFilterChanges).toHaveBeenCalledWith(
+							web3Eth,
+							filterIdentifier,
+							returnFormat,
+						);
+
+						expect(result).toEqual(mockRpcResponse);
+					},
+				);
+
+				it.each(getFilterLogsData)(
+					'should use default return format if none is provided for filterIdentifier %s',
+					async filterIdentifier => {
+						await web3Eth.getFilterChanges(filterIdentifier);
+
+						expect(filteringRpcMethodWrappers.getFilterChanges).toHaveBeenCalledWith(
+							web3Eth,
+							filterIdentifier,
+							{ ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT },
+						);
+					},
+				);
+			});
+
+			describe('uninstallFilter', () => {
+				it.each(uninstallFilterData)(
+					'should call uninstallFilter with correct parameters for filterIdentifier %s',
+					async filterIdentifier => {
+						await web3Eth.uninstallFilter(filterIdentifier);
+
+						expect(filteringRpcMethodWrappers.uninstallFilter).toHaveBeenCalledWith(
+							web3Eth,
+							filterIdentifier,
+						);
+					},
+				);
+			});
+
+			describe('createNewBlockFilter', () => {
+				it('should call createNewBlockFilter with correct parameters and return format', async () => {
+					const returnFormat = { ...DEFAULT_RETURN_FORMAT, number: FMT_NUMBER.BIGINT };
+					await web3Eth.createNewBlockFilter(returnFormat);
+
+					expect(filteringRpcMethodWrappers.createNewBlockFilter).toHaveBeenCalledWith(
+						web3Eth,
+						returnFormat,
+					);
+				});
+
+				it('should use default return format if none is provided', async () => {
+					await web3Eth.createNewBlockFilter();
+
+					expect(filteringRpcMethodWrappers.createNewBlockFilter).toHaveBeenCalledWith(
+						web3Eth,
+						web3Eth.defaultReturnFormat, // Expecting default return format
+					);
+				});
+			});
+
+			describe('createNewFilter', () => {
+				it.each(createNewFilterData)(
+					'should call createNewFilter with correct parameters for filter %s',
+					async (filterParams, returnFormat) => {
+						(filteringRpcMethodWrappers.createNewFilter as jest.Mock).mockResolvedValue(
+							'0x1',
+						);
+
+						await web3Eth.createNewFilter(filterParams, returnFormat);
+
+						expect(filteringRpcMethodWrappers.createNewFilter).toHaveBeenCalledWith(
+							web3Eth,
+							filterParams,
+							returnFormat,
+						);
+					},
+				);
+
+				it('should use default return format if none is provided', async () => {
+					const filterParams = { fromBlock: 123, toBlock: 456 }; // Example filter params
+
+					(filteringRpcMethodWrappers.createNewFilter as jest.Mock).mockResolvedValue(
+						'0x2',
+					);
+
+					await web3Eth.createNewFilter(filterParams);
+
+					expect(filteringRpcMethodWrappers.createNewFilter).toHaveBeenCalledWith(
+						web3Eth,
+						filterParams,
+						web3Eth.defaultReturnFormat, // Expecting default return format
+					);
 				});
 			});
 		});

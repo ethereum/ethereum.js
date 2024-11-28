@@ -253,6 +253,7 @@ export const flattenTypes = (
  * returns a string
  */
 export const jsonInterfaceMethodToString = (json: AbiFragment): string => {
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 	if (isAbiErrorFragment(json) || isAbiEventFragment(json) || isAbiFunctionFragment(json)) {
 		if (json.name?.includes('(')) {
 			return json.name;

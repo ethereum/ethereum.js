@@ -24,6 +24,7 @@ import {
 	getSystemTestBackend,
 	describeIf,
 	BACKEND,
+	closeOpenConnection,
 } from '../fixtures/system_test_utils';
 
 describe('contract errors', () => {
@@ -47,8 +48,10 @@ describe('contract errors', () => {
 
 		const sendOptionsLocal = { from: acc.address, gas: '10000000' };
 		deployedContract = await contract.deploy(deployOptions).send(sendOptionsLocal);
+	});
 
-		contract.setProvider(getSystemTestProvider());
+	afterAll(async () => {
+		await closeOpenConnection(contract);
 	});
 
 	describeIf(getSystemTestBackend() === BACKEND.GETH)('Test EIP-838 Error Codes', () => {

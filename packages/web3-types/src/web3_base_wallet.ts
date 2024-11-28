@@ -60,26 +60,29 @@ export type KeyStore = {
 	address: string;
 };
 
+export type SignatureObject = {
+	messageHash: string;
+	r: string;
+	s: string;
+	v: string;
+};
+
+export type SignTransactionResult = SignatureObject & {
+	rawTransaction: string;
+	transactionHash: string;
+};
+
+export type SignResult = SignatureObject & {
+	message?: string;
+	signature: string;
+};
+
 export interface Web3BaseWalletAccount {
 	[key: string]: unknown;
 	readonly address: string;
 	readonly privateKey: string;
-	readonly signTransaction: (tx: Transaction) => Promise<{
-		readonly messageHash: HexString;
-		readonly r: HexString;
-		readonly s: HexString;
-		readonly v: HexString;
-		readonly rawTransaction: HexString;
-		readonly transactionHash: HexString;
-	}>;
-	readonly sign: (data: Record<string, unknown> | string) => {
-		readonly messageHash: HexString;
-		readonly r: HexString;
-		readonly s: HexString;
-		readonly v: HexString;
-		readonly message?: string;
-		readonly signature: HexString;
-	};
+	readonly signTransaction: (tx: Transaction) => Promise<SignTransactionResult>;
+	readonly sign: (data: Record<string, unknown> | string) => SignResult;
 	readonly encrypt: (password: string, options?: Record<string, unknown>) => Promise<KeyStore>;
 }
 

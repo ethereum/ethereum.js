@@ -241,3 +241,7 @@ Documentation:
 -   fix `padRight` validation failure on large `uint` (#7265)
 
 ## [Unreleased]
+
+### Fixed
+
+-   Make `fromWei` return "0" when input is `0` (#7387)

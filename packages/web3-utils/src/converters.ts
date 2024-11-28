@@ -546,7 +546,7 @@ export const fromWei = (number: Numbers, unit: EtherUnits | number): string => {
 	const fraction = zeroPaddedValue.slice(-numberOfZerosInDenomination).replace(/\.?0+$/, '');
 
 	if (integer === '') {
-		return `0.${fraction}`;
+		return fraction ? `0.${fraction}` : '0';
 	}
 
 	if (fraction === '') {

@@ -103,7 +103,10 @@ export class AccessListEIP2930Transaction extends BaseTransaction<AccessListEIP2
 			throw new Error('Invalid serialized tx input: must be array');
 		}
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		return AccessListEIP2930Transaction.fromValuesArray(values as any, opts);
+		return AccessListEIP2930Transaction.fromValuesArray(
+			values as AccessListEIP2930ValuesArray,
+			opts,
+		);
 	}
 
 	/**
@@ -337,7 +340,7 @@ export class AccessListEIP2930Transaction extends BaseTransaction<AccessListEIP2
 				bigIntToUnpaddedUint8Array(r!),
 				bigIntToUnpaddedUint8Array(s!),
 			);
-		} catch (e: any) {
+		} catch (e) {
 			const msg = this._errorMsg('Invalid Signature');
 			throw new Error(msg);
 		}

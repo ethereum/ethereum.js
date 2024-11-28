@@ -48,7 +48,7 @@ class TestProvider extends SocketProvider<any, any, any> {
 	protected _sendToSocket(_payload: Web3APIPayload<EthExecutionAPI, any>): void {}
 	// eslint-disable-next-line
 	protected _parseResponses(_event: { data: string } | undefined): JsonRpcResponse[] {
-		if (!_event || !_event.data) {
+		if (!_event?.data) {
 			return [];
 		}
 		const returnValues: JsonRpcResponse[] = [];

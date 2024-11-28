@@ -150,6 +150,7 @@ export class Eip838ExecutionError extends Web3ContractError {
 		super(error.message || 'Error');
 
 		this.name = ('name' in error && error.name) || this.constructor.name;
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 		this.stack = ('stack' in error && error.stack) || undefined;
 		this.code = error.code;
 

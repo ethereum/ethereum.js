@@ -18,6 +18,7 @@ export const processAsync = async (
 	processFunc: (
 		resolver: (value: unknown) => void,
 		reject: (value: unknown) => void,
+		// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 	) => Promise<unknown> | unknown,
 ) =>
 	new Promise((resolve, reject) => {

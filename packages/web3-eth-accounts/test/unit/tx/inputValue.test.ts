@@ -248,7 +248,7 @@ test('[Invalid Access Lists]', () => {
 						// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 						tx = tx.sign(hexToBytes('42'.repeat(32)));
 					}
-				} catch (e: any) {
+				} catch (e) {
 					tx = TransactionFactory.fromTxData({ type: txType });
 					if (signed) {
 						// eslint-disable-next-line @typescript-eslint/no-unsafe-call

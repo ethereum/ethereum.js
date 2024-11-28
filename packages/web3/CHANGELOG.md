@@ -530,4 +530,40 @@ Documentation:
 
 -   fix `padRight` validation failure on large `uint` (#7265)
 
+## [4.15.0]
+
+### Added
+
+#### web3-eth
+
+-   `createNewPendingTransactionFilter` , `createNewFilter` , `createNewBlockFilter` , `uninstallFilter` , `getFilterChanges` and `getFilterLogs` are exported from `Web3Eth` and `filtering_rpc_method_wrappers` (#7353)
+
+#### web3-eth-abi
+
+-   added `decodeFunctionCall` and `decodeFunctionReturn`. (#7345)
+
+#### web3-eth-accounts
+
+-   `hashMessage` now has a new optional param `skipPrefix` with a default value of `false`. A new function `signRaw` was added to sign a message without prefix. (#7346)
+
+#### web3-rpc-providers
+
+-   PublicNodeProvider was added (#7322)
+
+#### web3-types
+
+-   `FilterParams` type added (#7353)
+
+### Fixed
+
+#### web3-eth-contracts
+
+-   Fix Contract methods input param type any[] (#7340)
+
 ## [Unreleased]
+
+### Fixed
+
+#### web3
+
+-   Export Web3Account, Wallet and signature related types. (#7374)

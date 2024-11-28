@@ -17,13 +17,11 @@ along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 import { Web3Eth } from 'web3-eth';
 import { FMT_BYTES, FMT_NUMBER } from 'web3-types';
 import { Contract, createContractAddress } from '../../src';
-import { sleep } from '../shared_fixtures/utils';
 import { ERC721TokenAbi, ERC721TokenBytecode } from '../shared_fixtures/build/ERC721Token';
 import { GreeterBytecode, GreeterAbi } from '../shared_fixtures/build/Greeter';
 import { DeployRevertAbi, DeployRevertBytecode } from '../shared_fixtures/build/DeployRevert';
 import {
 	getSystemTestProvider,
-	isWs,
 	createTempAccount,
 	createNewAccount,
 	signTxAndSendEIP2930,
@@ -46,16 +44,22 @@ describe('contract', () => {
 
 		beforeAll(() => {
 			web3Eth = new Web3Eth(getSystemTestProvider());
+			contract = new Contract(GreeterAbi, undefined, {
+				provider: getSystemTestProvider(),
+			});
 			deployOptions = {
 				data: GreeterBytecode,
 				arguments: ['My Greeting'],
 			};
 		});
+
+		afterAll(async () => {
+			await closeOpenConnection(web3Eth);
+			await closeOpenConnection(contract);
+		});
+
 		beforeEach(async () => {
 			acc = await createTempAccount();
-			contract = new Contract(GreeterAbi, undefined, {
-				provider: getSystemTestProvider(),
-			});
 			sendOptions = { from: acc.address, gas: '1000000' };
 		});
 
@@ -71,9 +75,6 @@ describe('contract', () => {
 			expect(deployedContract.options.address).toEqual(address);
 		});
 
-		afterAll(async () => {
-			await closeOpenConnection(web3Eth);
-		});
 		describe('local account', () => {
 			it.each([signTxAndSendEIP1559, signTxAndSendEIP2930])(
 				'should deploy the contract %p',
@@ -112,9 +113,11 @@ describe('contract', () => {
 			);
 
 			it('should return estimated gas of contract constructor %p', async () => {
-				const estimatedGas = await new Contract(GreeterAbi, undefined, {
+				const testContract = new Contract(GreeterAbi, undefined, {
 					provider: getSystemTestProvider(),
-				})
+				});
+
+				const estimatedGas = await testContract
 					.deploy({
 						data: GreeterBytecode,
 						arguments: ['My Greeting'],
@@ -123,21 +126,27 @@ describe('contract', () => {
 						from: acc.address,
 						gas: '1000000',
 					});
+
 				expect(typeof estimatedGas).toBe('bigint');
 				expect(Number(estimatedGas)).toBeGreaterThan(0);
+
+				await closeOpenConnection(testContract);
 			});
+
 			it.each(Object.values(FMT_NUMBER))(
 				'should return estimated gas of contract constructor %p with correct type',
 				async format => {
 					const returnFormat = { number: format as FMT_NUMBER, bytes: FMT_BYTES.HEX };
 
-					const estimatedGas = await new Contract(
+					const testContract = new Contract(
 						GreeterAbi,
 						{
 							provider: getSystemTestProvider(),
 						},
 						returnFormat,
-					)
+					);
+
+					const estimatedGas = await testContract
 						.deploy({
 							data: GreeterBytecode,
 							arguments: ['My Greeting'],
@@ -146,14 +155,20 @@ describe('contract', () => {
 							from: acc.address,
 							gas: '1000000',
 						});
+
 					expect(typeof estimatedGas).toBe(mapFormatToType[format as string]);
 					expect(Number(estimatedGas)).toBeGreaterThan(0);
+
+					await closeOpenConnection(testContract);
 				},
 			);
+
 			it('should return estimated gas of contract constructor without arguments', async () => {
-				const estimatedGas = await new Contract(ERC721TokenAbi, undefined, {
+				const testContract = new Contract(ERC721TokenAbi, undefined, {
 					provider: getSystemTestProvider(),
-				})
+				});
+
+				const estimatedGas = await testContract
 					.deploy({
 						data: ERC721TokenBytecode,
 						arguments: [],
@@ -162,8 +177,12 @@ describe('contract', () => {
 						from: acc.address,
 						gas: '10000000',
 					});
+
 				expect(Number(estimatedGas)).toBeGreaterThan(0);
+
+				await closeOpenConnection(testContract);
 			});
+
 			it('should return estimated gas of contract method', async () => {
 				const contractDeployed = await contract.deploy(deployOptions).send(sendOptions);
 
@@ -173,8 +192,10 @@ describe('contract', () => {
 						gas: '1000000',
 						from: acc.address,
 					});
+
 				expect(Number(estimatedGas)).toBeGreaterThan(0);
 			});
+
 			it('should return estimated gas of contract method without arguments', async () => {
 				const contractDeployed = await contract.deploy(deployOptions).send(sendOptions);
 
@@ -193,15 +214,19 @@ describe('contract', () => {
 		});
 
 		it('should deploy the contract if data is provided at initiation', async () => {
-			contract = new Contract(GreeterAbi, {
+			const testContract = new Contract(GreeterAbi, {
 				provider: getSystemTestProvider(),
 				data: GreeterBytecode,
 				from: acc.address,
 				gas: '1000000',
 			});
-			const deployedContract = await contract.deploy({ arguments: ['Hello World'] }).send();
+			const deployedContract = await testContract
+				.deploy({ arguments: ['Hello World'] })
+				.send();
 
 			expect(deployedContract).toBeDefined();
+
+			await closeOpenConnection(testContract);
 		});
 
 		it('should return instance of the contract', async () => {
@@ -218,26 +243,18 @@ describe('contract', () => {
 
 		it('should emit the "confirmation" event', async () => {
 			const confirmationHandler = jest.fn();
-			contract.setConfig({ transactionConfirmationBlocks: 1 });
-			await contract
+			contract.setConfig({ transactionConfirmationBlocks: 2 });
+
+			const promiEvent = contract
 				.deploy(deployOptions)
 				.send(sendOptions)
 				.on('confirmation', confirmationHandler);
 
-			// Wait for some time to allow the transaction to be processed
-			await sleep(500);
-
-			// Deploy once again to trigger block mining to trigger confirmation
-			// We can send any other transaction as well
-			await contract.deploy(deployOptions).send(sendOptions);
+			// Deploy the contract
+			await promiEvent;
 
 			await sendFewSampleTxs(3);
 
-			// Wait for some fraction of time to trigger the handler
-			// On http we use polling to get confirmation, so wait a bit longer
-			await sleep(isWs ? 500 : 2000);
-
-			// eslint-disable-next-line jest/no-standalone-expect
 			expect(confirmationHandler).toHaveBeenCalled();
 		});
 
@@ -345,6 +362,8 @@ describe('contract', () => {
 					'Error happened while trying to execute a function inside a smart contract',
 				);
 			}
+
+			await closeOpenConnection(revert);
 		});
 	});
 });

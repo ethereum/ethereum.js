@@ -168,8 +168,10 @@ export async function rejectIfBlockTimeout(
 		(provider as Web3BaseProvider).supportsSubscriptions?.() &&
 		web3Context.enableExperimentalFeatures.useSubscriptionWhenCheckingBlockTimeout
 	) {
+		// eslint-disable-next-line @typescript-eslint/no-floating-promises
 		callingRes = await resolveBySubscription(web3Context, starterBlockNumber, transactionHash);
 	} else {
+		// eslint-disable-next-line @typescript-eslint/no-floating-promises
 		callingRes = resolveByPolling(web3Context, starterBlockNumber, transactionHash);
 	}
 	return callingRes;

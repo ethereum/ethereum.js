@@ -27,8 +27,9 @@ import {
 	refillAccount,
 	signAndSendContractMethodEIP1559,
 	signAndSendContractMethodEIP2930,
+	closeOpenConnection,
 } from '../fixtures/system_test_utils';
-import { processAsync, toUpperCaseHex } from '../shared_fixtures/utils';
+import { toUpperCaseHex } from '../shared_fixtures/utils';
 
 const initialSupply = BigInt('5000000000');
 
@@ -49,6 +50,10 @@ describe('contract', () => {
 			};
 		});
 
+		afterAll(async () => {
+			await closeOpenConnection(contract);
+		});
+
 		it('should deploy the contract', async () => {
 			const acc = await createTempAccount();
 			const sendOptionsLocal = { from: acc.address, gas: '10000000' };
@@ -61,6 +66,7 @@ describe('contract', () => {
 			let contractDeployed: Contract<typeof ERC20TokenAbi>;
 			let pkAccount: { address: string; privateKey: string };
 			let mainAcc: { address: string; privateKey: string };
+
 			const prepareForTransfer = async (value: string) => {
 				const tempAccount = await createTempAccount();
 				await contractDeployed.methods.transfer(pkAccount.address, value).send(sendOptions);
@@ -74,6 +80,11 @@ describe('contract', () => {
 				sendOptions = { from: mainAcc.address, gas: '10000000' };
 				contractDeployed = await contract.deploy(deployOptions).send(sendOptions);
 			});
+
+			afterAll(async () => {
+				await closeOpenConnection(contractDeployed);
+			});
+
 			describe('methods', () => {
 				it('should return the name', async () => {
 					expect(await contractDeployed.methods.name().call()).toBe('Gold');
@@ -150,6 +161,7 @@ describe('contract', () => {
 					expect(await catchErrorPromise).toBeDefined();
 					expect(catchError).toBe(true);
 				});
+
 				it('send tokens from the account that does not have tokens', async () => {
 					const tempAccount = await createTempAccount();
 					const test = await createNewAccount({
@@ -186,7 +198,7 @@ describe('contract', () => {
 						const value = BigInt(10);
 						const tempAccount = await prepareForTransfer(value.toString());
 						await signAndSendContractMethod(
-							contract.provider,
+							contractDeployed.provider,
 							contractDeployed.options.address as string,
 							contractDeployed.methods.transfer(tempAccount.address, value),
 							pkAccount.privateKey,
@@ -291,22 +303,21 @@ describe('contract', () => {
 			describeIf(isWs)('events', () => {
 				it('should emit transfer event', async () => {
 					const acc2 = await createTempAccount();
-					await expect(
-						processAsync(async resolve => {
-							const event = contractDeployed.events.Transfer();
-							event.on('data', data => {
-								resolve({
-									from: toUpperCaseHex(data.returnValues.from as string),
-									to: toUpperCaseHex(data.returnValues.to as string),
-									value: data.returnValues.value,
-								});
+					const event = contractDeployed.events.Transfer();
+					const eventPromise = new Promise((resolve, reject) => {
+						event.on('data', data => {
+							resolve({
+								from: toUpperCaseHex(data.returnValues.from as string),
+								to: toUpperCaseHex(data.returnValues.to as string),
+								value: data.returnValues.value,
 							});
+						});
+						event.on('error', reject);
+					});
 
-							await contractDeployed.methods
-								.transfer(acc2.address, '100')
-								.send(sendOptions);
-						}),
-					).resolves.toEqual({
+					await contractDeployed.methods.transfer(acc2.address, '100').send(sendOptions);
+
+					await expect(eventPromise).resolves.toEqual({
 						from: toUpperCaseHex(sendOptions.from as string),
 						to: toUpperCaseHex(acc2.address),
 						value: BigInt(100),

@@ -63,20 +63,19 @@ export const requestEIP6963Providers = async (): Promise<EIP6963ProviderResponse
 			);
 		}
 
-		window.addEventListener(
-			Eip6963EventName.eip6963announceProvider as any,
-			(event: EIP6963AnnounceProviderEvent) => {
-				eip6963ProvidersMap.set(event.detail.info.uuid, event.detail);
+		window.addEventListener(Eip6963EventName.eip6963announceProvider, ((
+			event: EIP6963AnnounceProviderEvent,
+		) => {
+			eip6963ProvidersMap.set(event.detail.info.uuid, event.detail);
 
-				const newEvent: EIP6963ProvidersMapUpdateEvent = new CustomEvent(
-					web3ProvidersMapUpdated,
-					{ detail: eip6963ProvidersMap },
-				);
+			const newEvent: EIP6963ProvidersMapUpdateEvent = new CustomEvent(
+				web3ProvidersMapUpdated,
+				{ detail: eip6963ProvidersMap },
+			);
 
-				window.dispatchEvent(newEvent);
-				resolve(eip6963ProvidersMap);
-			},
-		);
+			window.dispatchEvent(newEvent);
+			resolve(eip6963ProvidersMap);
+		}) as EventListenerOrEventListenerObject);
 
 		window.dispatchEvent(new Event(Eip6963EventName.eip6963requestProvider));
 	});
@@ -89,5 +88,8 @@ export const onNewProviderDiscovered = (
 			'window object not available, EIP-6963 is intended to be used within a browser',
 		);
 	}
-	window.addEventListener(web3ProvidersMapUpdated as any, callback);
+	window.addEventListener(
+		web3ProvidersMapUpdated,
+		callback as EventListenerOrEventListenerObject,
+	);
 };

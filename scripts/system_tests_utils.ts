@@ -165,7 +165,8 @@ export const closeOpenConnection = async (web3Context: Web3Context) => {
 		(web3Context.provider as unknown as Web3BaseProvider).disconnect();
 
 		await new Promise(resolve => {
-			setTimeout(resolve, 1000);
+			const timer = setTimeout(resolve, 1);
+			timer.unref();
 		});
 	}
 };
@@ -250,8 +251,9 @@ export const createNewAccount = async (config?: {
 			const url = getSystemTestProviderUrl();
 			const web3 = new Web3(url);
 			web3.registerPlugin(new HardhatPlugin());
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 			await web3.hardhat.impersonateAccount(acc.address);
-			// await impersonateAccount(acc.address);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 			await web3.hardhat.setBalance(acc.address, web3.utils.toHex('100000000'));
 			await closeOpenConnection(web3);
 		} else {
@@ -275,6 +277,7 @@ export const createNewAccount = async (config?: {
 			const url = getSystemTestProviderUrl();
 			const web3 = new Web3(url);
 			web3.registerPlugin(new HardhatPlugin());
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
 			await web3.hardhat.setBalance(acc.address, web3.utils.toHex('100000000'));
 			await closeOpenConnection(web3);
 		} else {
@@ -308,8 +311,7 @@ export const createTempAccount = async (
 	if (
 		config.unlock === false ||
 		config.refill === false ||
-		config.privateKey ||
-		config.password
+		(config.privateKey ?? config.password)
 	) {
 		return createNewAccount({
 			unlock: config.unlock ?? true,
@@ -365,7 +367,9 @@ export const signTxAndSendEIP1559 = async (
 		from: acc.address,
 	};
 
-	return web3.eth.sendTransaction(txObj, undefined, { checkRevertBeforeSending: false });
+	return web3.eth.sendTransaction(txObj, undefined, {
+		checkRevertBeforeSending: false,
+	});
 };
 
 export const signTxAndSendEIP2930 = async (
@@ -383,7 +387,9 @@ export const signTxAndSendEIP2930 = async (
 		from: acc.address,
 	};
 
-	return web3.eth.sendTransaction(txObj, undefined, { checkRevertBeforeSending: false });
+	return web3.eth.sendTransaction(txObj, undefined, {
+		checkRevertBeforeSending: false,
+	});
 };
 
 export const signAndSendContractMethodEIP1559 = async (
@@ -418,7 +424,7 @@ export const signAndSendContractMethodEIP2930 = async (
 
 export const createLocalAccount = async (web3: Web3) => {
 	const account = web3.eth.accounts.create();
-	await refillAccount((await createTempAccount()).address, account.address, '10000000000000000');
+	await refillAccount((await createTempAccount()).address, account.address, '100000000000000000');
 	web3.eth.accounts.wallet.add(account);
 	return account;
 };
@@ -515,8 +521,8 @@ export const waitForCondition = async (
 	logicFunc: () => Promise<void> | void,
 	maxIterations = 10, // 10 times
 	duration = 8000, // check after each 8 seconds
-): Promise<void> => {
-	return new Promise<void>((resolve, reject) => {
+): Promise<void> =>
+	new Promise<void>((resolve, reject) => {
 		let iterations = 0;
 		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		const interval = setInterval(async () => {
@@ -540,4 +546,3 @@ export const waitForCondition = async (
 			}
 		}, duration);
 	});
-};

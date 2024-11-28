@@ -2756,7 +2756,7 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 #### web3-eth
 
-- Allow specifying percentage based factor in Web3Eth.calculateFeeData Param baseFeePerGasFactor #7332
+-   Allow specifying percentage based factor in Web3Eth.calculateFeeData Param baseFeePerGasFactor #7332
 
 ### Fixed
 
@@ -2768,9 +2768,17 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 -   fix `padRight` validation failure on large `uint` (#7265)
 
-## [Unreleased]
+## [4.15.0]
 
 ### Added
+
+#### web3-eth
+
+-   `createNewPendingTransactionFilter` , `createNewFilter` , `createNewBlockFilter` , `uninstallFilter` , `getFilterChanges` and `getFilterLogs` are exported from `Web3Eth` and `filtering_rpc_method_wrappers` (#7353)
+
+#### web3-eth-abi
+
+-   added `decodeFunctionCall` and `decodeFunctionReturn`. (#7345)
 
 #### web3-eth-accounts
 
@@ -2779,3 +2787,29 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 #### web3-rpc-providers
 
 -   PublicNodeProvider was added (#7322)
+
+#### web3-types
+
+-   `FilterParams` type added (#7353)
+
+#### web3-account-abstraction
+
+-   RC release
+
+### Fixed
+
+#### web3-eth-contracts
+
+-   Fix Contract methods input param type any[] (#7340)
+
+## [Unreleased]
+
+### Fixed
+
+#### web3
+
+-   Export Web3Account, Wallet and signature related types. (#7374)
+
+#### web3-utils
+
+-   Make `fromWei` return "0" when input is `0` (#7387)
