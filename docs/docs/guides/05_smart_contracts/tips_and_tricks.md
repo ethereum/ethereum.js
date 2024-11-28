@@ -105,7 +105,7 @@ const ABI = [
 	// Calling the function that accepts an address
 	const res1 = await contract.methods['funcWithParamsOverloading(address)'](userAddress).call();
 
-	// Calling the function that accepts a uint256
+	// Calling the function that accepts an uint256
 	const res2 = await contract.methods['funcWithParamsOverloading(uint256)'](userId).call();
 })();
 ```
