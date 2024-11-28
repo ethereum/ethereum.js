@@ -18,8 +18,6 @@ import { HttpProviderOptions } from 'web3-providers-http';
 import { Web3ExternalProvider } from './web3_provider.js';
 import { Network, Transport, SocketOptions } from './types.js';
 
-const PUBLIC_ALCHEMY_TOKEN = 'YrPw6SWb20vJDRFkhWq8aKnTQ8JRNRHM'
-
 function isValid(value: string): boolean {
 	return !!(value && value.trim().length > 0);
 }
@@ -98,7 +96,7 @@ export class AlchemyProvider extends Web3ExternalProvider {
 	// eslint-disable-next-line class-methods-use-this
 	public getRPCURL(network: Network, transport: Transport, _token: string, _host: string) {
 		const host = AlchemyProvider.networkStringMap[network] || '';
-		const token = isValid(_token) ? _token : PUBLIC_ALCHEMY_TOKEN;
+		const token = isValid(_token) ? _token : `alchemy-${network.toLowerCase()}-token`;
 
 		if (!host) {
 			throw new Error('Network info not available.');
