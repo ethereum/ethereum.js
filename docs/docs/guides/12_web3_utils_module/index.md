@@ -199,7 +199,7 @@ console.log(web3.utils.soliditySha3({ type: 'string', value: 'hello web3' }));
 console.log(web3.utils.toChecksumAddress('0xa3286628134bad128faeef82f44e99aa64085c94'));
 // 0xA3286628134baD128faeef82F44e99AA64085C94
 
-// passing an wrong address
+// passing a wrong address
 console.log(web3.utils.toChecksumAddress('0xa3286628134bad128faeef82f44e99aa64085c9'));
 // InvalidAddressError: Invalid value given "0xa286628134bad128faeef82f44e99aa64085c94". Error: invalid ethereum address.
 ```
