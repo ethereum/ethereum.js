@@ -674,7 +674,7 @@ async function test() {
 
 ## Conclusion
 
-In this tutorial, we learned how to use different methods provied by the `web3-eth` package.
+In this tutorial, we learned how to use different methods provided by the `web3-eth` package.
 
 With this knowledge, you can start experimenting with the Ethereum blockchain. Keep in mind that this is just the beginning, and there is a lot more to learn about Ethereum and web3.js. So keep exploring and building, and have fun!
 
