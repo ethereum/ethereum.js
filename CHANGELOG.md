@@ -2501,7 +2501,7 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 #### web3-validator
 
 -   The JSON schema conversion process now correctly assigns an id when the `abi.name` is not available, for example, in the case of public mappings. (#6981)
--   `browser` entry point that was pointing to an non-existing bundle file was removed from `package.json` (#7015)
+-   `browser` entry point that was pointing to a non-existing bundle file was removed from `package.json` (#7015)
 
 #### web3-core
 
@@ -2792,17 +2792,13 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 
 -   `FilterParams` type added (#7353)
 
-#### web3-account-abstraction
-
--   RC release
-
 ### Fixed
 
 #### web3-eth-contracts
 
 -   Fix Contract methods input param type any[] (#7340)
 
-## [Unreleased]
+## [4.16.0]
 
 ### Fixed
 
@@ -2813,3 +2809,58 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 #### web3-utils
 
 -   Make `fromWei` return "0" when input is `0` (#7387)
+
+### Removed
+
+#### web3-eth-accounts
+
+-   Move signature related types to web3-types. Re-export them for backwards compatibility. (#7374)
+
+### Added
+
+#### web3-types
+
+-   Add signature related types. (#7374)
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-eth-accounts
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-core
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-account-abstraction
+
+-   RC release
+
+#### web3-errors
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-eth
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-eth-contract
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-rpc-providers
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-utils
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+#### web3-eth-abi
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+## [Unreleased]

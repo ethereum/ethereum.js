@@ -199,7 +199,7 @@ console.log(web3.utils.soliditySha3({ type: 'string', value: 'hello web3' }));
 console.log(web3.utils.toChecksumAddress('0xa3286628134bad128faeef82f44e99aa64085c94'));
 // 0xA3286628134baD128faeef82F44e99AA64085C94
 
-// passing an wrong address
+// passing a wrong address
 console.log(web3.utils.toChecksumAddress('0xa3286628134bad128faeef82f44e99aa64085c9'));
 // InvalidAddressError: Invalid value given "0xa286628134bad128faeef82f44e99aa64085c94". Error: invalid ethereum address.
 ```
@@ -246,7 +246,7 @@ console.log(web3.utils.compareBlockNumbers(2, 2));
 
 ### Formatting
 
-The [`format` function](/api/web3-utils/function/format) in the `web3-utils` package is used to convert data between equivalent formats. For example, bytes that are represented as a [`Uint8Array` type](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) can be formatted as a hexademical string (e.g. `"0xdd"`) or primitive JavaScript [`Number` types](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) can be formatted as [`BigInt` types](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt). The `format` function expects two required parameters, `schema` and `data`, and accepts a third optional parameter, `returnFormat`. The `schema` parameter is used to describe how the data should be interpreted. The `data` parameter represents the data that is to be formatted. The [`returnFormat` parameter](#return-formats) specifies how the data should be formatted.
+The [`format` function](/api/web3-utils/function/format) in the `web3-utils` package is used to convert data between equivalent formats. For example, bytes that are represented as a [`Uint8Array` type](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array) can be formatted as a hexadecimal string (e.g. `"0xdd"`) or primitive JavaScript [`Number` types](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number) can be formatted as [`BigInt` types](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt). The `format` function expects two required parameters, `schema` and `data`, and accepts a third optional parameter, `returnFormat`. The `schema` parameter is used to describe how the data should be interpreted. The `data` parameter represents the data that is to be formatted. The [`returnFormat` parameter](#return-formats) specifies how the data should be formatted.
 
 Here are some example that demonstrate the use of the `format` function:
 
