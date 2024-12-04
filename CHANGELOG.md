@@ -2864,3 +2864,9 @@ If there are any bugs, improvements, optimizations or any new feature proposal f
 -   Updated Typescript version 4 -> 5 (#7272)
 
 ## [Unreleased]
+
+### Added
+
+#### web3-validator
+
+-   Add web3-validator dist path for react-native builds (#7416)
