@@ -5,7 +5,7 @@ commit_msg_file=$1
 commit_msg=$(cat "$commit_msg_file")
 
 if echo "$commit_msg" | grep -qE "(--skip-changelog|--sc)$"; then
-    echo "true" > .husky/.skip-changelog
+    echo "Skipping changelog check..."
 else
-    echo "false" > .husky/.skip-changelog
+    npm run check-changelog
 fi

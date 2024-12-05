@@ -2,9 +2,3 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npx lint-staged
-
-if [ "$(cat .husky/.skip-changelog 2>/dev/null)" = "true" ]; then
-    echo "Skipping changelog check..."
-else
-    npm run check-changelog
-fi
