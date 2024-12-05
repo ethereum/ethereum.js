@@ -3,7 +3,7 @@
 
 npx lint-staged
 
-if [ "$SKIP_CHANGELOG" = "true" ]; then
+if [ "$(cat .husky/.skip-changelog 2>/dev/null)" = "true" ]; then
     echo "Skipping changelog check..."
 else
     npm run check-changelog
