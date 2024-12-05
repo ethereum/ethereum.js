@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+commit_msg_file=$1
+commit_msg=$(cat "$commit_msg_file")
+
+if echo "$commit_msg" | grep -qE "(--skip-changelog|--sc)$"; then
+    export SKIP_CHANGELOG=true
+fi
