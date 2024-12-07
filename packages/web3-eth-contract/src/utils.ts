@@ -243,6 +243,27 @@ export const createContractAddress = (from: Address, nonce: Numbers): Address =>
 	return toChecksumAddress(contractAddress);
 };
 
+
+/**
+ * 
+ * @param from The sender’s own Etherium {@link Address}
+ * @param salt A {@link HexString} arbitrary value provided by the sender
+ * @param initCode The to-be-deployed contract’s {@link HexString} bytecode
+ * @returns An etherium {@link Address} of the future contract in checksum address format
+ * @throws An {@link InvalidAddressError} if the provided address ('from') is invalid
+ * @throws An {@link InvalidMethodParamsError} if the provided ('salt') or ('initCode') is invalid
+ * @example
+ * ```ts
+ * const from = "0x1234567890abcdef1234567890abcdef12345678"
+ * const salt = "0x0000000000000000000000000000000000000000000000000000000000000001"
+ * const initCode = "0x6080604052348015600f57600080fd5b5060......"
+ * 
+ * const res = create2ContractAddress(from, salt, initCode)
+ * 
+ * console.log(res)
+ *  > 0x5FbDB2315678afecb367f032d93F642f64180aa3
+ * ```
+ */
 export const create2ContractAddress = (
 	from: Address,
 	salt: HexString,
