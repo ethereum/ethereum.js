@@ -4,6 +4,7 @@
 		"forceConsistentCasingInFileNames": true,
 		"target": "es2016",
 		"moduleResolution": "node",
+		"module": "ESNext",
 		"newLine": "lf",
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitReturns": true,
