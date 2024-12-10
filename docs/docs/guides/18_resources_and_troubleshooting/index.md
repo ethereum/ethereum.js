@@ -62,6 +62,12 @@ yarn add react-native-quick-crypto
 cd ios && pod install
 ```
 
+3. Ensure that Web3.js is imported using the default import, as using a named import does not work:
+
+```bash
+import Web3 from 'web3';
+```
+
 ## Resources
 
 ### [Web3.js v4 course](https://www.youtube.com/watch?v=3ZO_t-Kyr1g&list=PLPn3rQCo3XrP4LbQcOyyHQR8McV7w3HZT)
