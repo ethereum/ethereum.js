@@ -53,7 +53,7 @@ yarn add web3-account-abstraction
 | test:unit        | Uses `jest` to run tests under `/test/unit`        |
 
 [docs]: https://docs.web3js.org/
-[repo]: https://github.com/web3/web3.js/tree/4.x/tools/web3-account-abstraction
+[repo]: https://github.com/web3/web3.js/tree/4.x/packages/web3-account-abstraction
 [npm-image]: https://img.shields.io/github/package-json/v/web3/web3.js/4.x?filename=tools%2Fweb3-account-abstraction%2Fpackage.json
 [npm-url]: https://npmjs.org/package/web3-account-abstraction
 [downloads-image]: https://img.shields.io/npm/dm/web3-account-abstraction?label=npm%20downloads

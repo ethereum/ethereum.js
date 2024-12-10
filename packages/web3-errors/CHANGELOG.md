@@ -184,4 +184,10 @@ Documentation:
 
 -   Added optional `statusCode` property of response in ResponseError.
 
+## [1.3.1]
+
+### Added
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
 ## [Unreleased]

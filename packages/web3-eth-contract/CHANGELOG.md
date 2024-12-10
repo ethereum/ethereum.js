@@ -410,4 +410,10 @@ Documentation:
 
 -   Fix Contract methods input param type any[] (#7340)
 
+## [4.7.2]
+
+### Added
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
 ## [Unreleased]

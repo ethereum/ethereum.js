@@ -8,35 +8,45 @@ If you face any issues while contributing or want any type of support, we encour
 
 ## Prerequisites
 
-- [NodeJS](https://nodejs.org/) (LTS)
-- [Yarn](https://yarnpkg.com/)
+-   [NodeJS](https://nodejs.org/) (LTS)
+-   [Yarn](https://yarnpkg.com/)
 
 ## Contributing to the docs
+
+> [!NOTE]
+> Contributions that only address relatively minor typographical errors are not accepted. If you believe you have identified an important typographical error that should be addressed, [please open an Issue](https://github.com/web3/web3.js/issues/new?assignees=&labels=Documentation&projects=&template=issue-template.md&title=[Typo]).
 
 1. **Fork the docs:** Start by forking our repository to your GitHub account.
 
 2. **Clone the repo:** Clone the forked repository to your local machine using the following command:
+
 ```bash
 git clone https://github.com/your-username/web3.js.git
 ```
+
 3. **Create a Branch:** Create a new branch for your changes with a descriptive name.
-    **NOTE: The branch name must include the issue number (if there is no issue created for your contribution, please create one).**
+   **NOTE: The branch name must include the issue number (if there is no issue created for your contribution, please create one).**
+
 ```bash
 git checkout -b issue-name-1234
 ```
+
 4. **Navigate to the docs folder:** `cd web3.js/docs/docs`
 
-5. **Install dependencies:** 
+5. **Install dependencies:**
+
 ```bash
 yarn
 ```
+
 6. **Make your changes:**...
 
 7. Check changes in the local environment: Run the command `yarn start` and you'll see a local environment in `localhost:3000` with the documents.
 
-8. **Commit your changes:** `git add .` and `git commit -m 'descriptive msg'` 
+8. **Commit your changes:** `git add .` and `git commit -m 'descriptive msg'`
 
 9. **Push your changes:**
+
 ```bash
 git push origin branch-name
 ```
@@ -96,4 +106,3 @@ Emergency releases are allowed to shorten waiting periods depending on the sever
 There is precedent set for this in the 1.2.6 release (see [#3351](https://github.com/ethereum/web3.js/pull/3351)), where the consensus view was to make the smallest change necessary to address the emergency while waiving the `rc` process (meaning many existing additions to master were excluded).
 
 This topic is under further org-wide discussion at [ethereum/js-organization#6](https://github.com/ethereum/js-organization/issues/6).
-

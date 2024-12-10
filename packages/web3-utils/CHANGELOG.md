@@ -240,8 +240,14 @@ Documentation:
 
 -   fix `padRight` validation failure on large `uint` (#7265)
 
-## [Unreleased]
+## [4.3.3]
 
 ### Fixed
 
 -   Make `fromWei` return "0" when input is `0` (#7387)
+
+### Added
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
+## [Unreleased]

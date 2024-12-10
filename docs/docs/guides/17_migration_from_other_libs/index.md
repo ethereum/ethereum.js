@@ -326,7 +326,7 @@ In web3.js:
 const web3 = new Web3(provider);
 const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
 
-// If the method was only to read form the Blockchain:
+// If the method was only to read from the blockchain:
 const result = await contract.methods.someFunction().call();
 // Or, if the method would need a transaction to be sent:
 const result = await contract.methods.someFunction().send();

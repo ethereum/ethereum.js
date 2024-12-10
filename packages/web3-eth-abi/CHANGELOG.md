@@ -200,4 +200,10 @@ Documentation:
 
 -   added `decodeFunctionCall` and `decodeFunctionReturn`. (#7345)
 
+## [4.4.1]
+
+### Added
+
+-   Updated Typescript version 4 -> 5 (#7272)
+
 ## [Unreleased]

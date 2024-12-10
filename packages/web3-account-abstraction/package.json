@@ -1,6 +1,6 @@
 {
 	"name": "web3-account-abstraction",
-	"version": "0.1.0-rc.0",
+	"version": "1.0.0-rc.0",
 	"description": "Web3 account abstraction package",
 	"main": "./lib/commonjs/index.js",
 	"module": "./lib/esm/index.js",
@@ -56,10 +56,10 @@
 		"typescript": "^5.5.4"
 	},
 	"dependencies": {
-		"web3-core": "^4.7.0",
-		"web3-eth-abi": "^4.4.0",
-		"web3-types": "^1.9.0",
-		"web3-utils": "^4.3.2",
+		"web3-core": "^4.7.1",
+		"web3-eth-abi": "^4.4.1",
+		"web3-types": "^1.10.0",
+		"web3-utils": "^4.3.3",
 		"web3-validator": "^2.0.6"
 	}
 }
