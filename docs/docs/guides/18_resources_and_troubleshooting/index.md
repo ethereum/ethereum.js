@@ -44,6 +44,30 @@ Additional Info:
 
 [Facebook/React-native Issue #28492](https://github.com/facebook/react-native/issues/28492#issuecomment-824698934)
 
+### TypeError: Cannot read property 'prototype' of undefined, js engine: hermes
+
+This error occurs when trying to use Web3.js with React Native. To solve this error, use [the `react-native-quick-crypto` package](https://www.npmjs.com/package/react-native-quick-crypto).
+
+**Resolution Steps:**
+
+1. Install `react-native-quick-crypto` as a dependency:
+
+```bash
+yarn add react-native-quick-crypto
+```
+
+2. Set up `react-native-quick-crypto`:
+
+```bash
+cd ios && pod install
+```
+
+3. Ensure that Web3.js is imported using the default import, as using a named import does not work:
+
+```bash
+import Web3 from 'web3';
+```
+
 ## Resources
 
 ### [Web3.js v4 course](https://www.youtube.com/watch?v=3ZO_t-Kyr1g&list=PLPn3rQCo3XrP4LbQcOyyHQR8McV7w3HZT)
