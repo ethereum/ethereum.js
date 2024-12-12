@@ -176,3 +176,7 @@ Documentation:
 -   `browser` entry point that was pointing to a non-existing bundle file was removed from `package.json` (#7015)
 
 ## [Unreleased]
+
+### Added
+
+-   Add web3-validator dist path for react-native builds (#7416)

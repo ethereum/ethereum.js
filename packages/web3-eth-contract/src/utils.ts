@@ -227,6 +227,29 @@ export const getCreateAccessListParams = ({
 	return txParams;
 };
 
+/**
+ * Generates the Ethereum address of a contract created via a regular transaction.
+ *
+ * This function calculates the contract address based on the sender's address and nonce,
+ * following Ethereum's address generation rules.
+ *
+ * @param from The sender’s Ethereum {@link Address}, from which the contract will be deployed.
+ * @param nonce The transaction count (or {@link Numbers}) of the sender account at the time of contract creation.
+ *              You can get it here: https://docs.web3js.org/api/web3/class/Web3Eth#getTransactionCount.
+ * @returns An Ethereum {@link Address} of the contract in checksum address format.
+ * @throws An {@link InvalidAddressError} if the provided address ('from') is invalid.
+ * @throws An {@link InvalidNumberError} if the provided nonce value is not in a valid format.
+ * @example
+ * ```ts
+ * const from = "0x1234567890abcdef1234567890abcdef12345678";
+ * const nonce = (await web3.eth.getTransactionCount(from)) + 1; // The nonce value for the transaction
+ *
+ * const res = createContractAddress(from, nonce);
+ *
+ * console.log(res);
+ * // > "0x604f1ECbA68f4B4Da57D49C2b945A75bAb331208"
+ * ```
+ */
 export const createContractAddress = (from: Address, nonce: Numbers): Address => {
 	if (!isAddress(from)) throw new InvalidAddressError(`Invalid address given ${from}`);
 
