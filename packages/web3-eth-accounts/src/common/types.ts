@@ -143,12 +143,8 @@ export interface GethConfigOpts extends BaseOpts {
 /*
  * A type that represents a `0x`-prefixed hex string.
  */
-export type PrefixedHexString = string;
 
-/*
- * A type that represents an input that can be converted to a Buffer.
- */
-export type Uint8ArrayLike = Uint8Array | number[] | number | bigint | PrefixedHexString;
+export type UInt8ArrayLike = Uint8Array | number[] | number | bigint | string;
 
 /*
  * A type that represents an input that can be converted to a BigInt.
