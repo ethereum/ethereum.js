@@ -94,7 +94,7 @@ along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
  * web3.utils
  * ```
  *
- * Utility functions are also exposed on the `Web3` class object diretly.
+ * Utility functions are also exposed on the `Web3` class object directly.
  *
  * //todo enable when implemented
  * //See details: {@link Web3.utils}
