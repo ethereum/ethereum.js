@@ -249,7 +249,7 @@ export const createContractAddress = (from: Address, nonce: Numbers): Address =>
  * @param from The sender’s own Etherium {@link Address}
  * @param salt A {@link HexString} arbitrary value provided by the sender
  * @param initCode The to-be-deployed contract’s {@link HexString} bytecode
- * @returns An etherium {@link Address} of the future contract in checksum address format
+ * @returns An Ethereum {@link Address} of the future contract in checksum address format
  * @throws An {@link InvalidAddressError} if the provided address ('from') is invalid
  * @throws An {@link InvalidMethodParamsError} if the provided ('salt') or ('initCode') is invalid
  * @example
