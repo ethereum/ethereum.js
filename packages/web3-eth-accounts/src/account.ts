@@ -810,11 +810,14 @@ export const decrypt = async (
 	password: string | Uint8Array,
 	nonStrict?: boolean,
 ): Promise<Web3Account> => {
-	const json =
-		typeof keystore === 'object'
-			? keystore
-			: (JSON.parse(nonStrict ? keystore.toLowerCase() : keystore) as KeyStore);
+	let json;
 
+if (typeof keystore === 'object') {
+  json = keystore;
+} else {
+  const parsedKeystore = nonStrict ? keystore.toLowerCase() : keystore;
+  json = JSON.parse(parsedKeystore) as KeyStore;
+}
 	validator.validateJSONSchema(keyStoreSchema, json);
 
 	if (json.version !== 3) throw new KeyStoreVersionError();
