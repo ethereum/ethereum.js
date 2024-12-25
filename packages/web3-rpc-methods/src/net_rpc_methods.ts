@@ -44,6 +44,12 @@ export async function getPeerCount(requestManager: Web3RequestManager<Web3NetAPI
 	});
 }
 
+/**
+ * Checks if the Ethereum client is currently listening for network connections.
+ * This corresponds to the `net_listening` RPC call.
+ * @param requestManager - An instance of `Web3RequestManager` to send the RPC request.
+ * @returns A Promise that resolves to a boolean indicating if the client is listening.
+ */
 export async function isListening(requestManager: Web3RequestManager<Web3NetAPI>) {
 	return requestManager.send({
 		method: 'net_listening',
