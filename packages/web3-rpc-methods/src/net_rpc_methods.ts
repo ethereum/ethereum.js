@@ -14,9 +14,16 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License
 along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 import { Web3RequestManager } from 'web3-core';
 import { Web3NetAPI } from 'web3-types';
 
+/**
+ * Fetches the network ID of the current Ethereum network.
+ * This corresponds to the `net_version` RPC call.
+ * @param requestManager - An instance of `Web3RequestManager` to send the RPC request.
+ * @returns A Promise that resolves to the network ID as a string.
+ */
 export async function getId(requestManager: Web3RequestManager<Web3NetAPI>) {
 	return requestManager.send({
 		method: 'net_version',
@@ -37,3 +44,4 @@ export async function isListening(requestManager: Web3RequestManager<Web3NetAPI>
 		params: [],
 	});
 }
+
