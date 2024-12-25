@@ -31,6 +31,12 @@ export async function getId(requestManager: Web3RequestManager<Web3NetAPI>) {
 	});
 }
 
+/**
+ * Fetches the number of connected peers to the Ethereum network.
+ * This corresponds to the `net_peerCount` RPC call.
+ * @param requestManager - An instance of `Web3RequestManager` to send the RPC request.
+ * @returns A Promise that resolves to the peer count as a hexadecimal string.
+ */
 export async function getPeerCount(requestManager: Web3RequestManager<Web3NetAPI>) {
 	return requestManager.send({
 		method: 'net_peerCount',
