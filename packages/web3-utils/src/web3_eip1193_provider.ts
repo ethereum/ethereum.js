@@ -30,7 +30,7 @@ import { toPayload } from './json_rpc.js';
 
 /**
  * This is an abstract class extending {@link Web3BaseProvider} that implements an Ethereum provider
- * adhering to the EIP-1193 standard. It provides methods to interact with the blockchain, handle events,
+ * adhering to the EIP-1193(https://eips.ethereum.org/EIPS/eip-1193) standard. It provides methods to interact with the blockchain, handle events,
  * and manage state like chain ID and accounts.
  */
 export abstract class Eip1193Provider<
@@ -82,6 +82,10 @@ export abstract class Eip1193Provider<
 		return data?.result ?? [];
 	}
 
+    /**
+	 * Handles the `connect` event by fetching the chain ID and accounts, emitting relevant events if they change.
+	 * This is triggered when the provider establishes a connection to the Ethereum network.
+	 */
 	protected _onConnect() {
 		Promise.all([
 			this._getChainId()
@@ -126,11 +130,20 @@ export abstract class Eip1193Provider<
 			});
 	}
 
-	// todo this must be ProvideRpcError with a message too
+    /**
+	 * Handles the `disconnect` event by emitting a `disconnect` event with the appropriate error code and message.
+     * todo: this must be ProvideRpcError with a message too
+	 * @param code - The error code associated with the disconnection.
+	 * @param data - Optional additional data for the disconnection event.
+	 */
 	protected _onDisconnect(code: number, data?: unknown) {
 		this._eventEmitter.emit('disconnect', new EIP1193ProviderRpcError(code, data));
 	}
 
+    /**
+	 * Handles the `accountsChanged` event by emitting the updated accounts.
+	 * This is triggered whenever the list of accounts changes.
+	 */
 	private _onAccountsChanged() {
 		// get chainId and safe to local
 		this._eventEmitter.emit('accountsChanged', this._accounts);
