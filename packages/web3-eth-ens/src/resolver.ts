@@ -80,6 +80,12 @@ export class Resolver {
 			);
 	}
 
+	/**
+	 * Checks if a resolver contract supports a specific interface by its ID.
+	 * @param ENSName - The ENS name to resolve.
+	 * @param interfaceId - The interface ID to check.
+	 * @returns A Promise that resolves to a boolean indicating support.
+	 */
 	public async supportsInterface(ENSName: string, interfaceId: string) {
 		const resolverContract = await this.getResolverContractAdapter(ENSName);
 
@@ -96,7 +102,12 @@ export class Resolver {
 		return resolverContract.methods.supportsInterface(interfaceIdParam).call();
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-inferrable-types
+	/**
+	 * Retrieves the address associated with an ENS name for a specific coin type.
+	 * @param ENSName - The ENS name to resolve.
+	 * @param coinType - The coin type (default is 60 for Ethereum).
+	 * @returns A Promise that resolves to the address.
+	 */
 	public async getAddress(ENSName: string, coinType: number = 60) {
 		const resolverContract = await this.getResolverContractAdapter(ENSName);
 
@@ -105,6 +116,11 @@ export class Resolver {
 		return resolverContract.methods.addr(namehash(ENSName), coinType).call();
 	}
 
+	/**
+	 * Retrieves the public key associated with an ENS name.
+	 * @param ENSName - The ENS name to resolve.
+	 * @returns A Promise that resolves to the public key.
+	 */
 	public async getPubkey(ENSName: string) {
 		const resolverContract = await this.getResolverContractAdapter(ENSName);
 
@@ -113,6 +129,11 @@ export class Resolver {
 		return resolverContract.methods.pubkey(namehash(ENSName)).call();
 	}
 
+	/**
+	 * Retrieves the content hash associated with an ENS name.
+	 * @param ENSName - The ENS name to resolve.
+	 * @returns A Promise that resolves to the content hash.
+	 */
 	public async getContenthash(ENSName: string) {
 		const resolverContract = await this.getResolverContractAdapter(ENSName);
 
@@ -121,6 +142,13 @@ export class Resolver {
 		return resolverContract.methods.contenthash(namehash(ENSName)).call();
 	}
 
+	/**
+	 * Sets the address for an ENS name.
+	 * @param ENSName - The ENS name to set the address for.
+	 * @param address - The address to set.
+	 * @param txConfig - The transaction configuration options.
+	 * @returns A Promise that resolves when the transaction is complete.
+	 */
 	public async setAddress(ENSName: string, address: Address, txConfig: PayableCallOptions) {
 		const resolverContract = await this.getResolverContractAdapter(ENSName);
 		await this.checkInterfaceSupport(resolverContract, methodsInInterface.setAddr);
@@ -128,6 +156,12 @@ export class Resolver {
 		return resolverContract.methods.setAddr(namehash(ENSName), address).send(txConfig);
 	}
 
+	/**
+	 * Retrieves a text record for an ENS name.
+	 * @param ENSName - The ENS name to resolve.
+	 * @param key - The text record key.
+	 * @returns A Promise that resolves to the text record value.
+	 */
 	public async getText(ENSName: string, key: string) {
 		const resolverContract = await this.getResolverContractAdapter(ENSName);
 		await this.checkInterfaceSupport(resolverContract, methodsInInterface.text);
@@ -135,6 +169,12 @@ export class Resolver {
 		return resolverContract.methods.text(namehash(ENSName), key).call();
 	}
 
+	/**
+	 * Retrieves the ENS name associated with an address.
+	 * @param address - The address to resolve.
+	 * @param checkInterfaceSupport - Whether to check for interface support (default: true).
+	 * @returns A Promise that resolves to the ENS name.
+	 */
 	public async getName(address: string, checkInterfaceSupport = true) {
 		const reverseName = `${address.toLowerCase().substring(2)}.addr.reverse`;
 
