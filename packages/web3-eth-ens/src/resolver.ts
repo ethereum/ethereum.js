@@ -29,19 +29,36 @@ import { namehash } from './utils.js';
 //  https://github.com/ensdomains/resolvers/blob/master/contracts/PublicResolver.sol
 
 export class Resolver {
+	/**
+	 * The ENS registry instance used to resolve ENS names.
+	 */
 	private readonly registry: Registry;
 
+	/**
+	 * Creates a new instance of the `Resolver` class.
+	 * @param registry - An instance of the ENS `Registry`.
+	 */
 	public constructor(registry: Registry) {
 		this.registry = registry;
 	}
 
+	/**
+	 * Retrieves the resolver contract for the specified ENS name.
+	 * @param ENSName - The ENS name to resolve.
+	 * @returns A Promise that resolves to the resolver contract.
+	 */
 	private async getResolverContractAdapter(ENSName: string) {
 		//  TODO : (Future 4.1.0 TDB) cache resolver contract if frequently queried same ENS name, refresh cache based on TTL and usage, also limit cache size, optional cache with a flag
 		return this.registry.getResolver(ENSName);
 	}
 
-	//  https://eips.ethereum.org/EIPS/eip-165
-	// eslint-disable-next-line class-methods-use-this
+	/**
+	 * Checks if a resolver contract supports a specific interface.
+     * Relative EIP: https://eips.ethereum.org/EIPS/eip-165
+	 * @param resolverContract - The resolver contract instance.
+	 * @param methodName - The method name to check for interface support.
+	 * @throws ResolverMethodMissingError if the interface is not supported.
+	 */
 	public async checkInterfaceSupport(
 		resolverContract: Contract<typeof PublicResolverAbi>,
 		methodName: string,
@@ -129,3 +146,4 @@ export class Resolver {
 		return resolverContract.methods.name(namehash(reverseName)).call();
 	}
 }
+
