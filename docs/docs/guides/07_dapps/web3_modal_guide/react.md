@@ -11,7 +11,7 @@ sidebar_label: 'Web3Modal with React'
 
 ## Installation
 
-For this guide we will be creating a new project will need to install dependancies. We will be using vite to locally host the app, React and web3modal-web3js
+For this guide we will be creating a new project will need to install dependencies. We will be using vite to locally host the app, React and web3modal-web3js
 
 ```bash
 npm install web3modal-web3js react react-dom
