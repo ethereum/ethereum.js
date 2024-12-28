@@ -236,7 +236,7 @@ const provider = new WebSocketProvider(
 
 #### Disconnect and close event
 
-Following EIP-1193, the `close` event has been deprecated and is superceded by `disconnect`.
+Following EIP-1193, the `close` event has been deprecated and is superseded by `disconnect`.
 In 1.x, we listen for a `close` event:
 
 ```ts
