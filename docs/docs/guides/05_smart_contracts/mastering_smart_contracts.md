@@ -9,7 +9,7 @@ sidebar_label: 'Mastering Smart Contracts'
 
 ### Deploy and Interact with smart contracts:
 
-This contract is deployed on the [mumbai testnet](https://mumbai.polygonscan.com/address/0xB9433C87349134892f6C9a9E342Ed6adce39F8dF). In this live code editor, you will find the following:
+This contract is deployed on the [mumbai testnet]https://polygonscan.com/address/0xB9433C87349134892f6C9a9E342Ed6adce39F8dF). In this live code editor, you will find the following:
 
 In the code editor you'll find:
 
