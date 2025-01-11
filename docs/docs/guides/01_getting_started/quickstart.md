@@ -180,7 +180,7 @@ const address = '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984';
 
 // you can find the complete ABI on etherscan.io
 // https://etherscan.io/address/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code
-const ABI = [
+const abi = [
 	{
 		name: 'symbol',
 		outputs: [{ type: 'string' }],
