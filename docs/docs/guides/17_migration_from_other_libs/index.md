@@ -19,7 +19,7 @@ npm install ethers
 
 When migrating from Web3.js to ethers.js, the first step is to update how you connect to the Ethereum network. Both libraries use providers, but their initialization differs.
 
-```javascript
+```typescript
 import { Web3 } from 'web3';
 
 // private RPC endpoint
@@ -31,7 +31,7 @@ console.log(blockNumber);
 
 To migrate this to ethers.js, you'll need to replace it with JsonRpcProvider. Note that ethers.js separates provider types more explicitly:
 
-```javascript
+```typescript
 import { ethers } from 'ethers';
 
 // ethers.js v6
@@ -45,13 +45,13 @@ console.log(blockNumber);
 
 When migrating browser wallet connections, you'll need to update how you handle the injected provider (like MetaMask). Here's your existing Web3.js code:
 
-```javascript
+```typescript
 const web3 = new Web3(window.ethereum);
 ```
 
 In ethers.js v6, you'll need to use the BrowserProvider class instead. This provider is specifically designed for browser environments:
 
-```javascript
+```typescript
 // in v6
 const provider = new ethers.BrowserProvider(window.ethereum);
 ```
@@ -60,7 +60,7 @@ const provider = new ethers.BrowserProvider(window.ethereum);
 
 If your code generates private keys with Web3.js, here's how to migrate that functionality. Your existing Web3.js code:
 
-```javascript
+```typescript
 // this would generate a private key similar to:
 //  '0x286f65c4191759fc5c7e6083b8c275ac2238cc7abb5915bd8c905ae4404215c9'
 // (Be sure to store it encrypted in a safe place)
@@ -69,7 +69,7 @@ const privateKey = web3.eth.accounts.create().privateKey;
 
 To achieve the same in ethers.js, use the `Wallet.createRandom()` method:
 
-```javascript
+```typescript
 // this would generate a private key similar to:
 //  '0x286f65c4191759fc5c7e6083b8c275ac2238cc7abb5915bd8c905ae4404215c9'
 // (Be sure to store it encrypted in a safe place)
@@ -80,7 +80,7 @@ const privateKey = ethers.Wallet.createRandom().privateKey;
 
 When migrating wallet creation code, you'll need to change how accounts are added to wallets. Your existing Web3.js code using `wallet.add()`:
 
-```javascript
+```typescript
 const web3 = new Web3();
 const wallet = web3.eth.accounts.wallet.add(
 	// you can generate a private key using web3.eth.accounts.create().privateKey
@@ -93,7 +93,7 @@ console.log(wallet[0].address);
 
 In ethers.js, wallet creation uses the Wallet constructor:
 
-```javascript
+```typescript
 const wallet = new ethers.Wallet(
 	// A private key that you might had generated with:
 	ethers.Wallet.createRandom().privateKey,
@@ -108,13 +108,13 @@ console.log(wallet.address);
 
 When migrating code that gets the current account, you'll need to change from Web3.js's getAccounts():
 
-```javascript
+```typescript
 const account = (await web3.eth.getAccounts())[0];
 ```
 
 To ethers.js's getSigner() method, which returns a signer object instead of just an address:
 
-```javascript
+```typescript
 const signer = await provider.getSigner();
 ```
 
@@ -122,7 +122,7 @@ const signer = await provider.getSigner();
 
 When migrating message signing functionality, you'll need to update from Web3.js's sign methods:
 
-```javascript
+```typescript
 // Sign with web3.js, using a private key:
 const signature = web3.eth.accounts.sign('Some data', privateKey).signature;
 
@@ -135,7 +135,7 @@ const signature = await web3.eth.sign(
 
 In ethers.js, signing is simplified using the signMessage method:
 
-```javascript
+```typescript
 const signer = new ethers.Wallet(privateKey);
 const signature = await signer.signMessage('Some data');
 ```
@@ -146,7 +146,7 @@ const signature = await signer.signMessage('Some data');
 
 When migrating transaction sending code, you'll need to update how transactions are signed and sent. Your existing Web3.js code where transactions are signed using an unlocked or added account:
 
-```javascript
+```typescript
 const web3 = new Web3(url);
 
 // Add wallet to be used as a signer
@@ -163,7 +163,7 @@ console.log(tx);
 
 In ethers.js, transactions are sent using a signer instance, which combines the private key and provider:
 
-```javascript
+```typescript
 const signer = new ethers.Wallet(privateKey, provider);
 
 const tx = await signer.sendTransaction({
@@ -177,7 +177,7 @@ console.log(tx);
 
 When migrating code that separates transaction signing and broadcasting, you'll need to update from Web3.js's two-step process:
 
-```javascript
+```typescript
 const transaction = {
 	from: senderPublicAddress,
 	to: receiverPublicAddress,
@@ -194,7 +194,7 @@ console.log(tx);
 
 In ethers.js, you can broadcast a pre-signed transaction using the provider's broadcastTransaction method:
 
-```javascript
+```typescript
 await provider.broadcastTransaction(signedTx);
 ```
 
@@ -204,7 +204,7 @@ await provider.broadcastTransaction(signedTx);
 
 When migrating contract deployment code, you'll need to update from Web3.js's deploy and send pattern:
 
-```javascript
+```typescript
 const contract = new web3.eth.Contract(abi);
 const deployTx = await contract
 	.deploy({
@@ -221,7 +221,7 @@ console.log('contract address', deployTx.options.address);
 
 In ethers.js, contract deployment uses the ContractFactory class:
 
-```javascript
+```typescript
 const signer = provider.getSigner();
 const factory = new ethers.ContractFactory(abi, bytecode, signer);
 const contract = await factory.deploy('constructor param');
@@ -235,7 +235,7 @@ await contract.deployTransaction.wait();
 
 When migrating contract method calls, you'll need to update from Web3.js's methods object pattern:
 
-```javascript
+```typescript
 const contract = new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
 
 // For read operations
@@ -247,7 +247,7 @@ const tx = await contract.methods.someFunction().send();
 
 In ethers.js, contract methods are called directly as functions:
 
-```javascript
+```typescript
 const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
 const result = await contract.someFunction();
 ```
@@ -256,7 +256,7 @@ const result = await contract.someFunction();
 
 When migrating event handling code, you'll need to update from Web3.js's events interface:
 
-```javascript
+```typescript
 const event = contract.events.SomeEvent({
 	filter: { val: 100 },
 	fromBlock: 0,
@@ -268,7 +268,7 @@ event.on('error', reject);
 
 In ethers.js, event listening is :
 
-```javascript
+```typescript
 contract.on('SomeEvent', (arg1, arg2, event) => {
 	// event handling
 });
@@ -278,7 +278,7 @@ contract.on('SomeEvent', (arg1, arg2, event) => {
 
 When migrating gas estimation code, you'll need to update from Web3.js's estimateGas method:
 
-```javascript
+```typescript
 const gasAmount = await contract.methods.myMethod(123).estimateGas({
 	from: transactionSenderAddress,
 });
@@ -286,7 +286,7 @@ const gasAmount = await contract.methods.myMethod(123).estimateGas({
 
 In ethers.js, gas estimation is made through a direct method call:
 
-```javascript
+```typescript
 const gasEstimate = await contract.myMethod.estimateGas(123);
 ```
 
@@ -296,7 +296,7 @@ const gasEstimate = await contract.myMethod.estimateGas(123);
 
 When migrating code that computes Keccak-256 hashes, you'll need to update from Web3.js's utility methods:
 
-```javascript
+```typescript
 // computes the Keccak-256 hash of the input and returns a hexstring
 const hash1 = web3.utils.sha3('hello world');
 
@@ -306,7 +306,7 @@ const hash2 = web3.utils.keccak256('hello world');
 
 In ethers.js, hashing requires explicit conversion of strings to bytes:
 
-```javascript
+```typescript
 import { keccak256, toUtf8Bytes } from 'ethers';
 
 const message = 'Hello, World!';
@@ -318,7 +318,7 @@ const hash = keccak256(messageBytes);
 
 When migrating code that converts between ether units, you'll need to update from Web3.js's fromWei and toWei methods:
 
-```javascript
+```typescript
 // Convert Wei to Ether
 const fromWeiToEther = web3.utils.fromWei('1000000000000000000', 'ether');
 // outputs: 1
@@ -332,7 +332,7 @@ console.log(fromEtherToWei);
 
 In ethers.js, use formatEther and parseEther for common ether conversions:
 
-```javascript
+```typescript
 // Convert Wei to Ether
 const fromWeiToEther = ethers.formatEther('1000000000000000000');
 // outputs: 1.0
