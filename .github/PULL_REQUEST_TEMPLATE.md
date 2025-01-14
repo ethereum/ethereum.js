@@ -30,5 +30,5 @@ Fixes #(issue)
 -   [ ] I ran `npm run build` and tested `dist/web3.min.js` in a browser.
 -   [ ] I have tested my code on the live network.
 -   [ ] I have checked the Deploy Preview and it looks correct.
--   [ ] I have updated the `CHANGELOG.md` file in the root folder.
+-   [ ] I have updated the `CHANGELOG.md` file in both the root folder and corresponding packages/web3-xxx folders.
 -   [ ] I have linked Issue(s) with this PR in "Linked Issues" menu.

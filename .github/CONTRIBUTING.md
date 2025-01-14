@@ -43,7 +43,7 @@ yarn
 
 7. Check changes in the local environment: Run the command `yarn start` and you'll see a local environment in `localhost:3000` with the documents.
 
-8. **Commit your changes:** `git add .` and `git commit -m 'descriptive msg'`
+8. **Commit your changes:** `git add .` and `git commit -m 'descriptive msg'`. You can append `--sc` or `--skip-changelog` to your commit message to skip the changelog check, e.g. `git commit -m 'descriptive msg --sc'`
 
 9. **Push your changes:**
 
