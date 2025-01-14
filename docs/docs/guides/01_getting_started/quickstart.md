@@ -25,7 +25,7 @@ For projects using Yarn as a package manager, use:
 yarn add web3
 ```
 
-Note: Installing Web3.js in this way will bring in all Web3.js sub-[packages](/#packages). If you only need specific packages, it is recommended to install them individually (e.g, if you want the [Contract](/libdocs/Contract) package, use `npm i web3-eth-contract` instead)
+Note: Installing Web3.js in this way will bring in all Web3.js sub-[packages](/#packages--plugins). If you only need specific packages, it is recommended to install them individually (e.g, if you want the [Contract](/libdocs/Contract) package, use `npm i web3-eth-contract` instead)
 
 ## Importing Web3.js
 
@@ -180,7 +180,7 @@ const address = '0x1f9840a85d5af5bf1d1762f925bdaddc4201f984';
 
 // you can find the complete ABI on etherscan.io
 // https://etherscan.io/address/0x1f9840a85d5af5bf1d1762f925bdaddc4201f984#code
-const ABI = [
+const abi = [
 	{
 		name: 'symbol',
 		outputs: [{ type: 'string' }],
