@@ -1,34 +1,35 @@
 module.exports = {
 	root: true,
-	env: {
-		browser: true,
-		node: true,
-	},
-	parserOptions: {
-		ecmaVersion: 2016,
-		project: './tsconfig.base.json',
-		tsconfigRootDir: __dirname,
-		sourceType: 'module',
-	},
-	extends: ['eslint-config-base-web3/ts'],
-	settings: {
-		'import/resolver': {
-			typescript: {}, // this loads tsconfig.json to eslint
-		},
-	},
-	overrides: [
-		{
-			files: ['*.test.ts'],
-			rules: {
-				'@typescript-eslint/no-unsafe-call': 'off',
-				'import/no-unresolved': 'off',
-			},
-		},
-		{
-			files: ['*.ts'],
-			rules: {
-				'default-param-last': 'off',
-			},
-		},
+	parser: '@typescript-eslint/parser',
+	plugins: ['@typescript-eslint', 'import'],
+	extends: [
+		'eslint:recommended',
+		'plugin:@typescript-eslint/recommended',
+		'plugin:import/typescript',
+		'prettier'
 	],
-};
+	parserOptions: {
+		ecmaVersion: 2020,
+		sourceType: 'module',
+		project: './tsconfig.json'
+	},
+	rules: {
+		'@typescript-eslint/explicit-function-return-type': 'warn',
+		'@typescript-eslint/no-explicit-any': 'warn',
+		'@typescript-eslint/no-unused-vars': ['error', { 
+			argsIgnorePattern: '^_',
+			varsIgnorePattern: '^_' 
+		}],
+		'import/order': ['error', {
+			'groups': [
+				'builtin',
+				'external',
+				'internal',
+				'parent',
+				'sibling',
+				'index'
+			],
+			'newlines-between': 'always'
+		}]
+	}
+}
