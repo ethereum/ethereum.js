@@ -31,13 +31,35 @@ import { namehash } from './utils.js';
 export class Resolver {
 	private readonly registry: Registry;
 
+	/**
+	 * A cache for resolver contracts, keyed by ENS name.
+	 */
+	private readonly resolverCache: Map<
+		string,
+		{ contract: Contract<typeof PublicResolverAbi>; timestamp: number }
+	> = new Map();
+
+	/**
+	 * Cache time-to-live (TTL) in milliseconds.
+	 */
+	private static readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 	public constructor(registry: Registry) {
 		this.registry = registry;
 	}
 
 	private async getResolverContractAdapter(ENSName: string) {
-		//  TODO : (Future 4.1.0 TDB) cache resolver contract if frequently queried same ENS name, refresh cache based on TTL and usage, also limit cache size, optional cache with a flag
-		return this.registry.getResolver(ENSName);
+		const cached = this.resolverCache.get(ENSName);
+		const now = Date.now();
+
+		if (cached && now - cached.timestamp < Resolver.CACHE_TTL) {
+			return cached.contract;
+		}
+
+		const resolverContract = await this.registry.getResolver(ENSName);
+		this.resolverCache.set(ENSName, { contract: resolverContract, timestamp: now });
+
+		return resolverContract;
 	}
 
 	//  https://eips.ethereum.org/EIPS/eip-165
