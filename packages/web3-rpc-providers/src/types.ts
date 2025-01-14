@@ -29,6 +29,11 @@ export enum Network {
 	ETH_HOLESKY = 'eth_holesky',
 
 	POLYGON_MAINNET = 'polygon_mainnet',
+	POLYGON_MUMBAI = 'polygon_mumbai',
+	POLYGON_AMONY = 'polygon_amony',
+	POLYGON_POS_MAINNET = 'polygon_pos_mainnet',
+	POLYGON_ZKEVM_MAINNET = 'polygon_zkevm_mainnet',
+	POLYGON_ZKEVM_CARDONA = 'polygon_zkevm_cardona',
 
 	POLYGON_AMOY = 'polygon_amoy',
 	AVALANCHE_C_MAINNET = 'avalanche_c_mainnet',
@@ -37,6 +42,7 @@ export enum Network {
 
 	ARBITRUM_MAINNET = 'arbitrum_mainnet',
 	ARBITRUM_SEPOLIA = 'arbitrum_sepolia',
+	ARBITRUM_NOVA_MAINNET = 'arbitrum_nova_mainnet',
 
 	BASE_MAINNET = 'base_mainnet',
 	BASE_SEPOLIA = 'base_sepolia',
@@ -52,6 +58,55 @@ export enum Network {
 
 	BNB_MAINNET = 'bnb_mainnet',
 	BNB_TESTNET = 'bnb_testnet',
+
+	WORLD_CHAIN_MAINNET = 'world_chain_mainnet',
+	WORLD_CHAIN_SEPOLIA = 'world_chain_sepolia',
+
+	SHAPE_MAINNET = 'shape_mainnet',
+	SHAPE_SEPOLIA = 'shape_sepolia',
+
+	ZKSYNC_MAINNET = 'zksync_mainnet',
+	ZKSYNC_SEPOLIA = 'zksync_sepolia',
+
+	STARKNET_MAINNET = 'starknet_mainnet',
+	STARKNET_SEPOLIA = 'starknet_sepolia',
+
+	ZETACHAIN_MAINNET = 'zetachain_mainnet',
+	ZETACHAIN_TESTNET = 'zetachain_testnet',
+
+	FANTOM_OPERA_MAINNET = 'fantom_opera_mainnet',
+	FANTOM_OPERA_TESTNET = 'fantom_opera_testnet',
+
+	BERACHAIN_ARTIO = 'berachain_artio',
+
+	BLAST_SEPOLIA = 'blast_sepolia',
+
+	ZORA_MAINNET = 'zora_mainnet',
+	ZORA_SEPOLIA = 'zora_sepolia',
+
+	POLYNOMIAL_MAINNET = 'polynomial_mainnet',
+	POLYNOMIAL_SEPOLIA = 'polynomial_sepolia',
+
+	FRAX_MAINNET = 'frax_mainnet',
+	FRAX_SEPOLIA = 'frax_sepolia',
+
+	SOLANA_MAINNET = 'solana_mainnet',
+	SOLANA_DEVNET = 'solana_devnet',
+
+	CROSSFI_TESTNET = 'crossfi_testnet',
+
+	ASTAR_MAINNET = 'astar_mainnet',
+
+	FLOW_EVM_TESTNET = 'flow_evm_testnet',
+
+	SONEIUM_MINATO = 'soneium_minato',
+
+	GEIST_POLTER = 'geist_polter',
+
+	ROOTSTOCK_MAINNET = 'rootstock_mainnet',
+	ROOTSTOCK_TESTNET = 'rootstock_testnet',
+
+	UNICHAIN_SEPOLIA = 'unichain_sepolia',
 
 	BSC_MAINNET = 'bsc_mainnet',
 	BSC_TESTNET = 'bsc_testnet',
