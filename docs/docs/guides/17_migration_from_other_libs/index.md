@@ -11,7 +11,7 @@ This guide will help you migrate from web3.js to ethers.js for interacting with 
 To begin migrating from Web3.js to ethers.js, first install the ethers.js package:
 
 ```
-npm install ethers
+npm install ethers@6
 
 ```
 
@@ -222,7 +222,7 @@ console.log('contract address', deployTx.options.address);
 In ethers.js, contract deployment uses the ContractFactory class:
 
 ```typescript
-const signer = provider.getSigner();
+const signer = await provider.getSigner();
 const factory = new ethers.ContractFactory(abi, bytecode, signer);
 const contract = await factory.deploy('constructor param');
 console.log('contract address', contract.address);
