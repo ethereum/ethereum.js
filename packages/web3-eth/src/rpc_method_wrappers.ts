@@ -184,12 +184,12 @@ export async function getBlockNumber<ReturnFormat extends DataFormat>(
  * View additional documentations here: {@link Web3Eth.getBalance}
  * @param web3Context ({@link Web3Context}) Web3 configuration object that contains things such as the provider, request manager, wallet, etc.
  */
-export async function getBalance<ReturnFormat extends DataFormat>(
-	web3Context: Web3Context<EthExecutionAPI>,
-	address: Address,
-	blockNumber: BlockNumberOrTag = web3Context.defaultBlock,
-	returnFormat: ReturnFormat,
-) {
+export async function getBalanceReturnFormat(
+  web3Context: Web3ContextEthExecutionAPI,
+  address: Address,
+  returnFormat: ReturnFormat,
+  blockNumber: BlockNumberOrTag = web3Context.defaultBlock
+) { 
 	const blockNumberFormatted = isBlockTag(blockNumber as string)
 		? (blockNumber as BlockTag)
 		: format({ format: 'uint' }, blockNumber as Numbers, ETH_DATA_FORMAT);
