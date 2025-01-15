@@ -16,9 +16,9 @@ To begin migrating from Web3.js to Viem, first install the Viem package:
 npm install viem@2
 ```
 
-## Providers Initialization
+## Providers
 
-When migrating from Web3.js to viem, the first step is to update how you connect to the Ethereum network. Both libraries use providers, but their initialization differs.
+When migrating from Web3.js to Viem, the first step is to update how you connect to the Ethereum network. Both libraries use providers, but their initialization differs.
 
 ```javascript
 import Web3 from 'web3';
@@ -26,7 +26,7 @@ import Web3 from 'web3';
 const web3 = new Web3(providerURL);
 ```
 
-To migrate this to viem, you'll need to replace it with using `createPublicClient()`. This function creates a client for interacting with the Ethereum network.
+To migrate this to Viem, you'll need to replace it with using `createPublicClient()`. This function creates a client for interacting with the Ethereum network.
 
 ```javascript
 import { createPublicClient, http } from 'viem';
@@ -43,7 +43,7 @@ For browser wallet connections like MetaMask, update how you handle the injected
 const web3 = new Web3(window.ethereum);
 ```
 
-To migrate this to viem, you'll need to use `createWalletClient()` with `custom()` instead of creating a new Web3 instance.
+To migrate this to Viem, you'll need to use `createWalletClient()` with `custom()` instead of creating a new Web3 instance.
 
 ```javascript
 import { createWalletClient, custom } from 'viem'
@@ -64,7 +64,7 @@ const privateKey = web3.eth.accounts.create().privateKey;
 console.log(privateKey);
 ```
 
-To migrate this to viem, you'll use the `generatePrivateKey()` function from the 'viem/accounts' module.
+To migrate this to Viem, you'll use the `generatePrivateKey()` function from the 'viem/accounts' module.
 
 ```javascript
 import { generatePrivateKey } from 'viem/accounts';
@@ -75,7 +75,7 @@ console.log(privateKey);
 
 ## Wallets and Accounts - Create a Wallet
 
-When migrating from Web3.js to viem, you'll need to update how you create and manage wallets. The process of adding accounts to wallets differs between the two libraries. In web3.js :
+When migrating from Web3.js to Viem, you'll need to update how you create and manage wallets. The process of adding accounts to wallets differs between the two libraries. In web3.js :
 
 ```javascript
 const web3 = new Web3();
@@ -83,7 +83,7 @@ const wallet = web3.eth.accounts.wallet.add(privateKey);
 console.log(wallet[0].address);
 ```
 
-To migrate this to viem, you'll use privateKeyToAccount() to create an account, and then can pass it to createWalletClient() for using it with client.
+To migrate this to Viem, you'll use privateKeyToAccount() to create an account, and then can pass it to createWalletClient() for using it with client.
 
 ```javascript
 import { createWalletClient, http } from 'viem';
@@ -108,7 +108,7 @@ const signature = web3.eth.accounts.sign('Some data', privateKey).signature;
 console.log(signature);
 ```
 
-To sign message using viem, you can use `signMessage()` method.
+To sign message using Viem, you can use `signMessage()` method.
 
 ```javascript
 import { createWalletClient, custom } from 'viem'
@@ -140,7 +140,7 @@ const tx = await web3.eth.sendTransaction({
 });
 ```
 
-In viem there is `sendTransaction()` function avalible with sendTransaction.
+In Viem there is `sendTransaction()` function avalible with sendTransaction.
 
 ```javascript
 import { createWalletClient, custom } from 'viem'
@@ -182,7 +182,7 @@ const deployTx = await contract
 console.log(deployTx.options.address);
 ```
 
-In viem there is `deployContract()` function that can be used for contracts deployment.
+In Viem there is `deployContract()` function that can be used for contracts deployment.
 
 ```javascript
 //import { deployContract } from 'viem'
@@ -212,7 +212,7 @@ const result = await contract.methods.someFunction().call();
 console.log(result);
 ```
 
-In viem you you can use `readContract()` function
+In Viem you you can use `readContract()` function
 
 ```javascript
 const data = await publicClient.readContract({
@@ -232,7 +232,7 @@ event.on('data', resolve);
 event.on('error', reject);
 ```
 
-In viem there is `watchContractEvent()` function.
+In Viem there is `watchContractEvent()` function.
 
 ```javascript
 const unwatch = publicClient.watchContractEvent({
@@ -255,7 +255,7 @@ When migrating code that computes Keccak-256 hashes, you'll need to update from 
 const hash = web3.utils.keccak256('hello world');
 ```
 
-In viem there is `keccak256()` function for keccak256.
+In Viem there is `keccak256()` function for keccak256.
 
 ```
 import { keccak256 } from 'viem'
