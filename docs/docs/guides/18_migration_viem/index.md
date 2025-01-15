@@ -114,12 +114,12 @@ To sign message using Viem, you can use `signMessage()` method.
 import { createWalletClient, custom } from 'viem'
 import { mainnet } from 'viem/chains'
 
-export const walletClient = createWalletClient({
+const walletClient = createWalletClient({
   chain: mainnet,
   transport: custom(window.ethereum!),
 });
 
-export const [account] = await walletClient.getAddresses();
+const [account] = await walletClient.getAddresses();
 
 const signature = await walletClient.signMessage({
   account,
@@ -140,20 +140,20 @@ const tx = await web3.eth.sendTransaction({
 });
 ```
 
-In Viem there is `sendTransaction()` function avalible with sendTransaction.
+In Viem there is `sendTransaction()` function avalible with walletClient.
 
 ```javascript
 import { createWalletClient, custom } from 'viem'
 import { mainnet } from 'viem/chains'
 
-export const walletClient = createWalletClient({
+const walletClient = createWalletClient({
   chain: mainnet,
   transport: custom(window.ethereum!),
 });
 
-export const [account] = await walletClient.getAddresses();
+const [account] = await walletClient.getAddresses();
 
-const hash = await sendTransaction.sendTransaction({
+const hash = await walletClient.sendTransaction({
   account,
   to: '0x92d3267215Ec56542b985473E73C8417403B15ac',
   value: 100000000000000n
@@ -168,7 +168,7 @@ const hash = await sendTransaction.sendTransaction({
 When migrating contract deployment code, you'll need to update from Web3.js's deploy and send pattern:
 
 ```javascript
-// use existing web3 instance connected with http provider
+// use existing web3 instance connected with provider
 const contract = new web3.eth.Contract(abi);
 const deployTx = await contract
 	.deploy({
@@ -189,7 +189,7 @@ In Viem there is `deployContract()` function that can be used for contracts depl
 import { createWalletClient, custom } from 'viem';
 import { mainnet } from 'viem/chains';
 
-export const walletClient = createWalletClient({
+const walletClient = createWalletClient({
 	chain: mainnet,
 	transport: custom(window.ethereum),
 });
@@ -212,7 +212,7 @@ const result = await contract.methods.someFunction().call();
 console.log(result);
 ```
 
-In Viem you you can use `readContract()` function
+In Viem `readContract()` function can be used for method calls.
 
 ```javascript
 const data = await publicClient.readContract({
@@ -224,7 +224,7 @@ const data = await publicClient.readContract({
 
 ### Contract Events
 
-When migrating event handling code, you'll need to update from Web3.js's events interface:
+When migrating event handling code, you'll need to update from Web3.js's events code :
 
 ```javascript
 const event = contract.events.SomeEvent({ fromBlock: 0 });
@@ -248,7 +248,7 @@ const unwatch = publicClient.watchContractEvent({
 
 ### Hashing
 
-When migrating code that computes Keccak-256 hashes, you'll need to update from Web3.js's utility methods:
+When migrating code that computes Keccak-256 hashes, you'll need to update from Web3.js's utility method:
 
 ```
 // keccak256 method with broader input support in web3.js
